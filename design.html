@@ -1,0 +1,136 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CS 424 - Project #3</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- custom styles -->
+</head>
+
+<body>
+    <!-- Body Portion -->
+    
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1 col-md-offset-1 text-left">
+                <ul class="nav nav-pills nav-stacked text-right">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="howtouse.html#">How to Use</a></li> 
+                    <li><a href="application.htlm#">Application</a></li>
+                    <li><a href="about.html">Team</a></li>
+                    <li><a href="data.html">Data</a></li>
+                    <li class="active"><a href="design.html">Design</a></li>
+                </ul>
+            </div>
+            <div class="col-md-10 rowContainer">
+                <h1>Rave On Design</h1>
+                <p class="lead">Rave On's design guidelines, components and requirements are explained in this page. 
+                </p>
+                <h2>Screen Resolution</h2>
+                <p>The project objective is to display the application in an 8K touch-screen (8192 x 2100). The user should be able to reach the controls at any point of the interaction. Therefore, any control should be placed on the bottom 2/3 areas of the screen.
+                </p>
+
+                <h2>Page divisions</h2>
+                <p>The application page is divided in 3 main areas (avoiding the area occupied by the browser bar):</p>
+                <ul>
+                    <li>User Area 1: Allows the first user to select his/her artists and genres.</li>
+                    <li>User Area 2: Allows the second user to select his/her artists and genres.</li>
+                    <li>Shared Area: Shows graphs and information about users similarities in musical preferences.</li>
+                </ul>
+                <img src="./design/area-definition.png" alt="Area Definition" class="img-responsive" /><br/>
+                <p>Each user will display his/her information in a different color on the shared graphs.</p>
+                <p>In more detail, the shared area is divided to show the following information:</p>
+                <ul>
+                    <li>Shared Timeline: Allows to see the timespan of the artist activity.</li>
+                    <li>Sharea Map: Allows to compare the countries of origin of selected artists and genres.</li>
+                    <li>Shared Force Graph: Allows to relate artists based on their shared genres in a graph view.</li>
+                    <li>Shared Artists & Genres: Shows the selected artists and genres from both users and highlights similarities.</li>
+                </ul>
+                <img src="./design/areas-detailed.png" alt="Area Definition 2" class="img-responsive" />
+
+                <h2>Components</h2>
+                <h3>User Control Panel</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>This set of controls will be located on the areas described as User 1 and User 2 in the images shown above. Its purpose is to allow the user to select artists and genres in an interactive way; starting with the idea of a timeline that shows the top 10 genres per decade as a reminder of which are the most popular genres for the majority of people.</p>
+                        <p>By selecting a genre (clicking on the timeline), the user may be able to Explore the top ten artists and genres in a decade (or decade range) and then get suggestions of related artists and genres. However, the user can avoid this suggestions and Search for his preferred artists using a set of filters.</p>
+                        <p>On the left side, a vertical bar will store the user selections which will allow the user to share this information and compare it in the shared area. Furthermore, at any time, the user may drop the decision taken and delete some information, making every shared chart reset the information shown.</p>
+                    </div>
+                    <div class="col-md-6"> 
+                        <img src="./design/user_control.gif" alt="User Control" class="img-responsive" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Timeline</h4>
+                        <img src="./design/timeline_user.gif" alt="Timeline User" class="img-responsive" />
+                        <br/>
+                        <ul>
+                            <li>The decades are clickable</li>
+                            <li>Optional: If needed to update chart parameters, show a panel where you can change:
+                                <ul>
+                                    <li>Top: Max number of items displayed per decade</li>
+                                    <li>Items: Show most or less popular</li>
+                                    <li>Initial Decade</li>
+                                    <li>Final Decade</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Selected Artists & Genres</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Explore Tab</h4>
+                        <img src="./design/explore_tab.jpg" alt="Explore Tab" class="img-responsive" />
+                        <br/>
+                        <ul>
+                            <li>The decade or range of decades selected in the timeline is shown on top.</li>
+                            <li>User can add an artist or genre to the selection list by clicking on the + sign located at the rightmost part of the name</li>
+                            <li>Recommended artists will be presented like thumbnails with initials. When hovering, the user can see more details.</li>
+                            <li>The initial idea was to show the picture of the artist.</li>
+                            <li>Genres will be also shown as thumbnails.</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Search Tab</h4>
+                        <img src="./design/search_tab.jpg" alt="Search Tab" class="img-responsive" />
+                        <br/>
+                        <ul>
+                            <li>Use a button to search.</li>
+                            <li>User can add an artist or genre to the selection list by clicking on the + sign located at the rightmost part of the name</li>
+                            <li>Popularity will be based on the API hotness value.</li>
+                            <li>Values will be sorted by popularity</li>
+                            <li>An artist may have multiple genres that can make the list messy!</li>
+                            <li>Year will be decade or range?</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Shared Timeline</h3>
+
+                <h3>Shared Artists & Genres</h3>
+
+                <h3>Shared Map</h3>
+
+                <h3>Shared Force Graph</h3>
+            </div>
+        </div>
+
+        <hr>
+        <footer class="text-center">
+            <h5></h5>
+        </footer>
+    </div>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+
+</html>
