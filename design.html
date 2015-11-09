@@ -121,6 +121,35 @@
                 <h3>Shared Map</h3>
 
                 <h3>Shared Force Graph</h3>
+                <p>The force graph shows the relationships between artists and genres with the basic idea of connecting artists through the genres they share. The graph is displayed is two modes:
+                </p>
+                <ul>
+                    <li>Population: Shows the information for the top ten artists per decade</li>
+                    <li>Users: Shows the information based on the values entered by the two users</li>
+                </ul>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="./design/graph_1.jpg" alt="Graph 1" class="img-responsive" />
+                        <br/>
+                        <ul>
+                            <li>Artists and genres are represented as nodes</li>
+                            <li>An artist is connected with genres nodes only</li>
+                            <li>Another artist is related to a given artists is they are both connected to the same genre node</li>
+                            <li>Node labels are only shown for genres</li>
+                            <li>On hover, information is shown for any node</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="./design/graph_2.jpg" alt="Graph 1" class="img-responsive" />
+                        <br/>
+                        <ul>
+                            <li>Artists are represented as nodes</li>
+                            <li>Color represents a Genre. Artists with the same color belong to the same Genre but may not belong to the same subgenre</li>
+                            <li>Artists can be connected based on secondary genres.</li>
+                            <li>On hover, information is shown for any node</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
