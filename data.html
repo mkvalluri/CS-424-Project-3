@@ -24,18 +24,179 @@
                     <li><a href="#">Application</a></li>
                     <li><a href="about.html">Team</a></li>
                     <li class="active"><a href="data.html">Data</a></li>
+                    <li><a href="design.html">Design</a></li>
                 </ul>
             </div>
             
             <div class="col-md-10 rowContainer">
                 <h1>Application Data</h1>
                 <p class="lead"></p>
+                <h2>References</h2>
+                <p> Data is collected from <a href="http://developer.echonest.com/docs/v4">Echonest API</a> </p>
+                    
+                <h2>Structure</h2>
+                <p>Whenever we request any data, response is of the form 
+                    
+                <div class="highlight">
+                	<pre>
+<code>{
+  "response": {
+    "status": {
+      "code": "0",
+      "message": "Success",
+      "version": "4.2"
+    },
+    .. {Actual Data Itself}
+  }
+}
+</code></pre></div>
+                </p>
                 
-                <h2>Data Cleanup Process</h2>
-                
-				<h2>Parsing</h2>
+				<h2>Overall Application Structure</h2>
+                <p>Entire application is designed using layered architecture.
+<ul>
+    <li>We have frontend which based on the inputs requests the application layer the data required.</li>
+    <li>Then the application layer requests the data layer the required data </li>
+    <li>Data layer first verifies the local cachce and checks if the data is available. If yes;
+	<ul>
+        <li>Then the data is returened from the local cachce by constructing the object in required format
+	   <li>Else; data is requested by calling echonest api and data is first stored in cache and then the data is returned back to the applicationn layer.
+     </ul></li>
+    <li>Now the application layer processes the data and sends it back to UI</li>
+</ul>
+The same can be visualized in the below diagram
+                </p>
 				
-                <h2>Example GeoJSON</h2>
+                <h2>Example Queries</h2>
+                <h6><b>To request artist information along with genres, hottness and years active</b></h6>
+<h6><b>Request</b></h6>
+                    <div class="panel panel-default">
+  <div class="panel-body">
+    
+http://developer.echonest.com/api/v4/artist/terms?api_key=API_KEY&name="linkin park"&bucket=years_active&bucket=hotttnesss&bucket=genre&results=1
+  </div>
+</div>
+<h6><b>Response</b></h6>
+<div class="highlight">
+    <pre>
+<code>{
+   "response": {
+      "status": {
+         "version": "4.2",
+         "code": 0,
+         "message": "Success"
+      },
+      "artists": [
+         {
+            "genres": [
+               {
+                  "name": "rap rock"
+               },
+               {
+                  "name": "rap metal"
+               },
+               {
+                  "name": "nu metal"
+               },
+               {
+                  "name": "alternative metal"
+               }
+            ],
+            "name": "Linkin Park",
+            "hotttnesss": 0.776422,
+            "years_active": [
+               {
+                  "start": 1996
+               }
+            ],
+            "id": "ARQUMH41187B9AF699"
+         }
+      ]
+   }
+}</code></pre></div>
+
+<h6><b>For getting artist genre based on frequency and weight</b></h6>
+<h6><b>Request</b></h6>
+                    <div class="panel panel-default">
+  <div class="panel-body">
+http://developer.echonest.com/api/v4/artist/list_genres?api_key=API_KEY&format=json&results=5
+  </div>
+</div>
+<h6><b>Response</b></h6>
+<div class="highlight">
+    <pre>
+<code>{
+   "response": {
+      "status": {
+         "version": "4.2",
+         "code": 0,
+         "message": "Success"
+      },
+      "start": 0,
+      "genres": [
+         {
+            "name": "a cappella"
+         },
+         {
+            "name": "abstract"
+         },
+         {
+            "name": "abstract beats"
+         },
+         {
+            "name": "abstract hip hop"
+         },
+         {
+            "name": "abstract idm"
+         }
+      ],
+      "total": 1383
+   }
+}</code></pre></div>
+
+<h6><b>Get list of Artists</b></h6>
+<h6><b>Request</b></h6>
+                    <div class="panel panel-default">
+  <div class="panel-body">
+http://developer.echonest.com/api/v4/artist/search?api_key=API_KEY&format=json&genre=nu+metal&artist_start_year_before=1990&artist_end_year_after=1990&sort=familiarity-desc&bucket=familiarity&results=3
+  </div>
+</div>
+<h6><b>Response</b></h6>
+<div class="highlight">
+    <pre>
+<code>{
+   "response": {
+      "status": {
+         "version": "4.2",
+         "code": 0,
+         "message": "Success"
+      },
+      "artists": [
+         {
+            "familiarity": 0.840537,
+            "id": "ARE8GLF1187FB52532",
+            "name": "Red Hot Chili Peppers"
+         },
+         {
+            "familiarity": 0.820197,
+            "id": "ARK9TRQ1187B99C095",
+            "name": "Nine Inch Nails"
+         },
+         {
+            "familiarity": 0.787924,
+            "id": "ARXSABJ1187FB3C336",
+            "name": "Deftones"
+         }
+      ]
+   }
+}</code>
+    </pre></div>
+<h6><b>Get List of Genres</b></h6>
+                    <div class="panel panel-default">
+  <div class="panel-body">
+Getting Top Genres?
+  </div>
+</div>
 
             </div>
         </div>
