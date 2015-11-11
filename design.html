@@ -93,7 +93,7 @@
                         <br/>
                         <ul>
                             <li>The decade or range of decades selected in the timeline is shown on top.</li>
-                            <li>User can add an artist or genre to the selection list by clicking on the + sign located at the rightmost part of the name</li>
+                            <li>User can add an artist or genre to the selection list by clicking on the + sign located at the rightmost part of the name.</li>
                             <li>Recommended artists will be presented like thumbnails with initials. When hovering, the user can see more details.</li>
                             <li>The initial idea was to show the picture of the artist.</li>
                             <li>Genres will be also shown as thumbnails.</li>
@@ -105,9 +105,9 @@
                         <br/>
                         <ul>
                             <li>Use a button to search.</li>
-                            <li>User can add an artist or genre to the selection list by clicking on the + sign located at the rightmost part of the name</li>
+                            <li>User can add an artist or genre to the selection list by clicking on the + sign located at the rightmost part of the name.</li>
                             <li>Popularity will be based on the API hotness value.</li>
-                            <li>Values will be sorted by popularity</li>
+                            <li>Values will be sorted by popularity.</li>
                             <li>An artist may have multiple genres that can make the list messy!</li>
                             <li>Year will be decade or range?</li>
                         </ul>
@@ -115,38 +115,75 @@
                 </div>
                 
                 <h3>Shared Timeline</h3>
-
+                <img src="./design/shared_timeline.jpg" alt="Explore Tab" class="img-responsive"/>
+                <br/>
+                <p>Timeline will display artist and genre information for those selected by both users.</p>
+                <ul>
+                	<li>Shows the artist's activity period.</li>
+					<li>Shows the artist's inactive period with dotted lines.</li>
+					<li>All artists will be color-coded indicating the user selection.</li>
+                </ul>
                 <h3>Shared Artists & Genres</h3>
+                <img src="./design/shared_artist_genre.jpg" alt="Explore Tab" class="img-responsive"/>
+                <br/>
+                <ul>
+                	<li>Artist will be represented in a square shape.</li>
+					<li>Genres will be represented in a circle shape.</li>
+					<li>All Artist and Genres will be color-coded indicating the user selection.</li>
+                </ul>
 
                 <h3>Shared Map</h3>
+                <img src="./design/map_sketch.jpg" alt="Explore Tab" class="img-responsive" width="50%" height="50%"/>
+				<br/>
+				<p>Basics:</p>
+				<ul>
+					<li>Use mapbox/leaflet for the mapping implementation with built-in zoom functions via +/- buttons on map, mouse scroll wheel, touch pinch. </li>
+					<li>Add reset zoom button.</li>
+					<li>Add layers controls to toggle different views (described below).</li>
+					<li>Add legends to describe color schemes, markers, etc.</li>
+					<li>Data processing will likely use GeoJSON to combine the music data with the location data to be easily fed onto the map.</li>
+				</ul>
+				<p>Layer 1:  Linked to the timeline to display all artists from all genres from all decades, show only 10 artists of a particular decade, and show all top 10 artists from all decades for a single genre</p>
+				<ul>
+					<li>Representation of the data will be in the form of a circle marker whose radius and color intensity correlates the number of artists from a particular city. For example, a city with 5 artists will have a larger circle and darker color than a city with only 1 artist. Double visual cues will make it easier for the user to perceive the differences.</li>
+					<li>Clicking individual circles will give a popup with information about all artists from that city.</li>
+				</ul>
+				<p>Layer 2: Linked to custom user 1 and user 2 selections lists for</p>
+				<ul>
+					<li>Markers will be similar to that of layer 1.</li>
+					<li>User will be able to toggle between both users’ custom artist list or genre list</li>
+					<li>Color scheme for artists list will be something like red circles for user 1, blue for user 2, and yellow where both users chose artists from the same cities, possibly even with a color gradient using the three colors.</li>
+					<li>Color scheme for genre list will have to use a number of circle fill colors to represent large numbers of genres, and the circle stroke (outline) color could be used to indicate which user selected a particular genre.</li>
+					<li>Note: the representation scheme is more complex for layer 2, so modifications will likely be made after actually testing some datasets on the map.</li>
+				</ul>
 
                 <h3>Shared Force Graph</h3>
                 <p>The force graph shows the relationships between artists and genres with the basic idea of connecting artists through the genres they share. The graph is displayed is two modes:
                 </p>
                 <ul>
-                    <li>Population: Shows the information for the top ten artists per decade</li>
-                    <li>Users: Shows the information based on the values entered by the two users</li>
+                    <li>Population: Shows the information for the top ten artists per decade.</li>
+                    <li>Users: Shows the information based on the values entered by the two users.</li>
                 </ul>
                 <div class="row">
                     <div class="col-md-6">
                         <img src="./design/graph_1.jpg" alt="Graph 1" class="img-responsive" />
                         <br/>
                         <ul>
-                            <li>Artists and genres are represented as nodes</li>
-                            <li>An artist is connected with genres nodes only</li>
-                            <li>Another artist is related to a given artists is they are both connected to the same genre node</li>
-                            <li>Node labels are only shown for genres</li>
-                            <li>On hover, information is shown for any node</li>
+                            <li>Artists and genres are represented as nodes.</li>
+                            <li>An artist is connected with genres nodes only.</li>
+                            <li>Another artist is related to a given artists is they are both connected to the same genre node.</li>
+                            <li>Node labels are only shown for genres.</li>
+                            <li>On hover, information is shown for any node.</li>
                         </ul>
                     </div>
                     <div class="col-md-6">
                         <img src="./design/graph_2.jpg" alt="Graph 1" class="img-responsive" />
                         <br/>
                         <ul>
-                            <li>Artists are represented as nodes</li>
-                            <li>Color represents a Genre. Artists with the same color belong to the same Genre but may not belong to the same subgenre</li>
+                            <li>Artists are represented as nodes.</li>
+                            <li>Color represents a Genre. Artists with the same color belong to the same Genre but may not belong to the same subgenre.</li>
                             <li>Artists can be connected based on secondary genres.</li>
-                            <li>On hover, information is shown for any node</li>
+                            <li>On hover, information is shown for any node.</li>
                         </ul>
                     </div>
                 </div>
