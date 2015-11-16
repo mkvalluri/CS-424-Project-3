@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Force Graph Layout</title>
+
+    <script src="../js/jquery-2.1.4.min.js"></script>
+    <script src="../js/d3.js" charset="utf-8"></script>
+    <script src="sample_artists.json" charset="utf-8"></script>
+    <script src="../js/forcegraph.js" charset="utf-8"></script>
+    <style>
+        #graph{
+            width: 1000px;
+            height: 700px;
+            border-color: black;
+            border-width: medium;
+        }
+        .node {
+            stroke: #fff;
+            stroke-width: 1.5px;
+        }
+        .link {
+            stroke: #999;
+            stroke-opacity: .6;
+        }
+        .d3-tip {
+            line-height: 1;
+            color: black;
+        }
+        .node text {
+            font: 9px helvetica;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <input type="button" value="Insert node" onclick="insertNode()"/>
+        <input type="button" value="Remove random node" onclick="removeRandomNode()"/>
+        <div id="graph"></div>
+    </form>
+
+    <script>
+        function insertNode(){
+            var node = {};
+            node.name = "ABCDE";
+            node.id = "ABCDE";
+            node.type = "artist";
+            node.group = 3;
+
+            var link = {};
+            link.source = nodes.length;
+            link.target = 0;
+
+            data.nodes.push(node);
+            data.links.push(link);
+
+            graph.restart(data);
+        }
+
+        function removeRandomNode(){
+            var i = Math.floor((Math.random() * 10) + 1);   // first ten artists
+            var artist = data.nodes[i];
+
+            data.nodes.splice(artist.index,1);
+            graph.restart(data);
+        }
+
+        function getIndexGenreInNodes(nodes, genre){
+            var index = -1;
+            for (var i = 0; i < nodes.length; i++){
+                if (nodes[i].type == "genre" && nodes[i].name == genre) return i;
+            };
+            return index;
+        }
+
+        var artistsData = data.response.artists;
+        var artists = [];
+
+        for (var i = 0; i < artistsData.length; i++){
+            var artist = {};
+            artist.name = artistsData[i].name;
+            artist.id = artistsData[i].id;
+            artist.type = "artist";
+            artist.genres = artistsData[i].genres;
+            artist.group = 1;
+            artist.user = artistsData[i].user;
+            artists.push(artist);
+        }
+
+        var genres = [];
+        for (var i = 0; i < artistsData.length; i++){
+            for (var j = 0; j < artistsData[i].genres.length; j++){
+                var genre = {};
+                genre.name = artistsData[i].genres[j].name;
+                genre.id = "";
+                genre.type = "genre";
+                genre.group = 2;
+                if (getIndexGenreInNodes(genres, genre.name) == -1)
+                    genres.push(genre);
+            }
+        }
+
+        var nodes = [];
+        for (var i = 0; i < artists.length; i++) nodes.push(artists[i]);
+        for (var i = 0; i < genres.length; i++) nodes.push(genres[i]);
+
+        var links = [];
+        for (var i = 0; i < artists.length; i++){
+            for (var j = 0; j < artists[i].genres.length; j++){
+                var link = {};
+                link.source = i;
+                link.target = getIndexGenreInNodes(nodes,artists[i].genres[j].name);
+                if (link.target > -1) links.push(link);
+            }
+        }
+
+        var data = {};
+        data.nodes = nodes;
+        data.links = links;
+
+        var graph = new ForceGraph("#graph", data, "#f03b20", "#2b8cbe", "#feb24c");
+        graph.init();
+    </script>
+</body>
+</html>
