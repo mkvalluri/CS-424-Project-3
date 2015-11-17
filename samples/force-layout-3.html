@@ -54,15 +54,17 @@
             data.nodes.push(node);
             data.links.push(link);
 
-            graph.restart(data);
+            //graph.restart(data);
+            graph.addNode(node);
         }
 
         function removeRandomNode(){
-            var i = Math.floor((Math.random() * 10) + 1);   // first ten artists
-            var artist = data.nodes[i];
+            var i = Math.floor((Math.random() * graph.nodes.length) + 1);   // first ten artists
+            var node = graph.nodes[58];
 
-            data.nodes.splice(artist.index,1);
-            graph.restart(data);
+            //data.nodes.splice(artist.index,1);
+            //graph.restart(data);
+            graph.removeNode(node);
         }
 
         function getIndexGenreInNodes(nodes, genre){

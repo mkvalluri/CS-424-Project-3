@@ -89,7 +89,8 @@ ForceGraph.prototype = {
 
     areNeighbors: function(a, b){
         var self = this;
-        return self.linkedByIndex[a.index + "," + b.index];
+        var c = self.linkedByIndex[a.index + "," + b.index];
+        return c;
     },
 
     connectNodes: function(d){
@@ -97,19 +98,78 @@ ForceGraph.prototype = {
 
         if (self.toogle == 0){
             // Reduce the opacity of the nodes except of the node neighbors
-            self.nodes.style("opacity", function (o) {
+            self.svg.selectAll(".node").style("opacity", function (o) {
                 return self.areNeighbors(d, o) | self.areNeighbors(o, d) ? 1 : 0.1;
             });
 
-            self.links.style("opacity", function (o) {
+            self.svg.selectAll(".link").style("opacity", function (o) {
                 return d.index==o.source.index | d.index==o.target.index ? 1 : 0.1;
             });
             self.toogle = 1;
         } else {
             // Restore the opacity
-            self.nodes.style("opacity", 1);
-            self.links.style("opacity", 1);
+            self.svg.selectAll(".node").style("opacity", 1);
+            self.svg.selectAll(".link").style("opacity", 1);
             self.toogle = 0;
+        }
+    },
+
+    addNode: function(artist){
+        this.nodes.push(artist);
+        this.update();
+    },
+
+    removeNode: function(node){
+        var i = 0;
+        var n = this.findNode(node);
+
+        while (i < links.length) {
+            if ((links[i]['source'] == n) || (links[i]['target'] == n)) {
+                links.splice(i, 1);
+            }
+            else i++;
+        }
+
+        this.nodes.splice(node.index, 1);
+        this.update();
+    },
+
+    removeLink: function (source, target) {
+        for (var i = 0; i < links.length; i++) {
+            if (links[i].source.id == source && links[i].target.id == target) {
+                links.splice(i, 1);
+                break;
+            }
+        }
+        //update();
+    },
+
+    removeallLinks: function () {
+        links.splice(0, links.length);
+        //update();
+    },
+
+    removeAllNodes: function () {
+        nodes.splice(0, links.length);
+        //update();
+    },
+
+    addLink: function (source, target, value) {
+        links.push({"source": self.findNode(source), "target": findNode(target), "value": value});
+        update();
+    },
+
+    findNode: function (node) {
+        for (var i in nodes) {
+            if (this.nodes[i]["name"] === node.name) return nodes[i];
+        }
+    },
+
+    findNodeIndex: function (node) {
+        for (var i = 0; i < nodes.length; i++) {
+            if (this.nodes[i].name == node.name) {
+                return i;
+            }
         }
     },
 
@@ -157,6 +217,85 @@ ForceGraph.prototype = {
         self.linkedByIndex = {};
         for (var i = 0; i < data.nodes.length; i++) self.linkedByIndex[i + "," + i] = 1;
         data.links.forEach(function (d) {
+            self.linkedByIndex[d.source.index + "," + d.target.index] = 1;
+        });
+    },
+
+    update: function(){
+        var self = this;
+
+        self.svg.selectAll("line").remove();
+        self.svg.selectAll("g.node").remove();
+
+        var link = self.svg.selectAll("line")
+            .data(self.links);
+
+        link.enter().append("line")
+            .attr("class", "link")
+            .style("stroke-width", function(d){
+                return Math.sqrt(d.value);
+            });
+
+        link.exit().remove();
+
+        var node = self.svg.selectAll("g.node")
+            .data(data.nodes);
+
+        var nodeEnter = node.enter().append("g")
+            .attr("class", "node")
+            .call(self.force.drag)
+            .on('click', function(d){ self.connectNodes(d) })
+            .on('dblclick', self.releaseNode)
+            .call(self.nodeDrag);
+
+        nodeEnter.append("circle")
+            .attr("r", self.radius)
+            .style("fill", function (d) {
+                if (d.user == 1)
+                    return self.colorUser1;
+                else if (d.user == 2)
+                    return self.colorUser2;
+                else if (d.user == 3)
+                    return self.colorCoincidente;
+                else
+                    return self.color(d.group);
+            });
+
+        nodeEnter.append("text")
+            .attr("dx", 10)
+            .attr("dy", ".35em")
+            .text(function(d){ return d.name })
+            .style("stroke", "gray");
+
+        node.exit().remove();
+
+        self.force.on("tick", function(){
+            link
+                .attr("x1", function (d) {
+                    return d.source.x; })
+                .attr("y1", function (d) { return d.source.y  })
+                .attr("x2", function (d) { return d.target.x; })
+                .attr("y2", function (d) { return d.target.y; });
+            node.selectAll("circle")
+                .attr("cx", function (d) { return d.x; })
+                .attr("cy", function (d) { return d.y; });
+            node.selectAll("text")
+                .attr("x", function (d) { return d.x; })
+                .attr("y", function (d) { return d.y; });
+
+            node.each(self.collide(0.5)); // prevent collision
+        });
+
+        self.force
+            .charge(-120)
+            .linkDistance(30)
+            .friction(0.9)
+            .size([self.width, self.height])
+            .start();
+
+        /* update linked log */
+        for (var i = 0; i < self.nodes.length; i++) self.linkedByIndex[i + "," + i] = 1;
+        self.links.forEach(function (d) {
             self.linkedByIndex[d.source.index + "," + d.target.index] = 1;
         });
     },
@@ -254,7 +393,12 @@ ForceGraph.prototype = {
         self.svg = d3.select(self.target).append("svg")
             .attr("width", self.width)
             .attr("height", self.height);
+        self.force = d3.layout.force()
+            .links(self.data.links)
+            .nodes(self.data.nodes);
+        self.nodes = self.force.nodes();
+        self.links = self.force.links();
 
-        self.create();
+        self.update();
     }
 }

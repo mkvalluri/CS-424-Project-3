@@ -1,0 +1,21 @@
+var data = {
+      response: {
+        status: {
+          version: "4.2",
+          code: 0,
+          message: "Success"
+        },
+        artists: [
+          {
+            genres: [
+              {name: "rap" },
+              {name: "hip hop"},
+              {name: "gangster rap"},
+              {name: "hardcore hip hop"},
+              {name: "pop rap"}
+            ],
+            id: "ARSZ6MA1187FB43D29",
+            name: "The Notorious B.I.G.",
+            user:1
+          }]
+}}
