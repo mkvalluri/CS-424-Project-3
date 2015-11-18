@@ -1,0 +1,34 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CS 424 - Project #3</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- custom styles -->
+</head>
+
+<body>
+    <!-- Body Portion -->
+    
+    <div class="container-fluid">
+		<div id="artist_1"></div>
+    </div>
+    <script src="../js/jquery-2.1.4.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+	<script src="../js/artistart.js"></script>
+	<script type="text/javascript">
+		var a = new ArtistArt("Linkin Park", "#artist_1");
+		a.setArt();
+		var b = new ArtistArt("Eminem", "#artist_1");
+		b.setArt();
+		var c = new ArtistArt("Green Day", "#artist_1");
+		c.setArt();
+	</script>
+</body>
+
+</html>

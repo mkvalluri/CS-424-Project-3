@@ -1,0 +1,271 @@
+var data = {
+      response: {
+        status: {
+          version: "4.2",
+          code: 0,
+          message: "Success"
+        },
+        artists: [
+          {
+            genres: [
+              {name: "rap" },
+              {name: "hip hop"},
+              {name: "gangster rap"},
+              {name: "hardcore hip hop"},
+              {name: "pop rap"}
+            ],
+            id: "ARSZ6MA1187FB43D29",
+            name: "The Notorious B.I.G.",
+            user:1
+          },
+{
+genres: [
+{
+name: "rock"
+},
+{
+name: "album rock"
+},
+{
+name: "glam rock"
+},
+{
+name: "heavy christmas"
+},
+{
+name: "hard rock"
+}
+],
+id: "ARL4TII1187B9B46E1",
+name: "Queen",
+user:1
+},
+{
+genres: [
+{
+name: "alternative rock"
+},
+{
+name: "grunge"
+},
+{
+name: "permanent wave"
+},
+{
+name: "rock"
+}
+],
+id: "ARH3S5S1187FB4F76B",
+name: "Nirvana",
+user:1
+},
+{
+genres: [
+{
+name: "gangster rap"
+},
+{
+name: "g funk"
+},
+{
+name: "rap"
+},
+{
+name: "west coast rap"
+},
+{
+name: "juggalo"
+},
+{
+name: "hip hop"
+},
+{
+name: "chicano rap"
+},
+{
+name: "hardcore hip hop"
+}
+],
+id: "AR0D6EL1187B9AF46B",
+name: "Eazy-E",
+user:2
+},
+{
+genres: [
+{
+name: "christmas"
+},
+{
+name: "lounge"
+},
+{
+name: "adult standards"
+},
+{
+name: "jazz christmas"
+},
+{
+name: "vocal jazz"
+},
+{
+name: "swing"
+},
+{
+name: "easy listening"
+}
+],
+id: "ARTASUV1187B9A2B67",
+name: "Frank Sinatra"
+},
+{
+genres: [
+{
+name: "gangster rap"
+},
+{
+name: "hip hop"
+},
+{
+name: "rap"
+},
+{
+name: "g funk"
+},
+{
+name: "pop rap"
+}
+],
+id: "ARPXABO1187FB4D15F",
+name: "2Pac",
+user:2
+},
+{
+genres: [
+{
+name: "jazz"
+},
+{
+name: "cool jazz"
+},
+{
+name: "bebop"
+},
+{
+name: "contemporary post-bop"
+},
+{
+name: "jazz fusion"
+},
+{
+name: "jazz christmas"
+}
+],
+id: "AR7RTGF1187FB38793",
+name: "Miles Davis",
+user:3
+},
+{
+genres: [
+{
+name: "traditional folk"
+},
+{
+name: "folk"
+},
+{
+name: "country rock"
+},
+{
+name: "mellow gold"
+},
+{
+name: "folk rock"
+},
+{
+name: "soft rock"
+},
+{
+name: "folk christmas"
+},
+{
+name: "singer-songwriter"
+},
+{
+name: "folk-pop"
+},
+{
+name: "country christmas"
+}
+],
+id: "AROQSCE1187B99F0FC",
+name: "John Denver",
+user:3
+},
+{
+genres: [
+{
+name: "british blues"
+},
+{
+name: "psychedelic rock"
+},
+{
+name: "classic rock"
+},
+{
+name: "blues-rock"
+},
+{
+name: "folk rock"
+},
+{
+name: "art rock"
+},
+{
+name: "progressive rock"
+},
+{
+name: "symphonic rock"
+},
+{
+name: "album rock"
+},
+{
+name: "mellow gold"
+},
+{
+name: "roots rock"
+},
+{
+name: "rock"
+}
+],
+id: "ARM3EW81187B9AD130",
+name: "Traffic",
+user:2
+},
+{
+genres: [
+{
+name: "brill building pop"
+},
+{
+name: "adult standards"
+},
+{
+name: "british invasion"
+},
+{
+name: "motown"
+},
+{
+name: "soul christmas"
+}
+],
+id: "AREQIT21187B9AEB7F",
+name: "Dusty Springfield",
+user:1
+}
+]
+}
+}

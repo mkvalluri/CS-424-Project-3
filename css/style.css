@@ -24,77 +24,22 @@ body {
   height: calc(80vh / 3);
 }
 
-/***************************************
-Bar Chart Styles
-***************************************/
-
-.bar:hover {
-  cursor: pointer;
-  border: 0.5em solid black;
+.artistArt {
+  border: 0.1em solid black;
+  width: 10em;
+  height: 10em;
+  padding: 2em;  
+  margin: 1em;
 }
 
-.axis {
-  font-size: 1.3vh;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-}
-
-.x.axis path {
-  display: none;
-}
-
-/***************************************
-Pie Chart Styles
-***************************************/
-
-.arc path {
-  stroke: #fff;
-}
-
-.arc {
-  font-size: 1.3vh;
-}
-
-.arc:hover {
-  cursor: pointer;
-}
-
-/************************************
-Tool Tips
-************************************/
-#chart {
-  height: 360px;
-  position: relative;
-  width: 360px;
-}
-
-.tooltip {
-  background: #eee;
-  box-shadow: 0 0 5px #999999;
-  color: #333;
-  display: none;
-  font-size: 12px;
-  left: 130px;
-  padding: 10px;
-  position: absolute;
+.artistArt p {
+  height: 100%;
+  width: 100%;
+  font-size: 4em;
   text-align: center;
-  top: 95px;
-  width: 80px;
-  z-index: 10;
 }
 
-/***********************************
-List
-***********************************/
-#pacificList, #atlanticList {
-  height: 20em;
-  overflow-y: scroll;  
-}
-
-.nameLink:hover {
+.artistArt:hover {
   cursor: pointer;
+  background-color: deepskyblue;
 }
