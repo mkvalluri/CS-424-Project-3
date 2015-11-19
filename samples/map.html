@@ -70,6 +70,27 @@ var data = {
     }
 }
 
+// URL-ify the artist location
+var query = data.response.artist.artist_location.location;
+var query_url = query.split(' ').join('+');
+
+// Construct Google Maps Geocoding API request url
+var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
+
+// Perform request to get latlng for artist location
+$.get(url, function(data) {
+    console.log(data);
+
+    if (data.status.localeCompare("OK")) {
+        alert("Geocoding request failed: " + data.status);
+    }
+
+    // Plot latlng marker on map
+    var latlng = data.results[0].geometry.location;
+    var dot = L.circleMarker(latlng, circle_options);
+    dot.addTo(map);
+});
+
 </script>
 </body>
 </html>
