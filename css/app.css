@@ -18,7 +18,7 @@
 
  #shared_timeline{
  	height:30vh;
- 	background-color:#001932;
+ 	background-color:#000000;
  	width:100%;
 
  }
@@ -31,9 +31,14 @@
 
  #user1{
  	height:60vh;
- 	background-color:#FF5144;
+ 	background-color:black;
  	width:30%;
  	float: left;
+ }
+
+ #user1_tag{
+ 	height:2vh;
+ 	background-color:#FF5144; 
  }
 
  #shared_map{
@@ -67,10 +72,15 @@
 
  #user2{
  	height:60vh;
- 	background-color:#3AC0FF;
+ 	background-color:black;
  	width:30%;
  	float: left;
 
+ }
+
+ #user2_tag{
+ 	height:2vh;
+ 	background-color:#3AC0FF; 
  }
 
 
@@ -78,22 +88,13 @@
 
 @media (max-width: 3000px) {
 
-	 html{
-	 	font-family: Lato;
-	 }
-
-	 body{
-	 	margin:0 auto;
-	 	background-color: #323232;
-	 }
-
 	 #app{
 
 	 }
 
 	 #shared_timeline{
 	 	height:30vh;
-	 	background-color:#001932;
+	 	background-color:#000000;
 	 	width:100%;
 
 	 }
@@ -102,51 +103,62 @@
 	 	height:10vh;
 	 	background-color:#323232;
 	 	width: 100%; 
-
 	 }
 
 	 #user1{
 	 	height:60vh;
-	 	background-color:#FF5144;
+	 	background-color:black;
 	 	width:50%;
-	 	float: left;
+	 	
+	 }
+
+	 #user1_tag{
+	 	height:2vh;
+	 	background-color:#FF5144; 
 	 }
 
 	 #shared_map{
 	 	height:60vh;
 	 	background-color:#FFDF05;
 	 	width:50%;
-	 	float:left;
-	 
+	 	float: left;
 	 }
 
 	 #shared_map img{
-	 	
-	 	height: 100%;
-	 	min-width: 100%;
-	 }
+		 	
+		 height: 100%;
+		 width: 100%;
+	}
+
 
 	 #shared_graph{
 	 	height:60vh;
 	 	background-color:#CFD0D2;
 	 	width:50%;
-	 	float: left;
-	 
+	 	float: right;
+
 	 }
 
 	 #shared_graph img{
-	 	
-	 	height: 100%;
-	 	min-width: 100%;
-	 }
+		 	
+		 height: 100%;
+		 width: 100%;
+	}
+
 
 	 #user2{
 	 	height:60vh;
-	 	background-color:#3AC0FF;
+	 	background-color:black;
 	 	width:50%;
 	 	float: left;
 
 	 }
+
+	 #user2_tag{
+	 	height:2vh;
+	 	background-color:#3AC0FF; 
+	 }
+
 
 }
 
@@ -156,22 +168,13 @@
 
 @media (max-width: 700px) {
 
-	 html{
-	 	font-family: Lato;
-	 }
-
-	 body{
-	 	margin:0 auto;
-	 	background-color: #001932;
-	 }
-
 	 #app{
 
 	 }
 
 	 #shared_timeline{
 	 	height:30vh;
-	 	background-color:#323232;
+	 	background-color:#000000;
 	 	width:100%;
 
 	 }
@@ -180,36 +183,57 @@
 	 	height:10vh;
 	 	background-color:#323232;
 	 	width: 100%; 
-
 	 }
 
 	 #user1{
 	 	height:60vh;
-	 	background-color:#FF5144;
+	 	background-color:black;
 	 	width:100%;
+	 	
+	 }
 
+	 #user1_tag{
+	 	height:2vh;
+	 	background-color:#FF5144; 
 	 }
 
 	 #shared_map{
 	 	height:60vh;
 	 	background-color:#FFDF05;
 	 	width:100%;
-	 
 	 }
+
+	 #shared_map img{
+		 	
+		 height: 100%;
+		 width: 100%;
+	}
+
 
 	 #shared_graph{
 	 	height:60vh;
 	 	background-color:#CFD0D2;
 	 	width:100%;
 
-
 	 }
+
+	 #shared_graph img{
+		 	
+		 height: 100%;
+		 width: 100%;
+	}
+
 
 	 #user2{
 	 	height:60vh;
-	 	background-color:#3AC0FF;
+	 	background-color:black;
 	 	width:100%;
 
+	 }
+
+	 #user2_tag{
+	 	height:2vh;
+	 	background-color:#3AC0FF; 
 	 }
 
 
