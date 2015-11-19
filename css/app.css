@@ -1,0 +1,192 @@
+/*
+ * Author : Juan,Manu,Murali,Revant
+ * Website: http://mvallu.github.io/CS-424-Project-3/
+ */
+
+ html{
+ 	font-family: Lato;
+ }
+
+ body{
+ 	margin:0 auto;
+ 	background-color: black;
+ }
+
+ #app{
+
+ }
+
+ #shared_timeline{
+ 	height:30vh;
+ 	background-color:red;
+ 	width:100%;
+
+ }
+
+ #shared_pool{
+ 	height:10vh;
+ 	background-color:blue;
+ 	width: 100%; 
+
+ }
+
+ #user1{
+ 	height:60vh;
+ 	background-color:green;
+ 	width:30%;
+ 	float: left;
+ }
+
+ #shared_map{
+ 	height:60vh;
+ 	background-color:yellow;
+ 	width:20%;
+ 	float: left;
+ }
+
+ #shared_graph{
+ 	height:60vh;
+ 	background-color:violet;
+ 	width:20%;
+ 	float: left;
+
+ }
+
+ #user2{
+ 	height:60vh;
+ 	background-color:orange;
+ 	width:30%;
+ 	float: left;
+
+ }
+
+
+
+
+@media (max-width: 3000px) {
+
+	 html{
+	 	font-family: Lato;
+	 }
+
+	 body{
+	 	margin:0 auto;
+	 	background-color: black;
+	 }
+
+	 #app{
+
+	 }
+
+	 #shared_timeline{
+	 	height:30vh;
+	 	background-color:red;
+	 	width:100%;
+
+	 }
+
+	 #shared_pool{
+	 	height:10vh;
+	 	background-color:blue;
+	 	width: 100%; 
+
+	 }
+
+	 #user1{
+	 	height:60vh;
+	 	background-color:green;
+	 	width:50%;
+	 	float: left;
+	 }
+
+	 #shared_map{
+	 	height:60vh;
+	 	background-color:yellow;
+	 	width:50%;
+	 	float:left;
+	 
+	 }
+
+	 #shared_graph{
+	 	height:60vh;
+	 	background-color:violet;
+	 	width:50%;
+	 	float: left;
+	 
+	 }
+
+	 #user2{
+	 	height:60vh;
+	 	background-color:orange;
+	 	width:50%;
+	 	float: left;
+
+	 }
+
+}
+
+
+
+
+
+@media (max-width: 700px) {
+
+	 html{
+	 	font-family: Lato;
+	 }
+
+	 body{
+	 	margin:0 auto;
+	 	background-color: black;
+	 }
+
+	 #app{
+
+	 }
+
+	 #shared_timeline{
+	 	height:30vh;
+	 	background-color:red;
+	 	width:100%;
+
+	 }
+
+	 #shared_pool{
+	 	height:10vh;
+	 	background-color:blue;
+	 	width: 100%; 
+
+	 }
+
+	 #user1{
+	 	height:60vh;
+	 	background-color:green;
+	 	width:100%;
+
+	 }
+
+	 #shared_map{
+	 	height:60vh;
+	 	background-color:yellow;
+	 	width:100%;
+	 
+	 }
+
+	 #shared_graph{
+	 	height:60vh;
+	 	background-color:violet;
+	 	width:100%;
+
+
+	 }
+
+	 #user2{
+	 	height:60vh;
+	 	background-color:orange;
+	 	width:100%;
+
+	 }
+
+
+
+ }
