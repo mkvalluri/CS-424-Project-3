@@ -1,0 +1,21 @@
+var data = {
+    "response": {
+        "artist": {
+            "artist_location": {
+                "city": "Abingdon",
+                "country": "United Kingdom",
+                "location": "Abingdon, England, GB",
+                "region": "England"
+            },
+            "id": "ARH6W4X1187B99274F",
+            "name": "Radiohead"
+        },
+        "status": {
+            "code": 0,
+            "message": "Success",
+            "version": "4.2"
+        }
+    }
+}
+
+// http://developer.echonest.com/api/v4/artist/profile?api_key=[INSERT_API_KEY]&format=json&bucket=artist_location
