@@ -57,11 +57,11 @@
 
  .user_timeline{
  	float:right;
- 	height:30%;
+ 	height:35%;
  	width:75%;
- 	margin-top: 2%;
- 	margin-right:2.5%;
- 	background-color: #FFDF05;
+ 	margin-top: 1%;
+ 	margin-right:5%;
+
  }
 
  .user_tabbed_menu{
@@ -171,12 +171,25 @@
  	overflow: visible !important;
  }
  .user_tabbed_menu .webix_dataview_item{
- 	margin-top: 2%;
+ 	margin-top: 4%;
  	height: 5% !important;
  	width: 100% !important;
  	font-size: 2.5em;
  	overflow: visible !important;
  	float:none !important;
+ }
+
+ .user_tabbed_menu .webix_dataview_item img{
+ 	float:left;
+ 	margin-top: 2.5%;
+ 	padding-right: 10%;
+ 	width:150px;
+ 	height:150px;
+ }
+
+ .user_tabbed_menu .webix_dataview_item.webix_selected{
+ 	background: #000000 !important;
+
  }
 
  .user_tabbed_menu .webix_form .webix_scroll_cont{
@@ -237,6 +250,41 @@
  	background-size: contain;
  }
 
+
+
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #FFF;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+}
+
+.handle{
+    fill: #3498DB;
+}
+
+.x.axis path {
+    stroke-width: 2px;
+}
+
+.x.axis text {
+    fill       : white;
+    font-family: Verdana;
+    font-size: 1.5em;
+}
+
+.brush .extent {
+    stroke: #FFF;
+    fill-opacity: 0;
+    shape-rendering: crispEdges;
+}
+
+.left-opaque, .right-opaque{
+    background: #000;
+    opacity: 0.4;
+}
 
 @media (max-width: 3000px) {
 
