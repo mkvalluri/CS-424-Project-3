@@ -30,9 +30,69 @@
     <button onclick="transition()">Update</button>
     <div id="streamgraph" style="width: 100%; height: 500px;"></div>
     <script>
-        var data = bumpLayer(2020 - 1950);
-        var s = new StreamGraph("#streamgraph", data, 1950, 2020);
-        s.init();
+
+
+        var s;
+        d3.json("topgenres.json", function(error, data) {
+
+            /* get all unique genres */
+            /*
+            genres = [];
+            data.forEach(function(elem){
+                elem.Genres.forEach(function(genre){
+                    if (genres.indexOf(genre.Name) == -1)
+                        genres.push(genre.Name);
+                });
+            });
+
+            var results = [];
+            var startYear = data[0].Year;
+            var endYear = data[data.length - 1].Year;
+
+            for (var i = startYear; i < endYear + 1; i++){
+                elem = {};
+                elem.year = i;
+                elem.genres = [];
+
+                for (var j = 0; j < genres.length; j++){
+                    genre = {};
+                    genre.name = genres[j];
+                    genre.x = j;
+                    genre.y = 0;
+                    elem.genres.push(genre);
+                }
+
+                results.push(elem);
+            }
+
+            var index;
+            for (var i = 0; i < data.length; i++){
+                for (var j = 0; j < data[i].Genres.length; j++){
+                    index = genres.indexOf(data[i].Genres[j].Name);
+                    results[i].genres[index].y = data[i].Genres[j].Relevance;
+                }
+            }
+
+            var results2 = [];
+            for(var i = 0; i < genres.length; i++){
+                var gens = [];
+                for(var j = 0; j < results.length; j++){
+                    gens[j] = results[j].genres[i];
+                    gens[j].year = results[j].year;
+                }
+                results2[i] = gens;
+            }
+
+            for(var i = 0; i < results2.length; i++) {
+                for(var j = 0; j < results2[i].length; j++){
+                    results2[i][j].x = j;
+                }
+            }
+*/
+            //var data = bumpLayer(2020 - 1950);
+            s = new StreamGraph("#streamgraph", data, 1990, 2010);
+            s.init();
+        });
 
         // Inspired by Lee Byron's test data generator.
         function bumpLayer(n) {

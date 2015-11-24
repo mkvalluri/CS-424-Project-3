@@ -10,8 +10,9 @@ function StreamGraph(target, data, startYear, endYear){
     self.stack = d3.layout.stack()
         .offset("silhouette");
 
-    self.stack(data);
-    self.max = d3.max(data, function(d){
+    self.data = self.formatData();
+    self.stack(self.data);
+    self.max = d3.max(self.data, function(d){
         return d3.max(d, function(d){
             return d.y0 + d.y;
         });
@@ -39,6 +40,86 @@ function StreamGraph(target, data, startYear, endYear){
 
 StreamGraph.prototype = {
     constructor: StreamGraph,
+
+    formatData: function(){
+        var self = this;
+        /* get all unique genres */
+        genres = [];
+        self.data.forEach(function(elem){
+            elem.Genres.forEach(function(genre){
+                if (genres.indexOf(genre.Name) == -1)
+                    genres.push(genre.Name);
+            });
+        });
+
+        var results = [];
+        var startYear = self.data[0].Year;
+        var endYear = self.data[self.data.length - 1].Year;
+
+        for (var i = startYear; i < endYear + 1; i++){
+            elem = {};
+            elem.year = i;
+            elem.genres = [];
+
+            for (var j = 0; j < genres.length; j++){
+                genre = {};
+                genre.name = genres[j];
+                genre.x = j;
+                genre.y = 0;
+                elem.genres.push(genre);
+            }
+
+            results.push(elem);
+        }
+
+        var index;
+        for (var i = 0; i < self.data.length; i++){
+            for (var j = 0; j < self.data[i].Genres.length; j++){
+                index = genres.indexOf(self.data[i].Genres[j].Name);
+                results[i].genres[index].y = self.data[i].Genres[j].Relevance;
+            }
+        }
+
+        /* if element not in top 10, set relevance == 0 */
+        var top = 0;
+        var sortF = function(a, b) {
+            return parseInt(b.y) - parseInt(a.y);
+        }
+
+        for (var i = 0; i < results.length; i++){
+            var copy = results[i].genres.sort(sortF).slice(0, 11);
+            for (var j = 0; j < results[i].genres.length; j++){
+                var exist = false;
+                for (var k = 0; k < copy.length; k++){
+                    if (results[i].genres[j].name == copy[k].name){
+                        exist = true;
+                    }
+                }
+                if (exist == false)
+                    results[i].genres[j].y = 0;
+            }
+        }
+
+
+        /* convert into a stacked way */
+        var results2 = [];
+        for(var i = 0; i < genres.length; i++){
+            var gens = [];
+            for(var j = 0; j < results.length; j++){
+                gens[j] = results[j].genres[i];
+                gens[j].year = results[j].year;
+            }
+            results2[i] = gens;
+        }
+
+        for(var i = 0; i < results2.length; i++) {
+            for(var j = 0; j < results2[i].length; j++){
+                results2[i][j].x = j;
+            }
+        }
+
+        return results2;
+    },
 
     /* moves the left slider by updating its width in x pixels. The left value remains
      * constant so the square always increases to the right.*/
