@@ -41,6 +41,41 @@
  	background-color:#FF5144; 
  }
 
+ .user_artist_list{
+ 	float:left;
+ 	height:50%;
+ 	width:20%;
+
+ }
+
+ .user_genre_list{
+
+ 	height:vh-50%;
+ 	width:20%;
+
+ }
+
+ .user_timeline{
+ 	float:right;
+ 	height:30%;
+ 	width:75%;
+ 	margin-top: 2%;
+ 	margin-right:2.5%;
+ 	background-color: #FFDF05;
+ }
+
+ .user_tabbed_menu{
+ 	float:right;
+ 	height:55%;
+ 	width:75%;
+ 	margin-top: 2%;
+ 	margin-right:2.5%;
+ }
+
+ .webix_item_tab{
+ 	font-size: 2.2em !important;
+ }
+
  #shared_map{
  	height:60vh;
  	background-color:#FFDF05;
@@ -83,7 +118,124 @@
  	background-color:#3AC0FF; 
  }
 
+ .my_artist_title{
+ 	float: left;
+ 	font-family: Lato;
+ 	font-size: 2.5em;
+ }
+ .delete_artist_list_button{
+ 	float:right;
+ 	height: 100%;
+ 	width:10%;
+ 	margin-right: 2%;
+	border:0;
+ 	background: url(../resources/images/trash.png) no-repeat;
+ 	background-size: contain;
 
+ }
+
+ .delete_artist_list_button:active{
+ 	float:right;
+ 	height: 100%;
+ 	width:10%;
+ 	margin-right: 2%;
+	border:0;
+ 	background: url(../resources/images/trash_click.png) no-repeat;
+ 	background-size: contain;
+
+ }
+
+ .user_artist_list .webix_list_item, .user_genre_list .webix_list_item{
+
+ 	height: 100px !important;
+ 	font-family: Lato;
+ 	font-size: 1.7em;
+ 	padding-top: 5%;
+ 	padding-bottom: 5%;
+
+ }
+
+ .user_tabbed_menu .webix_template{
+ 	font-size: 2em;
+ 	border-bottom: solid;
+ }
+
+ .user_tabbed_menu .webix_accordionitem_label{
+ 	font-size:2em;
+ 	background-color: #8A73FF;
+ }
+
+ .user_tabbed_menu .webix_scroll_cont > div{
+ 	height: 100% !important;
+ 	width: 100% !important;
+ 	overflow: visible !important;
+ }
+ .user_tabbed_menu .webix_dataview_item{
+ 	margin-top: 2%;
+ 	height: 5% !important;
+ 	width: 100% !important;
+ 	font-size: 2.5em;
+ 	overflow: visible !important;
+ 	float:none !important;
+ }
+
+ .user_tabbed_menu .webix_form .webix_scroll_cont{
+ 	margin-top:20px;
+ }
+
+ .user_tabbed_menu .webix_inp_label{
+ 	width:180px !important;
+ 	font-size: 2em;
+
+
+ }
+
+ .user_tabbed_menu input[type="text"]{
+ 	display: inline;
+ 	
+ 	background-color: #CFD0D2;
+ 	font-size: 2em;
+ 	width:500px !important;
+ }
+
+ .user_tabbed_menu .webix_img_btn{
+ 	float:right;
+ 	border:0;
+ 	width:30px !important;
+ 	background:url(../resources/images/search.png) no-repeat;
+ 	background-size: contain;
+ }
+
+ .user_tabbed_menu .webix_el_button{
+ 	margin-left:-130px !important;
+ 	margin-top:-35px !important;
+ }
+
+ .user_tabbed_menu form{
+ 	display: inline-block !important;
+ }
+
+ .user_tabbed_menu .webix_hcell{
+ 	font-size: 2em;
+ 
+ }
+
+ .user_tabbed_menu .webix_hcell input[type="text"]{
+ 	font-size: 1em;
+ 	float:left;
+ 	width: 300px !important;
+ 	background-color: white;
+ }
+
+ .top_ten_artist_button{
+ 	float: right;
+ 	height: 25px;
+ 	width: 25px;
+ 	margin-right: 2%;
+	border:0;
+ 	background: url(../resources/images/plus.png) no-repeat;
+ 	background-size: contain;
+ }
 
 
 @media (max-width: 3000px) {
@@ -159,6 +311,23 @@
 	 	background-color:#3AC0FF; 
 	 }
 
+
+ .my_artist_title{
+ 	position: absolute;
+ 	left: 2%;
+ 	font-size: 1.5em;
+ }
+ .delete_artist_list_button{
+ 	float:right;
+	width:40%;
+	height: 40%;
+	margin-right:-25%;
+	margin-top:8%;
+	border:0;
+ 	background: url(../resources/images/trash.png) no-repeat;
+ 	background-size: contain;
+
+ }
 
 }
 
