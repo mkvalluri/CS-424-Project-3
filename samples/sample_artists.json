@@ -16,7 +16,8 @@ var data = {
             ],
             id: "ARSZ6MA1187FB43D29",
             name: "The Notorious B.I.G.",
-            user:1
+            user:1,
+            img: "https://i.scdn.co/image/8c2622e70133d2e80b00e81b353c908657d5e7f6"
           },
 {
 genres: [
@@ -38,7 +39,8 @@ name: "hard rock"
 ],
 id: "ARL4TII1187B9B46E1",
 name: "Queen",
-user:1
+user:1,
+img: "https://i.scdn.co/image/8c2622e70133d2e80b00e81b353c908657d5e7f6"
 },
 {
 genres: [
@@ -57,7 +59,8 @@ name: "rock"
 ],
 id: "ARH3S5S1187FB4F76B",
 name: "Nirvana",
-user:1
+user:1,
+img: "https://i.scdn.co/image/8c2622e70133d2e80b00e81b353c908657d5e7f6"
 },
 {
 genres: [
@@ -88,7 +91,8 @@ name: "hardcore hip hop"
 ],
 id: "AR0D6EL1187B9AF46B",
 name: "Eazy-E",
-user:2
+user:2,
+img: "https://i.scdn.co/image/8c2622e70133d2e80b00e81b353c908657d5e7f6"
 },
 {
 genres: [
@@ -137,7 +141,8 @@ name: "pop rap"
 ],
 id: "ARPXABO1187FB4D15F",
 name: "2Pac",
-user:2
+user:2,
+img: "https://i.scdn.co/image/8c2622e70133d2e80b00e81b353c908657d5e7f6"
 },
 {
 genres: [
@@ -162,7 +167,8 @@ name: "jazz christmas"
 ],
 id: "AR7RTGF1187FB38793",
 name: "Miles Davis",
-user:3
+user:3,
+img: "https://i.scdn.co/image/8c2622e70133d2e80b00e81b353c908657d5e7f6"
 },
 {
 genres: [
@@ -199,7 +205,8 @@ name: "country christmas"
 ],
 id: "AROQSCE1187B99F0FC",
 name: "John Denver",
-user:3
+user:3,
+img: "https://i.scdn.co/image/8c2622e70133d2e80b00e81b353c908657d5e7f6"
 },
 {
 genres: [
@@ -242,7 +249,8 @@ name: "rock"
 ],
 id: "ARM3EW81187B9AD130",
 name: "Traffic",
-user:2
+user:2,
+img: "https://i.scdn.co/image/8c2622e70133d2e80b00e81b353c908657d5e7f6"
 },
 {
 genres: [
@@ -264,7 +272,8 @@ name: "soul christmas"
 ],
 id: "AREQIT21187B9AEB7F",
 name: "Dusty Springfield",
-user:1
+user:1,
+img: "https://i.scdn.co/image/8c2622e70133d2e80b00e81b353c908657d5e7f6"
 }
 ]
 }

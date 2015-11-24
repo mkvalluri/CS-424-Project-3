@@ -6,6 +6,9 @@
 
     <script src="../js/jquery-2.1.4.min.js"></script>
     <script src="../js/d3.min.js"></script>
+    <script src="../js/streamgraph.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../css/streamgraph.css">
 
     <style>
         body {
@@ -21,34 +24,88 @@
             top: 10px;
         }
 
-        .axis path,
-        .axis line {
-            fill: none;
-            stroke: #000;
-            stroke-width: 2px;
-            shape-rendering: crispEdges;
-        }
-
-        .x.axis path {
-            stroke-width: 2px;
-        }
-
-        .x.axis text {
-            fill       : black;
-            font-family: Verdana;
-            font-size: 15px;
-        }
-
-        .brush .extent {
-            stroke: #000;
-            fill-opacity: 0;
-            shape-rendering: crispEdges;
-        }
     </style>
 </head>
 <body>
     <button onclick="transition()">Update</button>
-    <div id="streamgraph" style="width: 100%; height: 100%;"></div>
+    <div id="streamgraph" style="width: 100%; height: 500px;"></div>
+    <script>
+        var data = bumpLayer(100);
+        var s = new StreamGraph("#streamgraph", data, 1900, 2000);
+        s.init();
+
+        // Inspired by Lee Byron's test data generator.
+        function bumpLayer(n) {
+
+            function getGenres(genres){
+                var selectedGenres = [], rand, rank;
+
+                for(var i = 0; i < genres.length; i++)
+                    selectedGenres[i] = { genre: genres[i], rate: 0 };
+
+                for(var i = 0; i < 10; i++){
+                    rand = Math.floor((Math.random() * genres.length));
+                    rank = Math.floor((Math.random() * 1000) + 1);
+
+                    for(var j = 0; i < selectedGenres.length; j++){
+                        if (selectedGenres[j].genre == genres[rand]){
+                            selectedGenres[j].rate = rank;
+                            genres.splice(rand,1);
+                            break;
+                        }
+                    }
+                }
+
+                return selectedGenres;
+            }
+
+            var elems = [], i, iyear = 1900;
+            var genres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's'];
+            var countGenres = genres.length;
+
+            for (i = 0; i < n; i++) {
+                elems[i] = { year: iyear + i, genres: getGenres(genres.slice()) };
+            }
+
+            /*
+             totals = [];
+             elems.forEach(function(elem){
+             var y0 = 0;
+             elem.layer = elem.genres.map(function(d, i){
+             return { x: i, name: d.genre, y0: y0, y1: y0 += +d.rate }
+             });
+             elem.total = elem.layer[countGenres - 1].y1;
+             totals.push(elem.total);
+             });
+             */
+            elems.forEach(function(elem){
+                elem.layer = elem.genres.map(function(d, i){
+                    return { x: i, name: d.genre, y: d.rate }
+                });
+            });
+
+            var results = [];
+            for(var i = 0; i < countGenres; i++){
+                var gens = [];
+                for(var j = 0; j < n; j++){
+                    gens[j] = elems[j].layer[i];
+                    gens[j].year = elems[j].year;
+                }
+                results[i] = gens;
+            }
+
+            for(var i = 0; i < results.length; i++) {
+                for(var j = 0; j < results[i].length; j++){
+                    results[i][j].x = j;
+                }
+            }
+
+            return results;
+            //return elems.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
+        }
+    </script>
+
+  <!--
     <script>
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
                 width = 960 - margin.left - margin.right,
@@ -357,6 +414,6 @@
             return results;
             //return elems.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
         }
-    </script>
+    </script>-->
 </body>
 </html>
