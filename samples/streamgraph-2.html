@@ -30,8 +30,8 @@
     <button onclick="transition()">Update</button>
     <div id="streamgraph" style="width: 100%; height: 500px;"></div>
     <script>
-        var data = bumpLayer(100);
-        var s = new StreamGraph("#streamgraph", data, 1900, 2000);
+        var data = bumpLayer(2020 - 1950);
+        var s = new StreamGraph("#streamgraph", data, 1950, 2020);
         s.init();
 
         // Inspired by Lee Byron's test data generator.

@@ -70,7 +70,7 @@ StreamGraph.prototype = {
             if (self.yearsSelected[0] != yearSelected[0])
                 self.moveLeftSlider(self.x(yearSelected[0]));
             if (self.yearsSelected[1] != yearSelected[1])
-                self.moveRightSlider(self.x(2000) - self.x(yearSelected[1]));
+                self.moveRightSlider(self.x(self.endYear) - self.x(yearSelected[1]));
 
             extent1 = [yearSelected[0], yearSelected[1]];
             self.yearsSelected = extent1;
@@ -207,9 +207,7 @@ StreamGraph.prototype = {
             .style("height", self.height + "px")
             .style("top", self.margin.top + "px")
             .style("bottom", "30px")
-            .style("left", self.margin.left + "px")
-            .style("background", "#000")
-            .style("opacity", "0.4");
+            .style("left", self.margin.left + "px");
 
         self.rightOpaqueSelection = d3.select(self.target)
             .append("div")
@@ -220,9 +218,7 @@ StreamGraph.prototype = {
             .style("height", self.height+ "px")
             .style("top", self.margin.top + "px")
             .style("bottom", "30px")
-            .style("left", self.width + self.margin.left + "px")
-            .style("background", "#000")
-            .style("opacity", "0.4");
+            .style("left", self.width + self.margin.left + "px");
 
         gBrush.selectAll(".extent,.resize,.background")
             .remove();

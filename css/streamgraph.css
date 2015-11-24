@@ -25,3 +25,8 @@
     fill-opacity: 0;
     shape-rendering: crispEdges;
 }
+
+.left-opaque, .right-opaque{
+    background: #000;
+    opacity: 0.4;
+}
