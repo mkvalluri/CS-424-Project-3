@@ -1,0 +1,27 @@
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+}
+
+.handle{
+    fill: #3498DB;
+}
+
+.x.axis path {
+    stroke-width: 2px;
+}
+
+.x.axis text {
+    fill       : black;
+    font-family: Verdana;
+    font-size: 15px;
+}
+
+.brush .extent {
+    stroke: #000;
+    fill-opacity: 0;
+    shape-rendering: crispEdges;
+}

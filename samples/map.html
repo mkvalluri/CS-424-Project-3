@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Sample Map</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
+<style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+
+<body>
+<div id='map'></div>
+
+<script>
+
+// ===========================MapLayers============================ //
+L.mapbox.accessToken = 'pk.eyJ1IjoicmV2cmVkZHkiLCJhIjoiY2lmdHlqdmNvMWZ3enVla3Fnc2xrZG93ciJ9.cy6JtcSeMkTM3AsMDtmYOg';
+
+var Dark = L.mapbox.tileLayer('revreddy.c054f98b'),
+    Streets = L.mapbox.tileLayer('mapbox.streets');
+
+var map = L.mapbox.map('map', null, {
+    center: [10, -20],
+    zoom: 3,
+    maxZoom: 18,
+});
+
+var mapLayers = {
+    'Color': Streets,
+    'Dark': Dark
+}
+mapLayers.Dark.addTo(map);
+L.control.layers(mapLayers).addTo(map);
+
+//===========================Styles==================================// 
+
+// Circle styles
+var circle_options = {
+	color: '#fb002c',
+    radius: 3,           // Circle radius
+    opacity: 1,          // Stroke opacity
+    weight: 2,           // Stroke weight
+    fillOpacity: 0.5,    // Fill opacity
+};
+
+//==========================Data=====================================// 
+
+var data = {
+    "response": {
+        "artist": {
+            "artist_location": {
+                "city": "Abingdon",
+                "country": "United Kingdom",
+                "location": "Abingdon, England, GB",
+                "region": "England"
+            },
+            "id": "ARH6W4X1187B99274F",
+            "name": "Radiohead"
+        },
+        "status": {
+            "code": 0,
+            "message": "Success",
+            "version": "4.2"
+        }
+    }
+}
+
+// URL-ify the artist location
+var query = data.response.artist.artist_location.location;
+var query_url = query.split(' ').join('+');
+
+// Construct Google Maps Geocoding API request url
+var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
+
+// Perform request to get latlng for artist location
+$.get(url, function(data) {
+    console.log(data);
+
+    if (data.status.localeCompare("OK")) {
+        alert("Geocoding request failed: " + data.status);
+    }
+
+    // Plot latlng marker on map
+    var latlng = data.results[0].geometry.location;
+    var dot = L.circleMarker(latlng, circle_options);
+    dot.addTo(map);
+});
+
+</script>
+</body>
+</html>

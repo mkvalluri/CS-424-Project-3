@@ -238,18 +238,20 @@ ForceGraph.prototype = {
 
         link.exit().remove();
 
-        var node = self.svg.selectAll("g.node")
+        var node = self.svg.selectAll(".node")
             .data(data.nodes);
 
-        var nodeEnter = node.enter().append("g")
+        var nodeEnter =  node
+            .enter().append("g")
             .attr("class", "node")
             .call(self.force.drag)
             .on('click', function(d){ self.connectNodes(d) })
             .on('dblclick', self.releaseNode)
             .call(self.nodeDrag);
 
-        nodeEnter.append("circle")
-            .attr("r", self.radius)
+        nodeEnter.append("rect")
+            .attr("width", 26)
+            .attr("height", 26)
             .style("fill", function (d) {
                 if (d.user == 1)
                     return self.colorUser1;
@@ -261,11 +263,20 @@ ForceGraph.prototype = {
                     return self.color(d.group);
             });
 
+
+        var images = nodeEnter.append("image")
+            .attr("xlink:href",  function(d) { return d.img;})
+            .attr("x", function(d) { return (0);})
+            .attr("y", function(d) { return (0);})
+            .attr("height", 20)
+            .attr("width", 20);
+
+        /*
         nodeEnter.append("text")
             .attr("dx", 10)
             .attr("dy", ".35em")
             .text(function(d){ return d.name })
-            .style("stroke", "gray");
+            .style("stroke", "gray");*/
 
         node.exit().remove();
 
@@ -276,12 +287,22 @@ ForceGraph.prototype = {
                 .attr("y1", function (d) { return d.source.y  })
                 .attr("x2", function (d) { return d.target.x; })
                 .attr("y2", function (d) { return d.target.y; });
+
+            node.selectAll("rect")
+                .attr("x", function (d) { return d.x - 11; })
+                .attr("y", function (d) { return d.y - 11; });
+            /*
             node.selectAll("circle")
                 .attr("cx", function (d) { return d.x; })
-                .attr("cy", function (d) { return d.y; });
+                .attr("cy", function (d) { return d.y; });*/
+            /*
             node.selectAll("text")
                 .attr("x", function (d) { return d.x; })
-                .attr("y", function (d) { return d.y; });
+                .attr("y", function (d) { return d.y; });*/
+
+            node.selectAll("image")
+                .attr("x", function (d) { return d.x - 8; })
+                .attr("y", function (d) { return d.y - 8; });
 
             node.each(self.collide(0.5)); // prevent collision
         });
@@ -296,85 +317,6 @@ ForceGraph.prototype = {
         /* update linked log */
         for (var i = 0; i < self.nodes.length; i++) self.linkedByIndex[i + "," + i] = 1;
         self.links.forEach(function (d) {
-            self.linkedByIndex[d.source.index + "," + d.target.index] = 1;
-        });
-    },
-
-    create: function(){
-        var self = this;
-
-        self.force = d3.layout.force()
-            .charge(-120)
-            .linkDistance(30)
-            .friction(0.9)
-            .size([self.width, self.height]);
-
-        /* Create the graph nodes and links based on the json data */
-        self.force.nodes(data.nodes)
-                  .links(data.links)
-                  .start();
-
-        /* Create all the line SVG elems without setting the locations yet */
-        self.links = self.svg.selectAll(".link")
-                .data(data.links)
-                .enter().append("line")
-                .attr("class", "link")
-                .style("stroke-width", function(d){
-                    return Math.sqrt(d.value);
-                });
-
-        /* Create all the g SVG elems without setting the locations yet.
-         * Circles and Text are grouped in the g elements. */
-        self.nodes = self.svg.selectAll(".node")
-            .data(data.nodes)
-            .enter().append("g")
-            .attr("class", "node")
-            .call(self.force.drag)
-            .on('click', function(d){ self.connectNodes(d) })
-            .on('dblclick', self.releaseNode)
-            .call(self.nodeDrag);
-
-        // append circles and text to groups
-        self.nodes.append("circle")
-                .attr("r", self.radius)
-                .style("fill", function (d) {
-                    if (d.user == 1)
-                        return self.colorUser1;
-                    else if (d.user == 2)
-                        return self.colorUser2;
-                    else if (d.user == 3)
-                        return self.colorCoincidente;
-                    else
-                        return self.color(d.group);
-                });
-        self.nodes.append("text")
-                .attr("dx", 10)
-                .attr("dy", ".35em")
-                .text(function(d){ return d.name })
-                .style("stroke", "gray");
-
-        /* Give the SVG coordinates based on the force layout coordinates (after applied
-        *  graph 'physics' */
-        self.force.on("tick", function(){
-            self.links
-                .attr("x1", function (d) {
-                    return d.source.x; })
-                .attr("y1", function (d) { return d.source.y  })
-                .attr("x2", function (d) { return d.target.x; })
-                .attr("y2", function (d) { return d.target.y; });
-            self.nodes.selectAll("circle")
-                .attr("cx", function (d) { return d.x; })
-                .attr("cy", function (d) { return d.y; });
-            self.nodes.selectAll("text")
-                .attr("x", function (d) { return d.x; })
-                .attr("y", function (d) { return d.y; });
-
-            self.nodes.each(self.collide(0.5)); // prevent collision
-        });
-
-        /* update linked log */
-        for (var i = 0; i < data.nodes.length; i++) self.linkedByIndex[i + "," + i] = 1;
-        data.links.forEach(function (d) {
             self.linkedByIndex[d.source.index + "," + d.target.index] = 1;
         });
     },

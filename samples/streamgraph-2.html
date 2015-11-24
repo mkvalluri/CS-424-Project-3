@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Streamgraph</title>
+
+    <script src="../js/jquery-2.1.4.min.js"></script>
+    <script src="../js/d3.min.js"></script>
+    <script src="../js/streamgraph.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../css/streamgraph.css">
+
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: auto;
+            position: relative;
+            width: 960px;
+        }
+
+        button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <button onclick="transition()">Update</button>
+    <div id="streamgraph" style="width: 100%; height: 500px;"></div>
+    <script>
+        var data = bumpLayer(100);
+        var s = new StreamGraph("#streamgraph", data, 1900, 2000);
+        s.init();
+
+        // Inspired by Lee Byron's test data generator.
+        function bumpLayer(n) {
+
+            function getGenres(genres){
+                var selectedGenres = [], rand, rank;
+
+                for(var i = 0; i < genres.length; i++)
+                    selectedGenres[i] = { genre: genres[i], rate: 0 };
+
+                for(var i = 0; i < 10; i++){
+                    rand = Math.floor((Math.random() * genres.length));
+                    rank = Math.floor((Math.random() * 1000) + 1);
+
+                    for(var j = 0; i < selectedGenres.length; j++){
+                        if (selectedGenres[j].genre == genres[rand]){
+                            selectedGenres[j].rate = rank;
+                            genres.splice(rand,1);
+                            break;
+                        }
+                    }
+                }
+
+                return selectedGenres;
+            }
+
+            var elems = [], i, iyear = 1900;
+            var genres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's'];
+            var countGenres = genres.length;
+
+            for (i = 0; i < n; i++) {
+                elems[i] = { year: iyear + i, genres: getGenres(genres.slice()) };
+            }
+
+            /*
+             totals = [];
+             elems.forEach(function(elem){
+             var y0 = 0;
+             elem.layer = elem.genres.map(function(d, i){
+             return { x: i, name: d.genre, y0: y0, y1: y0 += +d.rate }
+             });
+             elem.total = elem.layer[countGenres - 1].y1;
+             totals.push(elem.total);
+             });
+             */
+            elems.forEach(function(elem){
+                elem.layer = elem.genres.map(function(d, i){
+                    return { x: i, name: d.genre, y: d.rate }
+                });
+            });
+
+            var results = [];
+            for(var i = 0; i < countGenres; i++){
+                var gens = [];
+                for(var j = 0; j < n; j++){
+                    gens[j] = elems[j].layer[i];
+                    gens[j].year = elems[j].year;
+                }
+                results[i] = gens;
+            }
+
+            for(var i = 0; i < results.length; i++) {
+                for(var j = 0; j < results[i].length; j++){
+                    results[i][j].x = j;
+                }
+            }
+
+            return results;
+            //return elems.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
+        }
+    </script>
+
+  <!--
+    <script>
+        var margin = {top: 20, right: 20, bottom: 30, left: 40},
+                width = 960 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
+
+        var data = bumpLayer(100);
+        var stack = d3.layout.stack()
+                .offset("silhouette");
+        stack(data);
+
+        var max = d3.max(data, function(d){
+            return d3.max(d, function(d){
+                return d.y0 + d.y;
+            });
+        });
+
+        var n = 20,  // number of layers
+            m = 101, // number of samples per layer
+            stack = d3.layout.stack();
+            //layers0 = stack(d3.range(n).map(function() { return bumpLayer(m); })),
+            //layers1 = stack(d3.range(n).map(function() { return bumpLayer(m); }));
+
+        var width = 800,
+            height = 500;
+
+        var x = d3.scale.linear()
+                .domain([0 + 1900, m - 1 + 1900])
+                .range([0, width]);
+
+        var brush = d3.svg.brush()
+                .x(x)
+                .extent([1900, 2000])
+                .on("brush", brushed);
+
+        var x0Extent = 1900,
+            x1Extent = 2000;
+
+        var yearSelected = [1900, 2000];
+
+        var y = d3.scale.linear()
+                .domain([0, max])
+                .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom")
+                .tickFormat(d3.format("d"));
+
+        var color = d3.scale.ordinal()
+                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+        //var color = d3.scale.category10();
+
+        var area = d3.svg.area()
+                .x(function(d) {
+                    return x(d.x + 1900);
+                })
+                .y0(function(d) {
+                    return y(d.y0); })
+                .y1(function(d) { return y(d.y0 + d.y); });
+
+        var svg = d3.select("#streamgraph").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var tooltip = d3.select("#streamgraph")
+                .append("div")
+                .attr("class", "remove")
+                .style("position", "absolute")
+                .style("z-index", "20")
+                .style("visibility", "hidden")
+                .style("top", "30px")
+                .style("left", "55px");
+
+        svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+        var gBrush = svg.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+        gBrush.selectAll("rect")
+                .attr("height", height);
+
+        svg.selectAll("path")
+                .data(data)
+                .enter().append("path")
+                .attr("class", "layer")
+                .attr("d", function(d){
+                    var a = area(d);
+                    return a;
+                })
+                .style("fill", function() { return color(Math.random()); });
+
+        /* add click event to X axis */
+        d3.select('.x.axis')
+                .selectAll('text')
+                .on("click", function(d){
+                    if (d <= yearSelected[0])
+                        yearSelected[0] = d;
+                    else if (d >= yearSelected[1])
+                        yearSelected[1] = d;
+                    else
+                        yearSelected[0] = d;
+
+                    brushed('manual', yearSelected);
+                });
+
+        svg.selectAll(".layer")
+                .attr("opacity", 1)
+                .on("mouseover", function(d, i) {
+                    svg.selectAll(".layer").transition()
+                            .duration(250)
+                            .attr("opacity", function(d, j) {
+                                return j != i ? 0.3 : 1;
+                            })})
+                .on("mouseout", function(d, i) {
+                    svg.selectAll(".layer")
+                        .transition()
+                        .duration(250)
+                        .attr("opacity", "1");
+                 });
+
+        var vertical = d3.select("#streamgraph")
+                .append("div")
+                .attr("class", "remove")
+                .style("position", "absolute")
+                .style("z-index", "50")
+                .style("width", "1px")
+                .style("height", "500px")
+                .style("top", margin.top + "px")
+                .style("bottom", "30px")
+                .style("left", "0px")
+                .style("background", "#000");
+
+        d3.select("#streamgraph")
+                .on("mousemove", function(){
+                    mousex = d3.mouse(this);
+                    //var invertedx = x.invert(mousex[0]);
+                    mousex = mousex[0] + 5;
+
+                    vertical.style("left", mousex + "px");
+                    //tooltip.html( "<p>" + invertedx + "<br>" + "</p>" ).style("visibility", "visible");
+                })
+                .on("mouseover", function(){
+                    mousex = d3.mouse(this);
+                    mousex = mousex[0] + 5;
+                    vertical.style("left", mousex + "px");
+                });
+
+        var leftOpaqueSelection = d3.select("#streamgraph")
+                .append("div")
+                .attr("class", "left-opaque")
+                .style("position", "absolute")
+                .style("z-index", "50")
+                .style("width", "1px")
+                .style("height", "500px")
+                .style("top", margin.top + "px")
+                .style("bottom", "30px")
+                .style("left", margin.left + "px")
+                .style("background", "#000")
+                .style("opacity", "0.4");
+
+        var rightOpaqueSelection = d3.select("#streamgraph")
+                .append("div")
+                .attr("class", "right-opaque")
+                .style("position", "absolute")
+                .style("z-index", "50")
+                .style("width", "1px")
+                .style("height", "500px")
+                .style("top", margin.top + "px")
+                .style("bottom", "30px")
+                .style("left", width + margin.left + "px")
+                .style("background", "#000")
+                .style("opacity", "0.4");
+
+        function brushed(event, yearSelected) {
+            var extent0 = brush.extent(),
+                extent1;
+
+            // if dragging, preserve the width of the extent
+            if (d3.event.mode === "move") {
+                var d0 = d3.time.day.round(extent0[0]),
+                        d1 = d3.time.day.offset(d0, Math.round((extent0[1] - extent0[0]) / 864e5));
+                extent1 = [d0, d1];
+            }
+
+            else if (event == 'manual'){
+                if (yearSelected[0] != x0Extent)
+                    moveLeftSlider(x(yearSelected[0]));
+                if (yearSelected[1] != x1Extent)
+                    moveRightSlider(x(2000) - x(yearSelected[1]));
+
+                extent1 = [yearSelected[0], yearSelected[1]];
+            }
+
+            // otherwise, if resizing, round both dates
+            else {
+                extent1 = extent0.map(Math.round);
+
+                // if empty when rounded, use floor & ceil instead
+                if (extent1[0] >= extent1[1]) {
+                    extent1[0] = Math.floor(extent0[0]);
+                    extent1[1] = Math.ceil(extent0[1]);
+                }
+
+                if (extent1[0]%10 < 5) extent1[0] = extent1[0] - (extent1[0]%10);
+                else extent1[0] = extent1[0] - (extent1[0]%10) + 10;
+
+                if (extent1[1]%10 < 5) extent1[1] = extent1[1] - (extent1[1]%10);
+                else extent1[1] = extent1[1] - (extent1[1]%10) + 10;
+
+                if (x0Extent != extent1[0])
+                    moveLeftSlider(x(extent1[0]));
+                if (x1Extent != extent1[1])
+                    moveRightSlider(x(2000) - x(extent1[1]));
+
+                x0Extent = extent1[0];
+                x1Extent = extent1[1];
+            }
+
+            //brush.call(brush.extent(extent1));
+            d3.select(".brush").call(brush.extent(extent1));
+        }
+
+        function moveLeftSlider(x){
+            d3.select(".left-opaque")
+                    .style("width", x + "px");
+        }
+
+        function moveRightSlider(x){
+            d3.select(".right-opaque")
+                    .style("width", x + "px")
+                    .style("left", width + margin.left - x + "px");
+        }
+
+        // Inspired by Lee Byron's test data generator.
+        function bumpLayer(n) {
+
+            function getGenres(genres){
+                var selectedGenres = [], rand, rank;
+
+                for(var i = 0; i < genres.length; i++)
+                    selectedGenres[i] = { genre: genres[i], rate: 0 };
+
+                for(var i = 0; i < 10; i++){
+                    rand = Math.floor((Math.random() * genres.length));
+                    rank = Math.floor((Math.random() * 1000) + 1);
+
+                    for(var j = 0; i < selectedGenres.length; j++){
+                        if (selectedGenres[j].genre == genres[rand]){
+                            selectedGenres[j].rate = rank;
+                            genres.splice(rand,1);
+                            break;
+                        }
+                    }
+                }
+
+                return selectedGenres;
+            }
+
+            var elems = [], i, iyear = 1900;
+            var genres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's'];
+            var countGenres = genres.length;
+
+            for (i = 0; i < n; i++) {
+                elems[i] = { year: iyear + i, genres: getGenres(genres.slice()) };
+            }
+
+            /*
+            totals = [];
+            elems.forEach(function(elem){
+                var y0 = 0;
+                elem.layer = elem.genres.map(function(d, i){
+                    return { x: i, name: d.genre, y0: y0, y1: y0 += +d.rate }
+                });
+                elem.total = elem.layer[countGenres - 1].y1;
+                totals.push(elem.total);
+            });
+            */
+            elems.forEach(function(elem){
+                elem.layer = elem.genres.map(function(d, i){
+                    return { x: i, name: d.genre, y: d.rate }
+                });
+            });
+
+            var results = [];
+            for(var i = 0; i < countGenres; i++){
+                var gens = [];
+                for(var j = 0; j < n; j++){
+                    gens[j] = elems[j].layer[i];
+                    gens[j].year = elems[j].year;
+                }
+                results[i] = gens;
+            }
+
+            for(var i = 0; i < results.length; i++) {
+                for(var j = 0; j < results[i].length; j++){
+                    results[i][j].x = j;
+                }
+            }
+
+            return results;
+            //return elems.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
+        }
+    </script>-->
+</body>
+</html>
