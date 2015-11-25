@@ -178,4 +178,30 @@ namespace DataProject.Models
     {
         public Artists artists { get; set; }
     }
+
+    public class DBArtistActiveYear
+    {
+        public int ArtistId { get; set; }
+
+        public int Start { get; set; }
+
+        public int End { get; set; }
+    }
+
+    public class DBArtistModel
+    {
+        public int ArtistId { get; set; }
+
+        public string ArtistName { get; set; }
+
+        public string ArtistLocation { get; set; }
+
+        public string ArtistImageURL { get; set; }
+
+        public int AlbumReleaseDate { get; set; }
+
+        public double Rating { get; set; }
+
+        public int NumSamples { get; set; }
+    }
 }

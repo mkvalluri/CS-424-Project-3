@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/23/2015 21:11:31
+-- Date Created: 11/24/2015 19:19:26
 -- Generated from EDMX file: D:\Projects\CS-424-Project-3\data_processor\DataProject\DataProject\Models\DataModel.edmx
 -- --------------------------------------------------
 
@@ -102,6 +102,15 @@ CREATE TABLE [dbo].[ArtistGenres] (
 );
 GO
 
+-- Creating table 'ArtistPopularities'
+CREATE TABLE [dbo].[ArtistPopularities] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Year] int  NOT NULL,
+    [Popularity] float  NOT NULL,
+    [Artist_Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -133,6 +142,12 @@ GO
 -- Creating primary key on [Id] in table 'ArtistGenres'
 ALTER TABLE [dbo].[ArtistGenres]
 ADD CONSTRAINT [PK_ArtistGenres]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ArtistPopularities'
+ALTER TABLE [dbo].[ArtistPopularities]
+ADD CONSTRAINT [PK_ArtistPopularities]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -197,6 +212,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_ArtistGenreArtist'
 CREATE INDEX [IX_FK_ArtistGenreArtist]
 ON [dbo].[ArtistGenres]
+    ([Artist_Id]);
+GO
+
+-- Creating foreign key on [Artist_Id] in table 'ArtistPopularities'
+ALTER TABLE [dbo].[ArtistPopularities]
+ADD CONSTRAINT [FK_ArtistPopularityArtist]
+    FOREIGN KEY ([Artist_Id])
+    REFERENCES [dbo].[Artists]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ArtistPopularityArtist'
+CREATE INDEX [IX_FK_ArtistPopularityArtist]
+ON [dbo].[ArtistPopularities]
     ([Artist_Id]);
 GO
 

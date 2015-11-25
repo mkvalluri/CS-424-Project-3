@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataProcessLib", "DataProce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApp", "TestConsoleApp\TestConsoleApp.csproj", "{A8697460-E68E-4E0C-A6DE-D3F402A88179}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS424API", "CS424API\CS424API.csproj", "{7A86EEC7-5D7F-4117-935A-F9BC8C249CA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A8697460-E68E-4E0C-A6DE-D3F402A88179}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8697460-E68E-4E0C-A6DE-D3F402A88179}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8697460-E68E-4E0C-A6DE-D3F402A88179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A86EEC7-5D7F-4117-935A-F9BC8C249CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A86EEC7-5D7F-4117-935A-F9BC8C249CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A86EEC7-5D7F-4117-935A-F9BC8C249CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A86EEC7-5D7F-4117-935A-F9BC8C249CA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

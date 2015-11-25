@@ -45,18 +45,18 @@ namespace DataProcessLib
         public double Relevance { get; set; }
     }
 
-    public class TopArtists
+    public class TopArtistsRaw
     {
         public int Year { get; set; }
 
         public List<Artist> Artists { get; set; }
 
-        public TopArtists()
+        public TopArtistsRaw()
         {
             Artists = new List<Artist>();
         }
     }
-
+    
     public class TopGenres
     {
         public int Year { get; set; }
@@ -79,11 +79,9 @@ namespace DataProcessLib
 
         public string ArtistImageURL { get; set; }
 
-        public int AlbumReleaseDate { get; set; }
+        public int Year { get; set; }
 
-        public double ArtistRating { get; set; }
-
-        public int NumSamples { get; set; }
+        public double Popularity { get; set; }
     }
 
     public class DBArtistGenre

@@ -1,0 +1,947 @@
+[
+   {
+      "Year": 1990,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 170
+         },
+         {
+            "Name": "pop",
+            "Relevance": 61
+         },
+         {
+            "Name": "country",
+            "Relevance": 19
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 16
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 10
+         },
+         {
+            "Name": "punk",
+            "Relevance": 10
+         },
+         {
+            "Name": "soul",
+            "Relevance": 10
+         },
+         {
+            "Name": "blues",
+            "Relevance": 8
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 8
+         },
+         {
+            "Name": "metal",
+            "Relevance": 6
+         }
+      ]
+   },
+   {
+      "Year": 1991,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 177
+         },
+         {
+            "Name": "pop",
+            "Relevance": 65
+         },
+         {
+            "Name": "country",
+            "Relevance": 19
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 16
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 13
+         },
+         {
+            "Name": "soul",
+            "Relevance": 11
+         },
+         {
+            "Name": "punk",
+            "Relevance": 11
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 8
+         },
+         {
+            "Name": "metal",
+            "Relevance": 7
+         },
+         {
+            "Name": "blues",
+            "Relevance": 7
+         }
+      ]
+   },
+   {
+      "Year": 1992,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 185
+         },
+         {
+            "Name": "pop",
+            "Relevance": 68
+         },
+         {
+            "Name": "country",
+            "Relevance": 20
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 15
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 14
+         },
+         {
+            "Name": "soul",
+            "Relevance": 11
+         },
+         {
+            "Name": "punk",
+            "Relevance": 11
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 10
+         },
+         {
+            "Name": "metal",
+            "Relevance": 8
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 8
+         }
+      ]
+   },
+   {
+      "Year": 1993,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 195
+         },
+         {
+            "Name": "pop",
+            "Relevance": 74
+         },
+         {
+            "Name": "country",
+            "Relevance": 24
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 19
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 15
+         },
+         {
+            "Name": "punk",
+            "Relevance": 12
+         },
+         {
+            "Name": "soul",
+            "Relevance": 11
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 10
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 9
+         },
+         {
+            "Name": "metal",
+            "Relevance": 8
+         }
+      ]
+   },
+   {
+      "Year": 1994,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 208
+         },
+         {
+            "Name": "pop",
+            "Relevance": 76
+         },
+         {
+            "Name": "country",
+            "Relevance": 26
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 22
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 14
+         },
+         {
+            "Name": "punk",
+            "Relevance": 12
+         },
+         {
+            "Name": "soul",
+            "Relevance": 11
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 11
+         },
+         {
+            "Name": "metal",
+            "Relevance": 11
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 9
+         }
+      ]
+   },
+   {
+      "Year": 1995,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 216
+         },
+         {
+            "Name": "pop",
+            "Relevance": 78
+         },
+         {
+            "Name": "country",
+            "Relevance": 26
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 24
+         },
+         {
+            "Name": "punk",
+            "Relevance": 14
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 13
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 12
+         },
+         {
+            "Name": "soul",
+            "Relevance": 11
+         },
+         {
+            "Name": "metal",
+            "Relevance": 11
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 9
+         }
+      ]
+   },
+   {
+      "Year": 1996,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 223
+         },
+         {
+            "Name": "pop",
+            "Relevance": 81
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 29
+         },
+         {
+            "Name": "country",
+            "Relevance": 27
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 12
+         },
+         {
+            "Name": "punk",
+            "Relevance": 12
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 12
+         },
+         {
+            "Name": "metal",
+            "Relevance": 12
+         },
+         {
+            "Name": "soul",
+            "Relevance": 11
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 8
+         }
+      ]
+   },
+   {
+      "Year": 1997,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 239
+         },
+         {
+            "Name": "pop",
+            "Relevance": 85
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 33
+         },
+         {
+            "Name": "country",
+            "Relevance": 29
+         },
+         {
+            "Name": "metal",
+            "Relevance": 15
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 13
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 12
+         },
+         {
+            "Name": "soul",
+            "Relevance": 11
+         },
+         {
+            "Name": "punk",
+            "Relevance": 10
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 10
+         }
+      ]
+   },
+   {
+      "Year": 1998,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 234
+         },
+         {
+            "Name": "pop",
+            "Relevance": 93
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 34
+         },
+         {
+            "Name": "country",
+            "Relevance": 29
+         },
+         {
+            "Name": "metal",
+            "Relevance": 17
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 14
+         },
+         {
+            "Name": "punk",
+            "Relevance": 12
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 12
+         },
+         {
+            "Name": "soul",
+            "Relevance": 11
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 10
+         }
+      ]
+   },
+   {
+      "Year": 1999,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 246
+         },
+         {
+            "Name": "pop",
+            "Relevance": 101
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 38
+         },
+         {
+            "Name": "country",
+            "Relevance": 30
+         },
+         {
+            "Name": "metal",
+            "Relevance": 19
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 14
+         },
+         {
+            "Name": "punk",
+            "Relevance": 13
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 12
+         },
+         {
+            "Name": "soul",
+            "Relevance": 11
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 10
+         }
+      ]
+   },
+   {
+      "Year": 2000,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 253
+         },
+         {
+            "Name": "pop",
+            "Relevance": 113
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 40
+         },
+         {
+            "Name": "country",
+            "Relevance": 31
+         },
+         {
+            "Name": "metal",
+            "Relevance": 22
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 15
+         },
+         {
+            "Name": "punk",
+            "Relevance": 14
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 12
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 12
+         },
+         {
+            "Name": "soul",
+            "Relevance": 11
+         }
+      ]
+   },
+   {
+      "Year": 2001,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 264
+         },
+         {
+            "Name": "pop",
+            "Relevance": 119
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 44
+         },
+         {
+            "Name": "country",
+            "Relevance": 32
+         },
+         {
+            "Name": "metal",
+            "Relevance": 22
+         },
+         {
+            "Name": "punk",
+            "Relevance": 16
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 16
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 14
+         },
+         {
+            "Name": "soul",
+            "Relevance": 12
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 12
+         }
+      ]
+   },
+   {
+      "Year": 2002,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 288
+         },
+         {
+            "Name": "pop",
+            "Relevance": 133
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 48
+         },
+         {
+            "Name": "country",
+            "Relevance": 34
+         },
+         {
+            "Name": "metal",
+            "Relevance": 23
+         },
+         {
+            "Name": "punk",
+            "Relevance": 18
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 17
+         },
+         {
+            "Name": "house",
+            "Relevance": 14
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 14
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 13
+         }
+      ]
+   },
+   {
+      "Year": 2003,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 292
+         },
+         {
+            "Name": "pop",
+            "Relevance": 141
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 53
+         },
+         {
+            "Name": "country",
+            "Relevance": 34
+         },
+         {
+            "Name": "metal",
+            "Relevance": 25
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 18
+         },
+         {
+            "Name": "punk",
+            "Relevance": 17
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 15
+         },
+         {
+            "Name": "soul",
+            "Relevance": 15
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 14
+         }
+      ]
+   },
+   {
+      "Year": 2004,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 300
+         },
+         {
+            "Name": "pop",
+            "Relevance": 152
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 57
+         },
+         {
+            "Name": "country",
+            "Relevance": 33
+         },
+         {
+            "Name": "metal",
+            "Relevance": 26
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 20
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 19
+         },
+         {
+            "Name": "punk",
+            "Relevance": 16
+         },
+         {
+            "Name": "house",
+            "Relevance": 16
+         },
+         {
+            "Name": "rap",
+            "Relevance": 15
+         }
+      ]
+   },
+   {
+      "Year": 2005,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 305
+         },
+         {
+            "Name": "pop",
+            "Relevance": 160
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 62
+         },
+         {
+            "Name": "country",
+            "Relevance": 37
+         },
+         {
+            "Name": "metal",
+            "Relevance": 30
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 24
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 21
+         },
+         {
+            "Name": "house",
+            "Relevance": 19
+         },
+         {
+            "Name": "rap",
+            "Relevance": 17
+         },
+         {
+            "Name": "punk",
+            "Relevance": 16
+         }
+      ]
+   },
+   {
+      "Year": 2006,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 319
+         },
+         {
+            "Name": "pop",
+            "Relevance": 165
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 66
+         },
+         {
+            "Name": "country",
+            "Relevance": 40
+         },
+         {
+            "Name": "metal",
+            "Relevance": 30
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 24
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 21
+         },
+         {
+            "Name": "rap",
+            "Relevance": 20
+         },
+         {
+            "Name": "house",
+            "Relevance": 19
+         },
+         {
+            "Name": "jazz",
+            "Relevance": 16
+         }
+      ]
+   },
+   {
+      "Year": 2007,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 328
+         },
+         {
+            "Name": "pop",
+            "Relevance": 174
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 68
+         },
+         {
+            "Name": "country",
+            "Relevance": 41
+         },
+         {
+            "Name": "metal",
+            "Relevance": 31
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 24
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 24
+         },
+         {
+            "Name": "rap",
+            "Relevance": 23
+         },
+         {
+            "Name": "house",
+            "Relevance": 19
+         },
+         {
+            "Name": "folk",
+            "Relevance": 16
+         }
+      ]
+   },
+   {
+      "Year": 2008,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 336
+         },
+         {
+            "Name": "pop",
+            "Relevance": 189
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 70
+         },
+         {
+            "Name": "country",
+            "Relevance": 43
+         },
+         {
+            "Name": "metal",
+            "Relevance": 33
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 27
+         },
+         {
+            "Name": "rap",
+            "Relevance": 25
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 24
+         },
+         {
+            "Name": "house",
+            "Relevance": 19
+         },
+         {
+            "Name": "folk",
+            "Relevance": 18
+         }
+      ]
+   },
+   {
+      "Year": 2009,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 339
+         },
+         {
+            "Name": "pop",
+            "Relevance": 203
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 74
+         },
+         {
+            "Name": "country",
+            "Relevance": 44
+         },
+         {
+            "Name": "metal",
+            "Relevance": 34
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 30
+         },
+         {
+            "Name": "rap",
+            "Relevance": 26
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 25
+         },
+         {
+            "Name": "house",
+            "Relevance": 21
+         },
+         {
+            "Name": "folk",
+            "Relevance": 20
+         }
+      ]
+   },
+   {
+      "Year": 2010,
+      "Genres": [
+         {
+            "Name": "rock",
+            "Relevance": 351
+         },
+         {
+            "Name": "pop",
+            "Relevance": 217
+         },
+         {
+            "Name": "hip hop",
+            "Relevance": 77
+         },
+         {
+            "Name": "country",
+            "Relevance": 48
+         },
+         {
+            "Name": "metal",
+            "Relevance": 35
+         },
+         {
+            "Name": "electronic",
+            "Relevance": 34
+         },
+         {
+            "Name": "house",
+            "Relevance": 28
+         },
+         {
+            "Name": "rap",
+            "Relevance": 27
+         },
+         {
+            "Name": "r&b",
+            "Relevance": 26
+         },
+         {
+            "Name": "folk",
+            "Relevance": 21
+         }
+      ]
+   }
+]

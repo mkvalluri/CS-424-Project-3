@@ -30,5 +30,6 @@ namespace DataProject.Models
         public virtual DbSet<ActiveYear> ActiveYears { get; set; }
         public virtual DbSet<Artist> Artists { get; set; }
         public virtual DbSet<ArtistGenre> ArtistGenres { get; set; }
+        public virtual DbSet<ArtistPopularity> ArtistPopularities { get; set; }
     }
 }
