@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace CS424API.Controllers
 {
+    [Authorize]
     public class CS424Controller : ApiController
     {
         public string GetArtists()

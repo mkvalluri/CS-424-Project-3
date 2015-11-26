@@ -317,7 +317,10 @@ namespace DataProject
                             j++;
                             index = 0;
                         }
-                        finalList.Add(new KeyValuePair<int, double>(i, ArtistAlbums[j].Rating + pValues[j] * index));
+                        if (j == pValues.Count)
+                            finalList.Add(new KeyValuePair<int, double>(i, ArtistAlbums[j].Rating - ((4 * ArtistAlbums[j - 1].Rating) / 100)));
+                        else
+                            finalList.Add(new KeyValuePair<int, double>(i, ArtistAlbums[j].Rating + pValues[j] * index));
                     }
                 }
                 else
@@ -331,7 +334,7 @@ namespace DataProject
                         {
                             for (int i = artistActiveYears.StartYear; i <= artistActiveYears.EndYear; i++)
                             {
-                                var previousValue = resultSet.Count > 0 ? resultSet.LastOrDefault().Value : 0;
+                                var previousValue = resultSet.Count > 0 ? resultSet.LastOrDefault().Value - (4 * resultSet.LastOrDefault().Value) / 100 : 0;
                                 resultSet.Add(new KeyValuePair<int, double>(i, previousValue));
                             }
                         }
@@ -342,163 +345,5 @@ namespace DataProject
             return finalList;
         }
 
-        /*public static float[,] Compute(ArtistAlbumsDict[] aaObj, ArtistActiveYearsDict[] aaYObj)
-        {
-            try
-            {
-                int cnt = aaObj.Count();
-                int cnt1 = aaYObj.Count();
-                int[] temp = new int[cnt];
-                int[,] temp2 = new int[cnt1, 2];
-                int i = 0;
-                //Dictionary for year and rating
-                SortedDictionary<int, float> aaDict = new SortedDictionary<int, float>();
-                SortedDictionary<int, float> resultDict = new SortedDictionary<int, float>();
-                //Transfer Album years to array
-                foreach (var item in aaObj)
-                {
-                    aaDict[item.Year] = item.Rating;
-                    temp[i] = Convert.ToInt32(item.Year);
-                    i++;
-                }
-                i = 0;
-
-                //Transfer Active years to array
-                foreach (var item1 in aaYObj)
-                {
-                    temp2[i, 0] = Convert.ToInt32(item1.StartYear);
-                    temp2[i, 1] = Convert.ToInt32(item1.EndYear);
-                    i++;
-                }
-                int min = temp.Min();
-                int max = aaYObj[aaYObj.Count() - 1].EndYear;
-
-                int flag = -1;
-                i = 0;
-                float[,] result = new float[max - min + 1, 2];
-                int j;
-                int k;
-                for (j = min; j <= max; j++)
-                {
-                    resultDict[j] = 0;
-                    for (k = 0; k < cnt1; k++)
-                    {
-                        if (j >= temp2[k, 0] && j <= temp2[k, 1])
-                        {
-                            result[i, 0] = j;
-                            flag = 1;
-                            break;
-                        }
-                        else
-                        {
-                            flag = -1;
-                        }
-                    }
-                    if (flag != 1)
-                    {
-                        result[i, 0] = j;
-                        result[i, 1] = -100;
-                        resultDict[j] = -100;
-                    }
-                    i++;
-                }
-
-                float incValue;
-                int counter;
-                i = 0;
-
-                j = 0;
-                for (int k1 = 0; k1 < temp.Length; k1++)
-                {
-
-                    if (k1 != temp.Length - 1)
-                    {
-                        counter = temp[k1 + 1] - temp[k1];
-                        incValue = (float)(aaDict[temp[k1 + 1]] - aaDict[temp[k1]]) / counter;
-
-                        while (counter + 1 > 0)
-                        {
-                            if (i == resultDict.Keys.Count())
-                            {
-                                break;
-                            }
-                            result[i, 0] = temp[k1] + j;
-                            if (resultDict.ContainsKey(Convert.ToInt32(result[i, 0])) && resultDict[Convert.ToInt32(result[i, 0])] != -100)
-                            {
-                                result[i, 1] = aaDict[temp[k1]] + (float)incValue * j;
-                            }
-                            else
-                            {
-                                result[i, 1] = -100;
-                            }
-                            i = i + 1;
-                            j++;
-                            counter--;
-                        }
-
-                    }
-                    else
-                    {
-                        if (resultDict.ContainsKey(Convert.ToInt32(result[i - 1, 0])) && resultDict[Convert.ToInt32(result[i - 1, 0])] != -100)
-                        {
-                            result[i - 1, 1] = aaDict[temp[k1]];
-                            j = i - 1;
-                        }
-                        else
-                        {
-                            result[i - 1, 1] = -100;
-                        }
-                    }
-
-                    j = 1;
-
-                }
-                k = i - 1;
-                for(i = temp.Max() + 1; i <= max; i++ )
-                {
-                    if (resultDict.ContainsKey(i) && resultDict[i] != -100)
-                    {
-                        result[k, 1] = result[k-1, 1];
-                    }
-                    k++;
-                }
-                
-                foreach(var data in result)
-                {
-                    finalData
-                }
-                return result;
-
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }*/
-
-        /*static void ConstructJSONObject()
-        {
-            var tempArtists = dataCon.Artists.SqlQuery("SELECT * FROM Artists").ToList();
-            var artObj = new List<Artist>();
-            tempArtists.ForEach(a =>
-            {
-                var Art = new Artist();
-                Art.ArtistName = a.ArtistName;
-                Art.ArtistExternalId = a.ArtistExternalId;
-                Art.ArtistImageURL = a.ArtistImageURL;
-                Art.ArtistLocation = a.ArtistLocation;
-                foreach(var year in a.ActiveYears)
-                {
-                    ActiveYear y = new ActiveYear();
-                    y.Start = year.Start;
-                    y.End = year.End;
-                    Art.ActiveYears.Add(y);
-                }
-                artObj.Add(Art);
-            });
-
-            var str = JsonConvert.SerializeObject(artObj.GetRange(0, 1));
-            File.WriteAllText(@"D:\Projects\Artists_Final_Test.json", str);
-        }*/
     }
 }

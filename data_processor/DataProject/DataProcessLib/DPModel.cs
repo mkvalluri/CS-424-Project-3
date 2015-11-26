@@ -13,21 +13,24 @@ namespace DataProcessLib
         public string ArtistName { get; set; }
 
         public string ArtistLocation { get; set; }
-
-        public List<YearActive> ArtistYearsActive { get; set; }
-
+        
         public string ArtistImageLink { get; set; }
 
         public string ArtistMainGenre { get; set; }
 
         public List<Genre> ArtistGenres { get; set; }
 
+        public List<YearActive> ArtistActiveYears { get; set; }
+
         public int ArtistSelected { get; set; }
+
+        public double ArtistPopularity { get; set; }
 
         public Artist()
         {
             ArtistGenres = new List<Genre>();
-            ArtistYearsActive = new List<YearActive>();
+            ArtistActiveYears = new List<YearActive>();
+
         }
     }
 
