@@ -2,10 +2,10 @@
  * Created by juan on 11/16/15.
  */
 
-function ForceGraph(target, data, colorU1, colorU2, colorCoincidence){
+function ForceGraph(target, force_data, colorU1, colorU2, colorCoincidence){
     var self = this;
 
-    self.data = data;
+    self.force_data = force_data;
 
     /* container attributes */
     self.target = target;
@@ -40,7 +40,7 @@ ForceGraph.prototype = {
     constructor: ForceGraph,
 
     collide: function(alpha){
-        var quadtree = d3.geom.quadtree(data.nodes);
+        var quadtree = d3.geom.quadtree(force_data.nodes);
         return function(d) {
             var rb = 2*self.radius + self.padding,
                 nx1 = d.x - rb,
@@ -173,17 +173,17 @@ ForceGraph.prototype = {
         }
     },
 
-    restart: function(data){
+    restart: function(force_data){
         var self = this;
-        self.data = data;
+        self.force_data = force_data;
 
-        self.links = self.links.data(data.links);
+        self.links = self.links.force_data(force_data.links);
         self.links.enter()
             .insert("line", ".node")
             .attr("class","link");
         self.links.exit().remove();
 
-        self.nodes = self.nodes.data(data.nodes);
+        self.nodes = self.nodes.force_data(force_data.nodes);
 
         var n = self.nodes.enter().insert("g")
             .attr("class", "node")
@@ -215,8 +215,8 @@ ForceGraph.prototype = {
         self.force.start();
 
         self.linkedByIndex = {};
-        for (var i = 0; i < data.nodes.length; i++) self.linkedByIndex[i + "," + i] = 1;
-        data.links.forEach(function (d) {
+        for (var i = 0; i < force_data.nodes.length; i++) self.linkedByIndex[i + "," + i] = 1;
+        force_data.links.forEach(function (d) {
             self.linkedByIndex[d.source.index + "," + d.target.index] = 1;
         });
     },
@@ -336,8 +336,8 @@ ForceGraph.prototype = {
             .attr("width", self.width)
             .attr("height", self.height);
         self.force = d3.layout.force()
-            .links(self.data.links)
-            .nodes(self.data.nodes);
+            .links(self.force_data.links)
+            .nodes(self.force_data.nodes);
         self.nodes = self.force.nodes();
         self.links = self.force.links();
 
