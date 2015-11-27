@@ -15,6 +15,7 @@ function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoinciden
     self.width = 0;
     self.svg = null;
     self.zoom = null;
+    self.zoomNull = null;
 
     /* graph attributes */
     self.radius = 8;                        // graph circle radius
@@ -136,11 +137,31 @@ ForceGraph.prototype = {
 
         var quadtree = d3.geom.quadtree(self.nodes);
         return function(d) {
-            var rb = 2*self.radius + self.padding,
-                nx1 = d.x - rb,
-                nx2 = d.x + rb,
-                ny1 = d.y - rb,
+            var rb, nx1, nx2, ny1, ny2, radius;
+
+            if (d.type == 'artist') radius = 20;
+            else radius = 8;
+
+            rb = 2 * radius+ self.padding;
+            nx1 = d.x - rb;
+            nx2 = d.x + rb;
+            ny1 = d.y - rb;
+            ny2 = d.y + rb;
+            /*
+            if (d.type == "genre") {
+                rb = 2 * self.radius + self.padding;
+                nx1 = d.x - rb;
+                nx2 = d.x + rb;
+                ny1 = d.y - rb;
                 ny2 = d.y + rb;
+            } else {
+                rb = 10 + self.padding;
+                nx1 = d.x - rb;
+                nx2 = d.x + rb;
+                ny1 = d.y - rb;
+                ny2 = d.y + rb;
+            }*/
+
             quadtree.visit(function(quad, x1, y1, x2, y2) {
                 if (quad.point && (quad.point !== d)) {
                     var x = d.x - quad.point.x,
@@ -161,6 +182,7 @@ ForceGraph.prototype = {
 
     /* stops the force auto positioning before you start dragging */
     dragStart: function(d, i){
+        //this.svg.on(".zoom", null);
         this.force.stop()
     },
 
@@ -174,6 +196,7 @@ ForceGraph.prototype = {
     dragEnd: function(d, i){
         d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
         this.force.resume();
+        //this.svg.call(self.zoom);
     },
 
     releaseNode: function(d){
@@ -274,9 +297,12 @@ ForceGraph.prototype = {
     zoomed: function() {
         var self = this;
 
+        self.svg.attr("transform", "translate(" +
+            d3.event.translate + ")scale(" + d3.event.scale + ")");
+        /*
         console.log(d3.event.scale);
         d3.selectAll(".resizable").attr("transform", "translate(" +
-            d3.event.translate + ")scale(" + d3.event.scale + ")");
+            d3.event.translate + ")scale(" + d3.event.scale + ")");*/
     },
 
     update: function(){
@@ -304,14 +330,18 @@ ForceGraph.prototype = {
             .enter().append("g")
             .attr("class", "node")
             .classed("resizable", true)
-            .call(self.force.drag)
+            //.call(self.force.drag)
             .on('click', function(d){ self.connectNodes(d) })
             .on('dblclick', self.releaseNode)
+            .on("mousedown", function(){
+                self.svg.on("zoom", null);
+            })
             .call(self.nodeDrag);
 
-        nodeEnter.append("rect")
-            .attr("width", 26)
-            .attr("height", 26)
+        nodeEnter.append("circle")
+            //.attr("width", 26)
+            //.attr("height", 26)
+            .attr("r", 20)
             .attr("class", function(d){ return "rect" + d.type; })
             .style("fill", function (d) {
                 if (d.type == 'artist'){
@@ -357,8 +387,8 @@ ForceGraph.prototype = {
             })
             .attr("x", function(d) { return (0);})
             .attr("y", function(d) { return (0);})
-            .attr("height", 20)
-            .attr("width", 20);
+            .attr("height", 25)
+            .attr("width", 25);
 
         nodeEnter.append("text")
             .attr("dx", function(d){
@@ -400,16 +430,16 @@ ForceGraph.prototype = {
                 .attr("y", function (d) { return d.y; });
 
             node.selectAll("image")
-                .attr("x", function (d) { return d.x - 8; })
-                .attr("y", function (d) { return d.y - 8; });
+                .attr("x", function (d) { return d.x - 10; })
+                .attr("y", function (d) { return d.y - 10; });
 
             node.each(self.collide(0.5)); // prevent collision
         });
 
         self.force
-            .charge(-150)
-            .linkDistance(100)
-            .friction(0.9)
+            .charge(-120)
+            .linkDistance(120)
+            .friction(0.99)
             .size([self.width, self.height])
             .start();
 
@@ -434,10 +464,15 @@ ForceGraph.prototype = {
             .scaleExtent([1, 10])
             .on("zoom", function() { self.zoomed(); });
 
+        self.zoomNull = d3.behavior.zoom()
+            .on("zoom", function() { return; });
+
         /* Create SVG element inside the target HTML element */
         self.svg = d3.select(self.target).append("svg")
             .attr("width", self.width)
             .attr("height", self.height)
+            .append("g")
+                .attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")")
             .call(self.zoom);
 
         self.force = d3.layout.force()
