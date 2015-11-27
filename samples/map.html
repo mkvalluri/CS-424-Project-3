@@ -6,6 +6,7 @@
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+<script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
 <link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
 <style>
     body { margin:0; padding:0; }
@@ -28,6 +29,7 @@ var map = L.mapbox.map('map', null, {
     center: [10, -20],
     zoom: 3,
     maxZoom: 18,
+    doubleClickZoom: false,
 });
 
 var mapLayers = {
@@ -37,22 +39,32 @@ var mapLayers = {
 mapLayers.Dark.addTo(map);
 L.control.layers(mapLayers).addTo(map);
 
+var artistLayer = L.mapbox.featureLayer().addTo(map);
+
 //===========================Styles==================================// 
 
 // Circle styles
 var circle_options = {
 	color: '#fb002c',
-    radius: 3,           // Circle radius
+    radius: 2,           // Circle radius
     opacity: 1,          // Stroke opacity
     weight: 2,           // Stroke weight
     fillOpacity: 0.5,    // Fill opacity
 };
 
+function getColor(x) {
+    return x == "rock"  ? '#55E000': // bright green
+           x == "pop"   ? '#CCFF00': // yellow-green
+                          '#FF0FD7'; // pink
+}
+
+
+
 //==========================Data=====================================// 
 
-var data = {
+var sampledata = {
     "response": {
-        "artist": {
+        "artist": [ {
             "artist_location": {
                 "city": "Abingdon",
                 "country": "United Kingdom",
@@ -60,8 +72,29 @@ var data = {
                 "region": "England"
             },
             "id": "ARH6W4X1187B99274F",
-            "name": "Radiohead"
-        },
+            "name": "Radiohead",
+            "genre": "rock"
+        }, {
+            "artist_location": {
+                "city": "New York City",
+                "country": "United States",
+                "location": "New York City, New York, USA",
+                "region": "USA"
+            },
+            "id": "??????",
+            "name": "Sample Artist",
+            "genre": "pop"
+        }, {
+            "artist_location": {
+                "city": "London",
+                "country": "United Kingdom",
+                "location": "London, England, GB",
+                "region": "England"
+            },
+            "id": "ARH6W4X1187B99274F",
+            "name": "Sample Artist 2",
+            "genre": "--"
+        } ],
         "status": {
             "code": 0,
             "message": "Success",
@@ -71,25 +104,59 @@ var data = {
 }
 
 // URL-ify the artist location
-var query = data.response.artist.artist_location.location;
-var query_url = query.split(' ').join('+');
+// var query = data.response.artist.artist_location.location;
+for (var i = 0; i < sampledata.response.artist.length; i++) {
+    var query = sampledata.response.artist[i].artist_location.location;
+    var query_url = query.split(' ').join('+');
 
-// Construct Google Maps Geocoding API request url
-var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
+    // Construct Google Maps Geocoding API request url
+    var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
 
-// Perform request to get latlng for artist location
-$.get(url, function(data) {
-    console.log(data);
+    geocode(sampledata.response.artist[i].genre);
+}
 
-    if (data.status.localeCompare("OK")) {
-        alert("Geocoding request failed: " + data.status);
-    }
+function geocode(genre) {
+    // Perform request to get latlng for artist location
+    $.get(url, function(data) {
+        if (data.status.localeCompare("OK")) {
+            alert("Geocoding request failed: STATUS " + data.status);
+        }
 
-    // Plot latlng marker on map
-    var latlng = data.results[0].geometry.location;
-    var dot = L.circleMarker(latlng, circle_options);
-    dot.addTo(map);
+        // Plot latlng marker on map
+        var latlng = data.results[0].geometry.location;
+        var dot = L.circleMarker(latlng, {
+                color: getColor(genre),
+                radius: 9,           // Circle radius
+                opacity: 1,          // Stroke opacity
+                weight: 2,           // Stroke weight
+                fillOpacity: 0.5,    // Fill opacity);
+        });
+        dot.addTo(map);
+
+        // var greenIcon = L.icon({
+        // iconUrl: 'https://i.scdn.co/image/a16c5d95ede008ec905d6ca6d1b5abbf39ad4566',
+        // iconSize:     [20, 20], // size of the icon
+        // shadowSize:   [50, 64], // size of the shadow
+        // iconAnchor:   [8, 9], // point of the icon which will correspond to marker's location
+        // shadowAnchor: [4, 62],  // the same for the shadow
+        // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        // });
+
+        // L.marker(latlng, {icon: greenIcon}).addTo(map);
+
+    });
+}
+
+
+// Zoom on map double-click
+map.on('dblclick', function(e) {
+    // Zoom exactly to each double-clicked point
+    map.setView(e.latlng, map.getZoom() + 1);
 });
+
+
+
+
 
 </script>
 </body>
