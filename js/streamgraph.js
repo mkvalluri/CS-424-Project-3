@@ -81,6 +81,7 @@ StreamGraph.prototype = {
         }
 
         /* if element not in top 10, set relevance == 0 */
+        /*
         var top = 0;
         var sortF = function(a, b) {
             return parseInt(b.y) - parseInt(a.y);
@@ -98,7 +99,7 @@ StreamGraph.prototype = {
                 if (exist == false)
                     results[i].genres[j].y = 0;
             }
-        }
+        }*/
 
 
         /* convert into a stacked way */
@@ -220,8 +221,11 @@ StreamGraph.prototype = {
             .orient("bottom")
             .tickFormat(d3.format("d"));
 
+        var color = d3.scale.category20();
+        /*
         var color = d3.scale.ordinal()
             .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+*/
 
         /* The area function get the path positions along the graph*/
         var area = d3.svg.area()
@@ -260,7 +264,7 @@ StreamGraph.prototype = {
             .attr("class", "layer")
             .attr("d", function(d){
                 return area(d); })
-            .style("fill", function() { return color(Math.random()); });
+            .style("fill", function() { return "#7b6888" });   //return color(Math.random()); });
 
         /* add the hover over events. Reduce the opacity of all the path not selected
          * while mouseover. Restore opacity when mouseout */
@@ -271,7 +275,11 @@ StreamGraph.prototype = {
                     .duration(250)
                     .attr("opacity", function(d, j) {
                         return j != i ? 0.3 : 1;
-                    })})
+                    });
+                mousex = d3.mouse(this);
+                var invertedx = self.x.invert(mousex[0]);
+                console.log(d[0].name);
+            })
             .on("mouseout", function(d, i) {
                 self.svg.selectAll(".layer")
                     .transition()

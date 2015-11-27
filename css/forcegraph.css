@@ -1,0 +1,30 @@
+.node {
+    stroke: #000;
+    stroke-width: 1.5px;
+}
+
+.node text {
+    font: 10px verdana, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+}
+
+.link {
+    stroke: #999;
+    stroke-opacity: .6;
+}
+
+.neighbour {
+    opacity: 1;
+}
+
+.not-neighbour {
+    opacity: 0.1;
+}
+
+.main-genre {
+    fill: #F00;
+    stroke: #F00;
+    stroke-width: 2.5px;
+}

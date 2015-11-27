@@ -2,10 +2,11 @@
  * Created by juan on 11/16/15.
  */
 
-function ForceGraph(target, data, colorU1, colorU2, colorCoincidence){
+function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoincidence){
     var self = this;
 
-    self.data = data;
+    self.startYear = startYear;
+    self.endYear = endYear;
 
     /* container attributes */
     self.target = target;
@@ -13,6 +14,7 @@ function ForceGraph(target, data, colorU1, colorU2, colorCoincidence){
     self.height = 0;
     self.width = 0;
     self.svg = null;
+    self.zoom = null;
 
     /* graph attributes */
     self.radius = 8;                        // graph circle radius
@@ -32,12 +34,102 @@ function ForceGraph(target, data, colorU1, colorU2, colorCoincidence){
                         .on("dragstart", function(d,i) { self.dragStart(d,i); })
                         .on("drag", function(d,i) { self.dragMove(d,i); })
                         .on("dragend", function(d,i) { self.dragEnd(d,i); });
-    self.links = null;
-    self.nodes = null;
+    self.links = [];
+    self.nodes = [];
+
+    self.getData();
 }
 
 ForceGraph.prototype = {
     constructor: ForceGraph,
+
+    getData: function(){
+        var self = this;
+
+        var startYear = self.startYear;
+        var endYear = self.endYear;
+        var artists = [];
+
+        while (startYear + 10 <= endYear){
+            var url = 'http://cs424.azurewebsites.net/api/TopArtists?startYear='
+                + startYear  + '&endYear=' + (startYear + 10);
+
+            $.ajax({
+                dataType: "json",
+                url: url,
+                async: false,
+                success: success
+            });
+
+            startYear += 10;
+        }
+
+        /* start adding the elements to the nodes and links. artist should be
+        * mapped to their genres and connecting artists by similar genres */
+        // First add all the artists
+        var genres = [];
+        for(var i=0; i < artists.length; i++){
+            artists[i].type = 'artist';
+            self.nodes.push(artists[i]);
+
+            for(var j=0; j < artists[i].ArtistGenres.length; j++){
+                var genre = artists[i].ArtistGenres[j];
+                var index = genreAlreadyAdded(genre);
+                genre.priority = 0;
+
+                if (artists[i].ArtistMainGenre == genre.Name)
+                    genre.priority = 1;
+
+                if (index == -1){
+                    genres[genres.length] = genre;
+                    self.links.push({ source: i,
+                                      target: (genres.length + artists.length - 1),
+                                      priority: genre.priority
+                    });
+                } else {
+                    if (genre.priority == 1)
+                        genres[index].priority = 1;
+                    self.links.push({source: i,
+                                     target: (index + artists.length),
+                                     priority: genre.priority
+                    });
+                }
+            }
+        }
+
+        for(var i=0; i < genres.length; i++){
+            genres[i].type = 'genre';
+            self.nodes.push(genres[i]);
+        }
+
+        var x = 1;
+
+        /* fetch the data from the JSON call into an artist array */
+        function success(data){
+            for(var i=0; i < data.length; i++){
+                if (!artistAlreadyAdded(data[i]))
+                    artists.push(data[i]);
+            }
+        }
+
+        /* check if the artist was already added to the array to avoid duplicates */
+        function artistAlreadyAdded(artist){
+            for(var i=0; i < artists.length; i++)
+                if (artists[i].ArtistName === artist.ArtistName)
+                    return true;
+            return false;
+        }
+
+        /* check if the genre was already added to the array to avoid duplicates */
+        function genreAlreadyAdded(genre){
+            if (genres.length == 0) return -1;
+
+            for(var i=0; i < genres.length; i++)
+                if (genres[i].Name === genre.Name)
+                    return i;
+            return -1;
+        }
+    },
 
     collide: function(alpha){
         var quadtree = d3.geom.quadtree(data.nodes);
@@ -98,18 +190,55 @@ ForceGraph.prototype = {
 
         if (self.toogle == 0){
             // Reduce the opacity of the nodes except of the node neighbors
+            /*
             self.svg.selectAll(".node").style("opacity", function (o) {
                 return self.areNeighbors(d, o) | self.areNeighbors(o, d) ? 1 : 0.1;
+            });*/
+            self.svg.selectAll(".node").classed("neighbour", function (o) {
+                return self.areNeighbors(d, o) | self.areNeighbors(o, d) ? true : false;
+            });
+            self.svg.selectAll(".node").classed("not-neighbour", function (o) {
+                return self.areNeighbors(d, o) | self.areNeighbors(o, d) ? false : true;
             });
 
-            self.svg.selectAll(".link").style("opacity", function (o) {
-                return d.index==o.source.index | d.index==o.target.index ? 1 : 0.1;
+            self.svg.selectAll(".link").classed("neighbour", function (o) {
+                return d.index==o.source.index | d.index==o.target.index ? true : false;
             });
+            self.svg.selectAll(".link").classed("not-neighbour", function (o) {
+                return d.index==o.source.index | d.index==o.target.index ? false : true;
+            });
+
+            /* if an artist is selected, mark the main priority in a different color */
+            if (d.type == "artist"){
+                var links = self.svg.selectAll(".link.neighbour");
+                for(var i = 0; i < links[0].length; i++){
+                    var dat = links[0][i].__data__;
+                    if (dat.priority == 1){
+                        var genreName = dat.target.Name;
+                        /* search for it in the neighbour nodes*/
+                        var nodes = self.svg.selectAll(".node.neighbour");
+                        for(var i = 0; i < nodes[0].length; i++){
+                            if (nodes[0][i].__data__.type == "genre" && nodes[0][i].__data__.Name == genreName) {
+                                d3.select(nodes[0][i]).select("circle").classed("main-genre", true);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+            self.svg.selectAll(".node.neighbour").select("text").style("opacity", 1);
+
             self.toogle = 1;
         } else {
             // Restore the opacity
-            self.svg.selectAll(".node").style("opacity", 1);
-            self.svg.selectAll(".link").style("opacity", 1);
+            self.svg.selectAll(".node.neighbour").select("text").style("opacity", 0);
+            self.svg.selectAll(".node.neighbour").classed("main-genre", false);
+            self.svg.selectAll(".node.neighbour").classed("neighbour", false);
+            self.svg.selectAll(".node.not-neighbour").classed("not-neighbour", false);
+            self.svg.selectAll(".link.neighbour").classed("neighbour", false);
+            self.svg.selectAll(".link.not-neighbour").classed("not-neighbour", false);
             self.toogle = 0;
         }
     },
@@ -134,91 +263,18 @@ ForceGraph.prototype = {
         this.update();
     },
 
-    removeLink: function (source, target) {
-        for (var i = 0; i < links.length; i++) {
-            if (links[i].source.id == source && links[i].target.id == target) {
-                links.splice(i, 1);
-                break;
-            }
-        }
-        //update();
-    },
-
-    removeallLinks: function () {
-        links.splice(0, links.length);
-        //update();
-    },
-
-    removeAllNodes: function () {
-        nodes.splice(0, links.length);
-        //update();
-    },
-
-    addLink: function (source, target, value) {
-        links.push({"source": self.findNode(source), "target": findNode(target), "value": value});
-        update();
-    },
-
     findNode: function (node) {
         for (var i in nodes) {
             if (this.nodes[i]["name"] === node.name) return nodes[i];
         }
     },
 
-    findNodeIndex: function (node) {
-        for (var i = 0; i < nodes.length; i++) {
-            if (this.nodes[i].name == node.name) {
-                return i;
-            }
-        }
-    },
-
-    restart: function(data){
+    zoomed: function(){
         var self = this;
-        self.data = data;
 
-        self.links = self.links.data(data.links);
-        self.links.enter()
-            .insert("line", ".node")
-            .attr("class","link");
-        self.links.exit().remove();
-
-        self.nodes = self.nodes.data(data.nodes);
-
-        var n = self.nodes.enter().insert("g")
-            .attr("class", "node")
-            .call(self.force.drag)
-            .on('click', function(d){ self.connectNodes(d) })
-            .on('dblclick', self.releaseNode)
-            .call(self.nodeDrag);
-
-        n.append("circle")
-            .attr("r", 8)
-            .style("fill", function (d) {
-                if (d.user == 1)
-                    return self.colorUser1;
-                else if (d.user == 2)
-                    return self.colorUser2;
-                else if (d.user == 3)
-                    return self.colorCoincidente;
-                else
-                    return self.color(d.group);
-            });
-
-        n.append("text")
-            .attr("dx", 10)
-            .attr("dy", ".35em")
-            .text(function(d) { return d.name })
-            .style("stroke", "gray");
-
-        self.nodes.exit().remove();
-        self.force.start();
-
-        self.linkedByIndex = {};
-        for (var i = 0; i < data.nodes.length; i++) self.linkedByIndex[i + "," + i] = 1;
-        data.links.forEach(function (d) {
-            self.linkedByIndex[d.source.index + "," + d.target.index] = 1;
-        });
+        console.log(d3.event.scale);
+        d3.selectAll(".resizable").attr("transform", "translate(" +
+            d3.event.translate + ")scale(" + d3.event.scale + ")");
     },
 
     update: function(){
@@ -232,6 +288,7 @@ ForceGraph.prototype = {
 
         link.enter().append("line")
             .attr("class", "link")
+            .classed("resizable", true)
             .style("stroke-width", function(d){
                 return Math.sqrt(d.value);
             });
@@ -239,11 +296,12 @@ ForceGraph.prototype = {
         link.exit().remove();
 
         var node = self.svg.selectAll(".node")
-            .data(data.nodes);
+            .data(self.nodes);
 
         var nodeEnter =  node
             .enter().append("g")
             .attr("class", "node")
+            .classed("resizable", true)
             .call(self.force.drag)
             .on('click', function(d){ self.connectNodes(d) })
             .on('dblclick', self.releaseNode)
@@ -252,31 +310,70 @@ ForceGraph.prototype = {
         nodeEnter.append("rect")
             .attr("width", 26)
             .attr("height", 26)
+            .attr("class", function(d){ return "rect" + d.type; })
             .style("fill", function (d) {
-                if (d.user == 1)
-                    return self.colorUser1;
-                else if (d.user == 2)
-                    return self.colorUser2;
-                else if (d.user == 3)
-                    return self.colorCoincidente;
-                else
-                    return self.color(d.group);
+                if (d.type == 'artist'){
+                    if (d.ArtistSelected == 1)
+                        return self.colorUser1;
+                    else if (d.ArtistSelected == 2)
+                        return self.colorUser2;
+                    else if (d.ArtistSelected == 3)
+                        return self.colorCoincidente;
+                } else return self.color(d.group);
             });
 
+        nodeEnter.append("circle")
+            .attr("r", function(d){
+                if (d.type == "genre"){
+                    if (d.priority == 1)
+                        return 8;
+                    else
+                        return 4;
+                } else
+                    return 1;
+            })
+            .attr("class", function(d){ return "circle" +  d.type; })
+            .classed("node", true)
+            .style("fill", function (d) {
+                if (d.type == 'artist'){
+                    if (d.ArtistSelected == 1)
+                        return self.colorUser1;
+                    else if (d.ArtistSelected == 2)
+                        return self.colorUser2;
+                    else if (d.ArtistSelected == 3)
+                        return self.colorCoincidente;
+                } else return self.color(d.group);
+            });
 
-        var images = nodeEnter.append("image")
-            .attr("xlink:href",  function(d) { return d.img;})
+        self.svg.selectAll(".circleartist").remove();
+        self.svg.selectAll(".rectgenre").remove();
+
+        nodeEnter.append("image")
+            .attr("xlink:href",  function(d) {
+                if (d.type == 'artist')
+                    return d.ArtistImageLink;
+            })
             .attr("x", function(d) { return (0);})
             .attr("y", function(d) { return (0);})
             .attr("height", 20)
             .attr("width", 20);
 
-        /*
         nodeEnter.append("text")
-            .attr("dx", 10)
-            .attr("dy", ".35em")
-            .text(function(d){ return d.name })
-            .style("stroke", "gray");*/
+            .attr("dx", function(d){
+                if (d.type == "artist") return "17";
+                else return "10";})
+            .attr("dy", function(d){
+                if (d.type == "artist") return ".45em";
+                else return ".35em";
+            })
+            .text(function(d){
+                if (d.type == "artist")
+                    return d.ArtistName;
+                else
+                    return d.Name;
+            })
+            .style("stroke", "black")
+            .style("opacity", 0);
 
         node.exit().remove();
 
@@ -291,14 +388,14 @@ ForceGraph.prototype = {
             node.selectAll("rect")
                 .attr("x", function (d) { return d.x - 11; })
                 .attr("y", function (d) { return d.y - 11; });
-            /*
+
             node.selectAll("circle")
                 .attr("cx", function (d) { return d.x; })
-                .attr("cy", function (d) { return d.y; });*/
-            /*
+                .attr("cy", function (d) { return d.y; });
+
             node.selectAll("text")
                 .attr("x", function (d) { return d.x; })
-                .attr("y", function (d) { return d.y; });*/
+                .attr("y", function (d) { return d.y; });
 
             node.selectAll("image")
                 .attr("x", function (d) { return d.x - 8; })
@@ -308,8 +405,8 @@ ForceGraph.prototype = {
         });
 
         self.force
-            .charge(-120)
-            .linkDistance(30)
+            .charge(-150)
+            .linkDistance(100)
             .friction(0.9)
             .size([self.width, self.height])
             .start();
@@ -331,15 +428,21 @@ ForceGraph.prototype = {
         self.width = parseInt(canvasWidth) - self.margin.left - self.margin.right;
         self.height = parseInt(canvasHeight) - self.margin.top - self.margin.bottom;
 
+        self.zoom = d3.behavior.zoom()
+            .scaleExtent([1, 10])
+            .on("zoom", function() { self.zoomed(); });
+
         /* Create SVG element inside the target HTML element */
         self.svg = d3.select(self.target).append("svg")
             .attr("width", self.width)
-            .attr("height", self.height);
+            .attr("height", self.height)
+            .call(self.zoom);
+
         self.force = d3.layout.force()
-            .links(self.data.links)
-            .nodes(self.data.nodes);
-        self.nodes = self.force.nodes();
-        self.links = self.force.links();
+             .links(self.links)
+             .nodes(self.nodes);
+        //self.nodes = self.force.nodes();
+        //self.links = self.force.links();
 
         self.update();
     }
