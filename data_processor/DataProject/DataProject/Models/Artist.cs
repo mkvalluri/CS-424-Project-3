@@ -20,6 +20,7 @@ namespace DataProject.Models
             this.ActiveYears = new HashSet<ActiveYear>();
             this.Albums = new HashSet<Album>();
             this.Genres = new HashSet<ArtistGenre>();
+            this.ArtistPopularities = new HashSet<ArtistPopularity>();
         }
     
         public int Id { get; set; }
@@ -35,5 +36,7 @@ namespace DataProject.Models
         public virtual ICollection<Album> Albums { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ArtistGenre> Genres { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ArtistPopularity> ArtistPopularities { get; set; }
     }
 }

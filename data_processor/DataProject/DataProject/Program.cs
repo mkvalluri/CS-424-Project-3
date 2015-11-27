@@ -28,7 +28,8 @@ namespace DataProject
             //dataCon.Albums.AddRange(totalAlbums);
             //ConstructJSONObject();
             //GetGenres();
-            GetArtistGenres();
+            //GetArtistGenres();
+            CalculateArtistPopularity();
             dataCon.SaveChanges();
         }
 
@@ -198,12 +199,12 @@ namespace DataProject
             int i = 0;
             tempArtists.ForEach(a =>
             {
-                var url = "http://developer.echonest.com/api/v4/artist/terms?api_key=L6L1RWYT1A0EWKHJF&id=" + a.EchonestID+"&format=json";
+                var url = "http://developer.echonest.com/api/v4/artist/terms?api_key=L6L1RWYT1A0EWKHJF&id=" + a.EchonestID + "&format=json";
                 var resp = wc.DownloadString(url);
                 var data = JsonConvert.DeserializeObject<SpotifyGenreResponse>(resp);
                 data.response.terms.ForEach(g =>
                 {
-                    if(dataCon.Genres.Where(gr => gr.GenreName == g.name).Count() > 0)
+                    if (dataCon.Genres.Where(gr => gr.GenreName == g.name).Count() > 0)
                     {
                         var tempGenre = new ArtistGenre();
                         tempGenre.Genre = dataCon.Genres.Where(gr => gr.GenreName == g.name).FirstOrDefault();
@@ -227,29 +228,122 @@ namespace DataProject
             });
         }
 
-        /*static void ConstructJSONObject()
+        static void CalculateArtistPopularity()
         {
-            var tempArtists = dataCon.Artists.SqlQuery("SELECT * FROM Artists").ToList();
-            var artObj = new List<Artist>();
-            tempArtists.ForEach(a =>
+            /*ArtistAlbumsDict[] aaObj = new ArtistAlbumsDict[2];
+            aaObj[0] = new ArtistAlbumsDict(2000, 1);
+            aaObj[1] = new ArtistAlbumsDict(2010, 6);
+
+            ArtistActiveYearsDict[] aaYObj = new ArtistActiveYearsDict[3];
+            aaYObj[0] = new ArtistActiveYearsDict(1999, 2005);
+            aaYObj[1] = new ArtistActiveYearsDict(2006, 2007);
+            aaYObj[2] = new ArtistActiveYearsDict(2009, 0);
+            var final = Compute(aaObj.ToList(), aaYObj.ToList());
+
+            foreach (var data in final)
             {
-                var Art = new Artist();
-                Art.ArtistName = a.ArtistName;
-                Art.ArtistExternalId = a.ArtistExternalId;
-                Art.ArtistImageURL = a.ArtistImageURL;
-                Art.ArtistLocation = a.ArtistLocation;
-                foreach(var year in a.ActiveYears)
+                Console.WriteLine(data);
+            }*/
+
+
+            var activeYears = dataCon.Database.SqlQuery<DBArtistActiveYear>(" select * from ActiveYears AY " +
+                            " INNER JOIN Artists A ON AY.ArtistId = A.ID").ToList();
+
+            var dataList = dataCon.Database.SqlQuery<DBArtistModel>(" SELECT AL.ArtistId, A.ArtistName, A.ArtistLocation, A.ArtistImageURL, AlbumReleaseDate, ROUND(SUM(AlbumRating) / COUNT(AlbumRating), 2) as 'Rating', COUNT(AlbumRating) as '# Samples' " +
+                            " FROM Albums Al " +
+                            " INNER JOIN Artists A ON AL.ArtistId = A.Id " +
+                            " WHERE AlbumReleaseDate <> -1 and AlbumReleaseDate <> 0" +
+                            " GROUP BY ArtistId, AlbumReleaseDate, A.ArtistName, A.ArtistLocation, A.ArtistImageURL " +
+                            " ORDER BY ArtistId, AlbumReleaseDate, Rating desc").ToList();
+
+            List<RatingsDict> ratings = new List<RatingsDict>();
+            dataList.ForEach(d =>
+            {
+                if (!ratings.Exists(a => a.ArtistId == d.ArtistId))
                 {
-                    ActiveYear y = new ActiveYear();
-                    y.Start = year.Start;
-                    y.End = year.End;
-                    Art.ActiveYears.Add(y);
+                    RatingsDict r = new RatingsDict();
+                    activeYears.Where(y => y.ArtistId == d.ArtistId).ToList().ForEach(ay =>
+                    {
+                        r.ArtistActiveYears.Add(new ArtistActiveYearsDict(ay.Start, ay.End));
+                    });
+                    r.ArtistId = d.ArtistId;
+                    ratings.Add(r);
                 }
-                artObj.Add(Art);
+                ratings.FirstOrDefault(a => a.ArtistId == d.ArtistId).ArtistAlbums.Add(new ArtistAlbumsDict(d.AlbumReleaseDate, d.Rating));
             });
 
-            var str = JsonConvert.SerializeObject(artObj.GetRange(0, 1));
-            File.WriteAllText(@"D:\Projects\Artists_Final_Test.json", str);
-        }*/
+            ratings.ForEach(r =>
+            {
+                Console.WriteLine(r.ArtistId);
+                var rankings = Compute(r.ArtistAlbums, r.ArtistActiveYears);
+                rankings.ForEach(rank =>
+                {
+                    ArtistPopularity a = new ArtistPopularity();
+                    a.Popularity = rank.Value;
+                    a.Year = rank.Key;
+                    a.Artist = dataCon.Artists.Where(ar => ar.Id == r.ArtistId).FirstOrDefault();
+                    dataCon.ArtistPopularities.Add(a);
+                });
+            });
+        }
+
+        public static List<KeyValuePair<int, double>> Compute(List<ArtistAlbumsDict> ArtistAlbums, List<ArtistActiveYearsDict> ArtistActiveYears)
+        {
+            List<KeyValuePair<int, double>> finalList = new List<KeyValuePair<int, double>>();
+
+            if (ArtistActiveYears.Count > 0 && ArtistAlbums.Count > 0)
+            {
+                if (ArtistActiveYears.LastOrDefault().EndYear == 0)
+                {
+                    ArtistActiveYears.LastOrDefault().EndYear = 2014;
+                }
+
+                if (ArtistActiveYears.Count == 1)
+                {
+                    List<double> pValues = new List<double>();
+
+                    for (int i = 1; i < ArtistAlbums.Count; i++)
+                    {
+                        double p = ArtistAlbums[i].Rating - ArtistAlbums[i - 1].Rating;
+                        int q = ArtistAlbums[i].Year - ArtistAlbums[i - 1].Year;
+                        pValues.Add(p / q);
+                    }
+                    pValues.Add(0);
+
+                    for (int i = ArtistAlbums.FirstOrDefault().Year, j = -1, index = 0; i <= ArtistActiveYears.FirstOrDefault().EndYear; i++, index++)
+                    {
+                        if (ArtistAlbums.Exists(a => a.Year == i))
+                        {
+                            j++;
+                            index = 0;
+                        }
+                        if (j == pValues.Count)
+                            finalList.Add(new KeyValuePair<int, double>(i, ArtistAlbums[j].Rating - ((4 * ArtistAlbums[j - 1].Rating) / 100)));
+                        else
+                            finalList.Add(new KeyValuePair<int, double>(i, ArtistAlbums[j].Rating + pValues[j] * index));
+                    }
+                }
+                else
+                {
+                    foreach (var artistActiveYears in ArtistActiveYears)
+                    {
+                        List<ArtistActiveYearsDict> tempList = new List<ArtistActiveYearsDict>();
+                        tempList.Add(artistActiveYears);
+                        var resultSet = Compute(ArtistAlbums.FindAll(a => a.Year >= artistActiveYears.StartYear && a.Year <= artistActiveYears.EndYear), tempList);
+                        if (resultSet.Count == 0)
+                        {
+                            for (int i = artistActiveYears.StartYear; i <= artistActiveYears.EndYear; i++)
+                            {
+                                var previousValue = resultSet.Count > 0 ? resultSet.LastOrDefault().Value - (4 * resultSet.LastOrDefault().Value) / 100 : 0;
+                                resultSet.Add(new KeyValuePair<int, double>(i, previousValue));
+                            }
+                        }
+                        finalList.AddRange(resultSet);
+                    }
+                }
+            }
+            return finalList;
+        }
+
     }
 }

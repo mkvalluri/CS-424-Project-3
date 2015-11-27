@@ -13,21 +13,24 @@ namespace DataProcessLib
         public string ArtistName { get; set; }
 
         public string ArtistLocation { get; set; }
-
-        public List<YearActive> ArtistYearsActive { get; set; }
-
+        
         public string ArtistImageLink { get; set; }
 
         public string ArtistMainGenre { get; set; }
 
         public List<Genre> ArtistGenres { get; set; }
 
+        public List<YearActive> ArtistActiveYears { get; set; }
+
         public int ArtistSelected { get; set; }
+
+        public double ArtistPopularity { get; set; }
 
         public Artist()
         {
             ArtistGenres = new List<Genre>();
-            ArtistYearsActive = new List<YearActive>();
+            ArtistActiveYears = new List<YearActive>();
+
         }
     }
 
@@ -45,18 +48,18 @@ namespace DataProcessLib
         public double Relevance { get; set; }
     }
 
-    public class TopArtists
+    public class TopArtistsRaw
     {
         public int Year { get; set; }
 
         public List<Artist> Artists { get; set; }
 
-        public TopArtists()
+        public TopArtistsRaw()
         {
             Artists = new List<Artist>();
         }
     }
-
+    
     public class TopGenres
     {
         public int Year { get; set; }
@@ -79,11 +82,9 @@ namespace DataProcessLib
 
         public string ArtistImageURL { get; set; }
 
-        public int AlbumReleaseDate { get; set; }
+        public int Year { get; set; }
 
-        public double ArtistRating { get; set; }
-
-        public int NumSamples { get; set; }
+        public double Popularity { get; set; }
     }
 
     public class DBArtistGenre

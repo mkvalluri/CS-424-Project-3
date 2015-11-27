@@ -13,12 +13,16 @@ namespace TestConsoleApp
         static void Main(string[] args)
         {
             DataProcessLib.DPLib db = new DataProcessLib.DPLib();
-            /*var data = JsonConvert.SerializeObject(db.GetTopArtistsListBasedOnYearRange(1990, 2010, true));
-            File.WriteAllText(@"D:\Projects\Test#2.json", data);
-            */
 
-            var data = JsonConvert.SerializeObject(db.GetTopGenres(1990, 2010));
-            File.WriteAllText(@"D:\Projects\Test#3.json", data);
+            var rawD = JsonConvert.SerializeObject(db.GetTopArtistsListBasedOnYearRange(1950, 2014, false));
+            File.WriteAllText(@"D:\Projects\RawData.json", rawD);
+
+            var data = JsonConvert.SerializeObject(db.GetTopArtists(1950, 2014));
+            File.WriteAllText(@"D:\Projects\Artists#2.json", data);
+            
+
+            data = JsonConvert.SerializeObject(db.GetTopGenres(1990, 2010));
+            File.WriteAllText(@"D:\Projects\Genres#3.json", data);
         }
     }
 }

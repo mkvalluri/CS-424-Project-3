@@ -1,36 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataProject.Models;
-using System.Data.Entity.Infrastructure;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace DataProcessLib
 {
     public class DPLib
     {
-        string connectionString = "data source=HELL-Lappy;initial catalog=CS424;integrated security=True;";
+        string connectionString = "Server=tcp:cs424db.database.windows.net,1433;Database=CS424;User ID=cs424u@cs424db;Password=cs424Password;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        static List<TopArtistsRaw> data = new List<TopArtistsRaw>();
 
-        public List<TopArtists> GetTopArtistsListBasedOnYearRange(int startYear, int endYear, bool top10)
+        public List<TopArtistsRaw> GetTopArtistsListBasedOnYearRange(int startYear, int endYear, bool top10)
         {
             SqlConnection myConnection = new SqlConnection(connectionString);
             myConnection.Open();
             SqlCommand c = new SqlCommand();
             c.Connection = myConnection;
-            c.CommandText = " SELECT AL.ArtistId, A.ArtistName, A.ArtistLocation, A.ArtistImageURL, AlbumReleaseDate, ROUND(SUM(AlbumRating) / COUNT(AlbumRating), 2) as 'Rating', COUNT(AlbumRating) as '# Samples' " +
-                            " FROM Albums Al " +
-                            " INNER JOIN Artists A ON AL.ArtistId = A.Id " +
-                            " WHERE AlbumReleaseDate <> -1 and AlbumReleaseDate <> 0 and AlbumReleaseDate >= " + startYear + " and AlbumReleaseDate <= " + endYear +
-                            " GROUP BY ArtistId, AlbumReleaseDate, A.ArtistName, A.ArtistLocation, A.ArtistImageURL " +
-                            " ORDER BY AlbumReleaseDate, Rating desc";
+            c.CommandText = " SELECT A.Id, A.ArtistName, A.ArtistLocation, A.ArtistImageURL, AP.Year, AP.Popularity " +
+                            " FROM Artists A " +
+                            " INNER JOIN ArtistPopularities AP on AP.Artist_Id = A.Id " +
+                            " WHERE AP.Year >= " + startYear + " AND AP.YEAR <= " + endYear +
+                            " ORDER BY AP.Year, AP.Popularity DESC";
 
             List<DBArtistModel> results = new List<DBArtistModel>();
 
             using (SqlDataReader dr = c.ExecuteReader())
             {
-
                 while (dr.Read())
                 {
                     DBArtistModel newItem = new DBArtistModel();
@@ -39,32 +33,31 @@ namespace DataProcessLib
                     newItem.ArtistName = dr.GetString(1);
                     newItem.ArtistLocation = dr.GetString(2);
                     newItem.ArtistImageURL = dr.GetString(3);
-                    newItem.AlbumReleaseDate = dr.GetInt32(4);
-                    newItem.ArtistRating = dr.GetDouble(5);
-                    newItem.NumSamples = dr.GetInt32(6);
+                    newItem.Year = dr.GetInt32(4);
+                    newItem.Popularity = dr.GetDouble(5);
                     results.Add(newItem);
                 }
             }
 
             myConnection.Close();
 
-            var artistList = new List<TopArtists>();
+            var artistList = new List<TopArtistsRaw>();
             var genreList = GetArtistGenres();
             var activeYearList = GetArtistActiveYears();
 
             for (int i = startYear; i <= endYear; i++)
             {
-                TopArtists t = new TopArtists();
+                TopArtistsRaw t = new TopArtistsRaw();
                 t.Year = i;
                 var tempResults = new List<DBArtistModel>();
                 if (top10)
                 {
-                    tempResults = results.Where(r => r.AlbumReleaseDate == i).ToList().GetRange(0, 10);
+                    tempResults = results.Where(r => r.Year == i).ToList().GetRange(0, 10);
                 }
                 else
-                    tempResults = results.Where(r => r.AlbumReleaseDate == i).ToList();
+                    tempResults = results.Where(r => r.Year == i).ToList();
 
-                tempResults.Where(r => r.AlbumReleaseDate == i).ToList().ForEach(d =>
+                tempResults.Where(r => r.Year == i).ToList().ForEach(d =>
                 {
                     Artist a = new Artist();
                     a.ArtistName = d.ArtistName;
@@ -87,12 +80,13 @@ namespace DataProcessLib
                     {
                         a.ArtistMainGenre = "";
                     }
+                    a.ArtistPopularity = d.Popularity;
                     activeYearList.Where(ay => ay.ArtistId == a.ArtistId).ToList().ForEach(ayl =>
                     {
                         YearActive activeY = new YearActive();
                         activeY.Start = ayl.Start;
                         activeY.End = ayl.End;
-                        a.ArtistYearsActive.Add(activeY);
+                        a.ArtistActiveYears.Add(activeY);
                     });
                     t.Artists.Add(a);
                 });
@@ -101,13 +95,82 @@ namespace DataProcessLib
 
             return artistList;
         }
+        
+        public List<Artist> GetTopArtists(int startYear, int endYear, bool top10)
+        {
+            List<Artist> topA = new List<Artist>();
+            Dictionary<Artist, double> artistKeys = new Dictionary<Artist, double>();
+            Dictionary<int, int> artistCounter = new Dictionary<int, int>();
+
+            if (data.Count == 0)
+            {
+                data = GetTopArtistsListBasedOnYearRange(1950, 2014, false);
+            }
+
+            var topData = GetData(startYear, endYear);
+
+            for (int i = startYear; i <= endYear; i++)
+            {
+                var topList = topData.Where(t => t.Year == i).ToList();
+                topList.ForEach(t =>
+                {
+                    var artists = t.Artists;
+                    artists.ForEach(a =>
+                    {
+                        if (artistKeys.Count(ar => ar.Key.ArtistId == a.ArtistId) > 0)
+                        {
+                            var artist = artistKeys.Where(ar => ar.Key.ArtistId == a.ArtistId).FirstOrDefault();
+                            artistKeys[artist.Key] = artist.Value + a.ArtistPopularity;
+                            artistCounter[a.ArtistId]++;
+                        }
+                        else
+                        {
+                            artistKeys.Add(a, a.ArtistPopularity);
+                            artistCounter.Add(a.ArtistId, 1);
+                        }
+                    });
+                });
+            }
+
+            /*  var newAKeys = new Dictionary<Artist, double>();
+              artistKeys.ToList().ForEach(a =>
+              {
+                  newAKeys.Add(a.Key, a.Value / artistCounter[a.Key.ArtistId]);
+              });
+              */
+
+            Dictionary<Artist, double> tA = new Dictionary<Artist, double>();
+            artistKeys.ToList().ForEach(a =>
+            {
+                tA.Add(a.Key, a.Value / (endYear - startYear));
+            });
+
+            var fData = tA.OrderByDescending(a => a.Value).ToList();
+
+            fData.ForEach(a =>
+            {
+                topA.Add(a.Key);
+            });
+
+            if (top10)
+                return topA.GetRange(0, 10);
+            else
+                return topA;
+        }
 
         public List<TopGenres> GetTopGenres(int startYear, int endYear)
         {
             List<TopGenres> topG = new List<TopGenres>();
-            var topData = GetTopArtistsListBasedOnYearRange(startYear, endYear, false);
 
-            for(int i = startYear; i <= endYear; i++)
+            if(data.Count == 0)
+            {
+                data = GetTopArtistsListBasedOnYearRange(1950, 2014, false);
+            }
+            var topData = GetData(startYear, endYear);
+
+            topData = data;
+
+            for (int i = startYear; i <= endYear; i++)
             {
                 TopGenres topGen = new TopGenres();
                 topGen.Year = i;
@@ -135,9 +198,53 @@ namespace DataProcessLib
                     genre.Relevance = gr.Value;
                     topGen.Genres.Add(genre);
                 });
+                topGen.Genres = topGen.Genres.GetRange(0, 10);
                 topG.Add(topGen);
             }           
             return topG;
+        }
+        
+        public List<Genre> GetTopGenresByDecade(int startYear, int endYear)
+        {
+            List<Genre> tG = new List<Genre>();
+
+            var data = GetTopArtists(startYear, endYear, false);
+
+            Dictionary<string, int> genreD = new Dictionary<string, int>();
+
+            data.ForEach(a =>
+            {
+                if(genreD.Count(g => g.Key == a.ArtistMainGenre) == 0)
+                {                    
+                    genreD.Add(a.ArtistMainGenre, 1);
+                }
+                else
+                {
+                    genreD[a.ArtistMainGenre]++;
+                }
+            });
+
+            Dictionary<string, int> tempG = new Dictionary<string, int>();
+            genreD.ToList().ForEach(e =>
+            {
+                tempG.Add(e.Key, e.Value / (endYear - startYear));
+            });
+
+            var sortedList = genreD.OrderByDescending(g => g.Value).ToList();
+            sortedList.ForEach(v =>
+            {
+                Genre g = new Genre();
+                g.Name = v.Key;
+                g.Relevance = v.Value;
+                tG.Add(g);
+            });
+
+            return tG.GetRange(0, 10);
+        }
+
+        private List<TopArtistsRaw> GetData(int startYear, int endYear)
+        {
+            return data.Where(d => d.Year >= startYear && d.Year <= endYear).ToList();
         }
 
         private List<DBArtistActiveYear> GetArtistActiveYears()

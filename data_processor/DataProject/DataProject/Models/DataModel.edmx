@@ -11,6 +11,7 @@
     <EntitySet Name="ActiveYears" EntityType="DataModel.Store.ActiveYears" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Artists" EntityType="DataModel.Store.Artists" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ArtistGenres" EntityType="DataModel.Store.ArtistGenres" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ArtistPopularities" EntityType="DataModel.Store.ArtistPopularities" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ArtistActiveYear" Association="DataModel.Store.ArtistActiveYear">
       <End Role="Artist" EntitySet="Artists" />
       <End Role="ActiveYear" EntitySet="ActiveYears" />
@@ -25,6 +26,10 @@
     </AssociationSet>
     <AssociationSet Name="ArtistGenreArtist" Association="DataModel.Store.ArtistGenreArtist">
       <End Role="ArtistGenre" EntitySet="ArtistGenres" />
+      <End Role="Artist" EntitySet="Artists" />
+    </AssociationSet>
+    <AssociationSet Name="ArtistPopularityArtist" Association="DataModel.Store.ArtistPopularityArtist">
+      <End Role="ArtistPopularity" EntitySet="ArtistPopularities" />
       <End Role="Artist" EntitySet="Artists" />
     </AssociationSet>
   </EntityContainer>
@@ -76,6 +81,15 @@
     <Property Name="Genre_Id" Type="int" Nullable="false" />
     <Property Name="Artist_Id" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="ArtistPopularities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="Popularity" Type="float" Nullable="false" />
+    <Property Name="Artist_Id" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="ArtistActiveYear">
     <End Role="Artist" Type="DataModel.Store.Artists" Multiplicity="1" />
     <End Role="ActiveYear" Type="DataModel.Store.ActiveYears" Multiplicity="*" />
@@ -124,6 +138,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ArtistPopularityArtist">
+    <End Role="ArtistPopularity" Type="DataModel.Store.ArtistPopularities" Multiplicity="*" />
+    <End Role="Artist" Type="DataModel.Store.Artists" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Artist">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ArtistPopularity">
+        <PropertyRef Name="Artist_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -148,6 +174,11 @@
           </AssociationSet>
           <AssociationSet Name="ArtistGenreArtist" Association="DataModel.ArtistGenreArtist">
             <End Role="ArtistGenre" EntitySet="ArtistGenres" />
+            <End Role="Artist" EntitySet="Artists" />
+          </AssociationSet>
+          <EntitySet Name="ArtistPopularities" EntityType="DataModel.ArtistPopularity" />
+          <AssociationSet Name="ArtistPopularityArtist" Association="DataModel.ArtistPopularityArtist">
+            <End Role="ArtistPopularity" EntitySet="ArtistPopularities" />
             <End Role="Artist" EntitySet="Artists" />
           </AssociationSet>
         </EntityContainer>
@@ -194,6 +225,7 @@
           <Property Name="ArtistImageURL" Type="String" Nullable="true" />
           <Property Name="ArtistLocation" Type="String" Nullable="true" />
           <NavigationProperty Name="Genres" Relationship="DataModel.ArtistGenreArtist" FromRole="Artist" ToRole="ArtistGenre" />
+          <NavigationProperty Name="ArtistPopularities" Relationship="DataModel.ArtistPopularityArtist" FromRole="Artist" ToRole="ArtistPopularity" />
         </EntityType>
         <Association Name="ArtistActiveYear">
           <End Type="DataModel.Artist" Role="Artist" Multiplicity="1" />
@@ -235,6 +267,19 @@
         </Association>
         <Association Name="ArtistGenreArtist">
           <End Type="DataModel.ArtistGenre" Role="ArtistGenre" Multiplicity="*" />
+          <End Type="DataModel.Artist" Role="Artist" Multiplicity="1" />
+        </Association>
+        <EntityType Name="ArtistPopularity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Popularity" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Artist" Relationship="DataModel.ArtistPopularityArtist" FromRole="ArtistPopularity" ToRole="Artist" />
+        </EntityType>
+        <Association Name="ArtistPopularityArtist">
+          <End Type="DataModel.ArtistPopularity" Role="ArtistPopularity" Multiplicity="*" />
           <End Type="DataModel.Artist" Role="Artist" Multiplicity="1" />
         </Association>
       </Schema>
@@ -294,6 +339,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ArtistPopularities">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.ArtistPopularity)">
+        <MappingFragment StoreEntitySet="ArtistPopularities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Popularity" ColumnName="Popularity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="ArtistGenreGenre" TypeName="DataModel.ArtistGenreGenre" StoreEntitySet="ArtistGenres">
       <EndProperty Name="Genre">
         <ScalarProperty Name="Id" ColumnName="Genre_Id" />
@@ -307,6 +361,14 @@
         <ScalarProperty Name="Id" ColumnName="Artist_Id" />
       </EndProperty>
       <EndProperty Name="ArtistGenre">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ArtistPopularityArtist" TypeName="DataModel.ArtistPopularityArtist" StoreEntitySet="ArtistPopularities">
+      <EndProperty Name="Artist">
+        <ScalarProperty Name="Id" ColumnName="Artist_Id" />
+      </EndProperty>
+      <EndProperty Name="ArtistPopularity">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
