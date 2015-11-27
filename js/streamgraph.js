@@ -2,10 +2,10 @@
  * Created by juan on 11/23/15.
  */
 
-function StreamGraph(target, data, startYear, endYear,user){
+function StreamGraph(target, stream_data, startYear, endYear,user){
     var self = this;
 
-    self.data = data;
+    self.data = stream_data;
 
     self.user=user;
 
@@ -47,8 +47,8 @@ StreamGraph.prototype = {
         var self = this;
         /* get all unique genres */
         genres = [];
-        self.data.forEach(function(elem){
-            elem.Genres.forEach(function(genre){
+        self.data.forEach(function(elemX){
+            elemX.Genres.forEach(function(genre){
                 if (genres.indexOf(genre.Name) == -1)
                     genres.push(genre.Name);
             });
