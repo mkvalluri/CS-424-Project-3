@@ -20,6 +20,8 @@ function StreamGraph(target, stream_data, startYear, endYear,user){
         });
     });
 
+    self.tooltip = null;
+
     /* container attributes */
     self.target = target;
     self.margin = {top: 50, right: 20, bottom: 40, left: 80};
@@ -53,6 +55,14 @@ StreamGraph.prototype = {
                     genres.push(genre.Name);
             });
         });
+
+        /* convert data to percentages */
+        for (var i = 0; i < self.data.length; i++){
+            total = 0;
+            for (var j = 0; j < self.data[i].Genres.length; j++) total += self.data[i].Genres[j].Relevance;
+            for (var j = 0; j < self.data[i].Genres.length; j++)
+                self.data[i].Genres[j].Relevance = 100 * (self.data[i].Genres[j].Relevance/total);
+        }
 
         var results = [];
         var startYear = self.data[0].Year;
@@ -260,13 +270,17 @@ StreamGraph.prototype = {
             .attr("height", self.height);
 
         /* create the path elements for each genre */
-        self.svg.selectAll("path")
+        for(var i = 0; i < self.data[0].length; i++)
+            self.data[0][i].y0 = 0;
+
+        var paths = self.svg.selectAll(".layer")
             .data(self.data)
             .enter().append("path")
             .attr("class", "layer")
             .attr("d", function(d){
+                var x = area(d);
                 return area(d); })
-            .style("fill", function() { return "#7b6888" });   //return color(Math.random()); });
+            .style("fill", function() { return color(Math.random()); });
 
         /* add the hover over events. Reduce the opacity of all the path not selected
          * while mouseover. Restore opacity when mouseout */
@@ -280,6 +294,11 @@ StreamGraph.prototype = {
                     });
                 mousex = d3.mouse(this);
                 var invertedx = self.x.invert(mousex[0]);
+
+                self.tooltip.html( "<p>" + d[0].name + "</p>" )
+                    .style("left", d3.event.pageX + "px")
+                    .style("top", d3.event.pageY + "px")
+                    .style("visibility", "visible");
                 console.log(d[0].name);
             })
             .on("mouseout", function(d, i) {
@@ -287,6 +306,8 @@ StreamGraph.prototype = {
                     .transition()
                     .duration(250)
                     .attr("opacity", "1");
+
+                self.tooltip.style("visibility", "hidden");
             });
 
         self.leftOpaqueSelection = d3.select(self.target)
@@ -313,6 +334,15 @@ StreamGraph.prototype = {
 
         gBrush.selectAll(".extent,.resize,.background")
             .remove();
+
+        self.tooltip = d3.select(self.target)
+            .append("div")
+            .attr("class", "tooltip")
+            .style("position", "absolute")
+            .style("z-index", "20")
+            .style("visibility", "hidden")
+            .style("top", "30px")
+            .style("left", "55px");
 
         function dragmove() {
             mousex = d3.mouse(this);
