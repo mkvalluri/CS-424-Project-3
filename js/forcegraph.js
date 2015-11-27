@@ -132,7 +132,9 @@ ForceGraph.prototype = {
     },
 
     collide: function(alpha){
-        var quadtree = d3.geom.quadtree(data.nodes);
+        var self = this;
+
+        var quadtree = d3.geom.quadtree(self.nodes);
         return function(d) {
             var rb = 2*self.radius + self.padding,
                 nx1 = d.x - rb,
@@ -269,7 +271,7 @@ ForceGraph.prototype = {
         }
     },
 
-    zoomed: function(){
+    zoomed: function() {
         var self = this;
 
         console.log(d3.event.scale);

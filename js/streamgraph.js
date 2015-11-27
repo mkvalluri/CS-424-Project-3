@@ -2,10 +2,12 @@
  * Created by juan on 11/23/15.
  */
 
-function StreamGraph(target, data, startYear, endYear){
+function StreamGraph(target, data, startYear, endYear,user){
     var self = this;
 
     self.data = data;
+
+    self.user=user;
 
     self.stack = d3.layout.stack()
         .offset("silhouette");
@@ -335,6 +337,32 @@ StreamGraph.prototype = {
                 d3.select(".handle." + side).attr("cx", self.x(year) - self.width);
                 self.brushed('manual', [self.yearsSelected[0], year]);
             }
+
+            if(self.user =="user1")
+            {
+
+                
+                   
+                    $.getJSON(
+                                'http://cs424.azurewebsites.net/api/TopArtists?startYear=2010&endYear=2014', 
+                                function(data) {
+                                    console.log(data);
+                                    $$("user1_top_ten_artists").clearAll();
+                                    $$("user1_top_ten_artists").load('http://cs424.azurewebsites.net/api/TopArtists?startYear=2010&endYear=2014');
+
+                                    $$("user1_top_ten_genres").clearAll();
+                                    $$("user1_top_ten_genres").load('http://cs424.azurewebsites.net/api/TopGenresByDecade?startYear=2000&endYear=2010');
+                                    }
+                            );
+                
+
+            }
+            else if(self.user=="user2")
+            {
+                alert("user2");
+            }
+
+
         }
 
         var dragRight = d3.behavior.drag()
