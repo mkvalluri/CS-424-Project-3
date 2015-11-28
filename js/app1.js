@@ -92,4 +92,3 @@ $('#user2_my_genre_clear').click(function(){
 	$$('user2_my_genre_list').clearAll();
 })
 
-
