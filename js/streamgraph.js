@@ -416,3 +416,23 @@ StreamGraph.prototype = {
             .call(dragRight);
     }
 }
+
+function getTop10GenresPerYear(startYear, endYear){
+    var jsonData;
+
+    var url = "http://cs424.azurewebsites.net/api/TopGenres?startYear=" +
+        startYear + "&endYear="+ endYear;
+
+    $.ajax({
+        dataType: "json",
+        url: url,
+        async: false,
+        success: success
+    });
+
+    return jsonData;
+
+    function success(data){
+        jsonData = data;
+    }
+}
