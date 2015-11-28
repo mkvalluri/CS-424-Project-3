@@ -1,6 +1,7 @@
 /**
  * Created by juan on 11/23/15.
  */
+// Stream
 
 function StreamGraph(target, stream_data, startYear, endYear,user){
     var self = this;
