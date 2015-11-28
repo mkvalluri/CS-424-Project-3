@@ -260,7 +260,7 @@ UI.prototype ={
      						   	 		id:this.user+"_top_ten_artists",
      						   	 			  container:this.tabbed_menu_holder,
      						   	 			      template:"<img src=#ArtistImageLink#><div class='webix_strong'>#ArtistName# </div> <p>Primary Genre: #ArtistMainGenre#</p> <p>rank: #rank#</p>",
-     						   	 			       url:'',
+     						   	 			       url:'http://cs424.azurewebsites.net/api/TopArtists?startYear=1950&endYear=2015',
      						   	 			      	select:1
      						   	 			 }
      						   	 	},
@@ -270,7 +270,7 @@ UI.prototype ={
      						   	 		id:this.user+"_top_ten_genres",
      						   	 			  container:this.tabbed_menu_holder,
      						   	 			      template:"<div class='webix_strong'>#Name# </div> <p>#Relevance#</p>",
-     						   	 			      url:'',
+     						   	 			      url:'http://cs424.azurewebsites.net/api/TopGenresByDecade?startYear=1950&endYear=2015',
      						   	 			  	  select:1}
      						   	 	}
      						   	 ]
