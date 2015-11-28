@@ -207,8 +207,10 @@ UI.prototype ={
 				view:"list",
 				id:this.user+"_my_artist_list",
 				template:"#ArtistName#\
-				 <button class='delete_artist_list_button'></button>",
-				data:this.user1+"_my_artists_list_data"
+				 <button id= #ArtistId# class='delete_artist_list_button'></button>",
+				data:this.user1+"_my_artists_list_data",
+				select:true
+
 			}
 
 			]

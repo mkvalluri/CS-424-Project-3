@@ -416,13 +416,13 @@ StreamGraph.prototype = {
         var handleLeft = self.svg.append("circle")
             .attr("class", "handle left")
             .attr("transform", "translate(0," + self.height + ")")
-            .attr("r", 9)
+            .attr("r", 12)
             .call(dragLeft);
 
         var handleRight = self.svg.append("circle")
             .attr("class", "handle right")
             .attr("transform", "translate(" + self.width + "," + self.height + ")")
-            .attr("r", 9)
+            .attr("r", 12)
             .call(dragRight);
     }
 }
