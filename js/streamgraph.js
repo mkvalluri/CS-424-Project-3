@@ -1,7 +1,6 @@
 /**
  * Created by juan on 11/23/15.
  */
-// Stream
 
 function StreamGraph(target, stream_data, startYear, endYear,user){
     var self = this;
@@ -418,11 +417,12 @@ StreamGraph.prototype = {
     }
 }
 
+
 function getTop10GenresPerYear(startYear, endYear){
     var jsonData;
-
+    
     var url = "http://cs424.azurewebsites.net/api/TopGenres?startYear=" +
-        startYear + "&endYear="+ endYear;
+                startYear + "&endYear="+ endYear;
 
     $.ajax({
         dataType: "json",

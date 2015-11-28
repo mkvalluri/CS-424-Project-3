@@ -29,7 +29,7 @@ user2.tabbedMenu();
 var sharedUI = new UI("sharedUI","yellow");
 sharedUI.sharedMap();
 sharedUI.sharedGraph();
-
+var test;
 
 $$("user1_top_ten_artists").attachEvent("onItemClick",function(id){
 
@@ -42,9 +42,18 @@ $$("user1_top_ten_artists").attachEvent("onItemClick",function(id){
 
 
 $$("user1_top_ten_artists").attachEvent("onItemDblClick",function(id){
-	user1_my_artists_list_element.ArtistId=this.getItem(id).ArtistId;
-	user1_my_artists_list_element.ArtistName=this.getItem(id).ArtistName;
+
+
+	
+	user1_my_artists_list_data.forEach(function(d,i){
+			console.log(d);
+	});
+
+
+	user1_my_artists_list_data.push({"ArtistName":this.getItem(id).ArtistName});
+
 	$$('user1_my_artist_list').add({ArtistName:this.getItem(id).ArtistName})
+	
 })
 
 

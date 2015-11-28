@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="../css/app.css" type="text/css">
   <link rel="stylesheet" href="../webix/webix.css" type="text/css" charset="utf-8">
   <script src="../webix/webix.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../samples/sample_artists.json" charset="utf-8"></script>
+
   </head>
   <body>
 
@@ -44,7 +46,7 @@
 
       <section id ="user1_timeline" class="user_timeline">
 
-        <div id="streamgraph" style="width: 100%; height: 500px;"></div>
+        <div id="user1_streamgraph" class="streamgraph" style="width: 100%; height: 500px;"></div>
       
       </section>
       
@@ -62,16 +64,16 @@
     </section>
 
 
-    <section id="shared_map">
+    <section id="map">
 
-      <img src="../resources/temp/map.jpg">
+     
 
     </section>
 
 
     <section id="shared_graph">
 
-     <img src="../resources/temp/graph.png">
+
       
     </section>
 
@@ -81,12 +83,23 @@
       <section id="user2_tag"></section>
 
 
-      <section class="user_artist_list">
+
+
+      <section id="user2_artist_list" class="user_artist_list">
         
       </section>
 
+      <section id ="user2_timeline" class="user_timeline">
 
-      <section class="user_genre_list">
+        <div id="user2_streamgraph" class="streamgraph" style="width: 100%; height: 500px;"></div>
+      
+      </section>
+      
+      <section id="user2_tabbed_menu" class="user_tabbed_menu">
+
+      </section>
+
+      <section  id ="user2_genre_list" class="user_genre_list">
         
       </section>
       
@@ -98,8 +111,11 @@
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js" type="text/javascript"></script>
+  <script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
       <script src="../js/d3.min.js"></script>
   <script src="../js/streamgraph.js" type="text/javascript"></script>
+  <script src="../js/forcegraph.js" charset="utf-8"></script>
   <script src="../js/ui.js" type="text/javascript"></script>
   <script src="../js/app1.js" type="text/javascript"></script>
   </body>
