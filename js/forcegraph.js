@@ -63,13 +63,23 @@ ForceGraph.prototype = {
             .style("position", "absolute")
             .attr("id", "menu-ui-forcegraph");
 
-        nav.append("a")
+        var btn1 = nav.append("a")
             .attr("id", "btn-force-topten")
             .html("Top Ten Artists");
+        btn1.on("click", function() {
+            self.mode = "global";
+            self.update();
+        });
 
-        nav.append("a")
+
+        btn2 = nav.append("a")
             .attr("id", "btn-force-user")
             .html("User Information");
+        btn2.on("click", function(){
+            self.mode = "user";
+            self.update();
+        });
+
     },
 
     getTopArtistsperDecade: function(){
