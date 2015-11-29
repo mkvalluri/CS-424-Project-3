@@ -365,7 +365,7 @@ StreamGraph.prototype = {
             if(self.user =="user1")
             {
                     $.getJSON(
-                                'http://cs424.azurewebsites.net/api/TopArtists?startYear='+self.startYear+'&endYear='+self.endYear, 
+                                baseURL+'TopArtists?startYear='+self.startYear+'&endYear='+self.endYear, 
                                 function(data) {
                                     console.log(data);
                                     $$("user1_top_ten_artists").clearAll();

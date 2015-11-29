@@ -82,7 +82,10 @@ $(document).ready(function() {
         shared_timeline_data.push({
           "ArtistId": this.getItem(id).ArtistId,
           "ArtistName": this.getItem(id).ArtistName,
+          "ArtistImageLink": this.getItem(id).ArtistImageLink,
           "ArtistMainGenre": this.getItem(id).ArtistMainGenre,
+          "ArtistGenres":this.getItem(id).ArtistGenres,
+          "ArtistPopularity":this.getItem(id).ArtistPopularity,
           "start": this.getItem(id).ArtistActiveYears[0].Start,
           "end": this.getItem(id).ArtistActiveYears[0].End,
           "user":user
@@ -92,6 +95,8 @@ $(document).ready(function() {
         ArtistId: this.getItem(id).ArtistId,
         ArtistName: this.getItem(id).ArtistName
       })
+
+      fG.updateUserArtists(shared_timeline_data);
     }
   })
 
