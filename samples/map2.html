@@ -236,8 +236,6 @@ function geocodeToLayer(url, artist, layer, num) {
             alert("Geocoding request failed: STATUS " + data.status);
         }
         var latlng = data.results[0].geometry.location;
-        console.log('new')
-
 
         Layer1.eachLayer(function (layer) {
             var mll = layer.getLatLng();
@@ -261,16 +259,12 @@ function geocodeToLayer(url, artist, layer, num) {
                 opacity: 1,          // Stroke opacity
                 weight: 2,           // Stroke weight
                 fillOpacity: 0.2,    // Fill opacity);
-                artistName: artist.ArtistName,
-                artistGenre: artist.ArtistMainGenre,
-                artistLocation: artist.ArtistLocation,
         });
 
         tooltip = '<img src="' + artist.ArtistImageLink + '" />' + 
                   '<p>' + artist.ArtistName + '</p>' +
                   '<p>' + artist.ArtistLocation + '</p>' +
                   '<p>' + artist.ArtistMainGenre.capitalize() + '</p>';
-
 
         dot.bindPopup(tooltip, {
             offset: new L.Point(-4, 0),
