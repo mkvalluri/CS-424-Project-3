@@ -29,9 +29,19 @@ user2.tabbedMenu();
 var sharedUI = new UI("sharedUI","yellow");
 sharedUI.sharedMap();
 sharedUI.sharedGraph();
-var test;
+
 
 $(document).ready(function(){
+
+	$$('user1_my_artist_list').clearAll();
+	user1_artist_list_data=[];
+	$$('user1_my_genre_list').clearAll();
+	user1_genre_list_data=[];
+
+	$$('user2_my_artist_list').clearAll();
+	user2_artist_list_data=[];
+	$$('user2_my_genre_list').clearAll();
+	user2_genre_list_data=[];
 
 $$("user1_top_ten_artists").attachEvent("onItemClick",function(id){
 
@@ -61,12 +71,55 @@ $$("user1_top_ten_artists").attachEvent("onItemDblClick",function(id){
 })
 
 
+
+
+$$("user1_related_artist").attachEvent("onItemDblClick",function(id){
+
+
+	var item=this.getItem(id).ArtistId;
+	var isItemAlreadyOnTheList=false
+	user1_my_artists_list_data.forEach(function(d,i){
+			if(d.ArtistId==item)
+				isItemAlreadyOnTheList=true;
+	});
+
+	if(!isItemAlreadyOnTheList){
+	user1_my_artists_list_data.push({"ArtistId":this.getItem(id).ArtistId,"ArtistName":this.getItem(id).ArtistName});
+
+	$$('user1_my_artist_list').add({ArtistId:this.getItem(id).ArtistId,ArtistName:this.getItem(id).ArtistName})
+	}
+})
+
+
+
 $$("user1_top_ten_genres").attachEvent("onItemClick",function(id){
    $$('user1_top_ten_artists').unselect();
    $$('user1_related_artist').clearAll();
    $$("user1_related_artist").load('http://cs424.azurewebsites.net/api/TopArtists?startYear=2010&endYear=2014');
 
  })
+
+$$("user1_top_ten_genres").attachEvent("onItemDblClick",function(id){
+
+
+	var item=this.getItem(id).Name;
+	var isItemAlreadyOnTheList=false
+	user1_my_genres_list_data.forEach(function(d,i){
+			if(d.Name==item)
+				isItemAlreadyOnTheList=true;
+	});
+
+	if(!isItemAlreadyOnTheList){
+	user1_my_genres_list_data.push({"Name":this.getItem(id).Name,"Relevance":this.getItem(id).Relevance});
+
+	$$('user1_my_genre_list').add({Name:this.getItem(id).Name,Relevance:this.getItem(id).Relevance})
+	}
+})
+
+
+
+
+
 
 $('#user1_my_artist_clear').click(function(){
 	$$('user1_my_artist_list').clearAll();
@@ -75,6 +128,7 @@ $('#user1_my_artist_clear').click(function(){
 
 $('#user1_my_genre_clear').click(function(){
 	$$('user1_my_genre_list').clearAll();
+	user1_my_genre_list_data=[];
 })
 
 
@@ -93,13 +147,49 @@ $$("user1_my_artist_list").attachEvent("onItemDblClick",function(id){
 })
 
 
+
+$$("user1_my_genre_list").attachEvent("onItemDblClick",function(id){
+
+	var selectedId =  this.getItem(id).Name;	
+	$$("user1_my_genre_list").remove($$("user1_my_genre_list").getSelectedId());
+
+	$.each(user1_my_genres_list_data, function(i){
+    if(user1_my_genres_list_data[i].ArtistId === selectedId) {
+        user1_my_genres_list_data.splice(i,1);
+        return false;
+    }
+});
+	
+})
+
+//User2
+
 $$("user2_top_ten_artists").attachEvent("onItemClick",function(id){
+
+	//alert(this.getItem(id).ArtistName);
    $$('user2_top_ten_genres').unselect();
    $$('user2_related_artist').clearAll();
    $$("user2_related_artist").load('http://cs424.azurewebsites.net/api/TopArtists?startYear=2010&endYear=2014');
 
  })
 
+
+$$("user2_top_ten_artists").attachEvent("onItemDblClick",function(id){
+
+
+	var item=this.getItem(id).ArtistId;
+	var isItemAlreadyOnTheList=false
+	user2_my_artists_list_data.forEach(function(d,i){
+			if(d.ArtistId==item)
+				isItemAlreadyOnTheList=true;
+	});
+
+	if(!isItemAlreadyOnTheList){
+	user2_my_artists_list_data.push({"ArtistId":this.getItem(id).ArtistId,"ArtistName":this.getItem(id).ArtistName});
+
+	$$('user2_my_artist_list').add({ArtistId:this.getItem(id).ArtistId,ArtistName:this.getItem(id).ArtistName})
+	}
+})
 
 
 $$("user2_top_ten_genres").attachEvent("onItemClick",function(id){
@@ -109,12 +199,80 @@ $$("user2_top_ten_genres").attachEvent("onItemClick",function(id){
 
  })
 
+
+$$("user2_top_ten_genres").attachEvent("onItemDblClick",function(id){
+
+
+	var item=this.getItem(id).Name;
+	var isItemAlreadyOnTheList=false
+	user2_my_genres_list_data.forEach(function(d,i){
+			if(d.Name==item)
+				isItemAlreadyOnTheList=true;
+	});
+
+	if(!isItemAlreadyOnTheList){
+	user2_my_genres_list_data.push({"Name":this.getItem(id).Name,"Relevance":this.getItem(id).Relevance});
+
+	$$('user2_my_genre_list').add({Name:this.getItem(id).Name,Relevance:this.getItem(id).Relevance})
+	}
+})
+
+
+$$("user2_related_artist").attachEvent("onItemDblClick",function(id){
+
+
+	var item=this.getItem(id).ArtistId;
+	var isItemAlreadyOnTheList=false
+	user2_my_artists_list_data.forEach(function(d,i){
+			if(d.ArtistId==item)
+				isItemAlreadyOnTheList=true;
+	});
+
+	if(!isItemAlreadyOnTheList){
+	user2_my_artists_list_data.push({"ArtistId":this.getItem(id).ArtistId,"ArtistName":this.getItem(id).ArtistName});
+
+	$$('user2_my_artist_list').add({ArtistId:this.getItem(id).ArtistId,ArtistName:this.getItem(id).ArtistName})
+	}
+})
+
+
 $('#user2_my_artist_clear').click(function(){
 	$$('user2_my_artist_list').clearAll();
+	user2_my_artists_list_data=[];
 })
 
 $('#user2_my_genre_clear').click(function(){
 	$$('user2_my_genre_list').clearAll();
+	user2_genre_list_data=[];
 })
+
+
+$$("user2_my_artist_list").attachEvent("onItemDblClick",function(id){
+
+	var selectedId =  this.getItem(id).ArtistId;	
+	$$("user2_my_artist_list").remove($$("user2_my_artist_list").getSelectedId());
+
+	$.each(user2_my_artists_list_data, function(i){
+    if(user2_my_artists_list_data[i].ArtistId === selectedId) {
+        user2_my_artists_list_data.splice(i,1);
+        return false;
+    }
+});
+	
+})
+
+
+$$("user2_my_genre_list").attachEvent("onItemDblClick",function(id){
+
+	var selectedId =  this.getItem(id).Name;	
+	$$("user2_my_genre_list").remove($$("user2_my_genre_list").getSelectedId());
+
+	$.each(user2_my_genres_list_data, function(i){
+    if(user2_my_genres_list_data[i].ArtistId === selectedId) {
+        user2_my_genres_list_data.splice(i,1);
+        return false;
+    }
+	});
+});
 
 });

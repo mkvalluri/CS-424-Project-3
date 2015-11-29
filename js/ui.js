@@ -3,13 +3,13 @@ var user1_top_ten_artists_data={};
 var user1_top_ten_genres_data={};
 var user1_my_artists_list_element={};
 var user1_my_artists_list_data=[];
-var user1_my_genres_list_data={};
+var user1_my_genres_list_data=[];
 var user1_related_artists_data={};
 
 var user2_top_ten_artists_data={};
 var user2_top_ten_genres_data={};
-var user2_my_artists_list_data={};
-var user2_my_genres_list_data={};
+var user2_my_artists_list_data=[];
+var user2_my_genres_list_data=[];
 var user2_related_artists_data={};
 
 var shared_pool={};
@@ -208,7 +208,7 @@ UI.prototype ={
 				id:this.user+"_my_artist_list",
 				template:"#ArtistName#\
 				 <button id= #ArtistId# class='delete_artist_list_button'></button>",
-				data:this.user1+"_my_artists_list_data",
+				
 				select:true
 
 			}
@@ -234,9 +234,10 @@ UI.prototype ={
 			{
 				view:"list",
 				id:this.user+"_my_genre_list",
-				template:"#title#\
-				 <button class='delete_artist_list_button'></button>",
-				data:data
+				template:"#Name#\
+				 <button id= #ArtistId# class='delete_genre_list_button'></button>",
+				 data:data,
+				select:true
 			}
 
 			]
@@ -283,7 +284,8 @@ UI.prototype ={
         						 			id:this.user+"_related_artist",
      						   	 			  container:this.tabbed_menu_holder,
      						   	 			      template:"<img src=#ArtistImageLink#><div class='webix_strong'>#ArtistName#</div> <p>Primary Genre: #ArtistMainGenre#</p> <p>rank: #rank#</p>",
-     						 	 			        url:''
+     						 	 			        url:'',
+     						 	 			        select:true
      						 	 			    }
         					   }
     						]
