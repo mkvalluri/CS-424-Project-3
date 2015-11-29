@@ -51,12 +51,38 @@
             background:#000;
             color: #fff;
             }
+.custom-popup .leaflet-popup-content-wrapper {
+  background:#973a5d;
+  color:#fff;
+  font-size:15px;
+  line-height:0px;
+  }
+.custom-popup .leaflet-popup-content-wrapper a {
+  color:rgba(255,255,255,0.5);
+  }
+.custom-popup .leaflet-popup-tip-container {
+  height:15px;
+  width:15px;
+  }
+.custom-popup img {
+  height: 90px;
+  width: 90px;
+  margin-bottom: 10px;
+}
+.custom-popup p {
+    margin: 0px;
+}
+.custom-popup .leaflet-popup-tip {
+  border-left:15px solid transparent;
+  border-right:15px solid transparent;
+  border-top:15px solid #2c3e50;
+  }
 </style>
 </head>
 
 <body>
 <nav id='menu-ui' class='menu-ui'></nav>
-<div id='map'></div>
+<div id='map' class='custom-popup'></div>
 
 <script>
 
@@ -269,6 +295,16 @@ function geocodeToLayer(url, artist, layer, num) {
                 artistGenre: artist.ArtistMainGenre,
                 artistLocation: artist.ArtistLocation,
         });
+
+        tooltip = '<img src="' + artist.ArtistImageLink + '" />' + 
+                  '<p>' + artist.ArtistName + '</p>' +
+                  '<p>' + artist.ArtistMainGenre.capitalize() + '</p>' +
+                  '<p>' + artist.ArtistLocation + '</p>';
+
+
+        dot.bindPopup(tooltip, {
+            closeButton: false,
+        });
         layer.addLayer(dot);
     });
 }
@@ -281,6 +317,10 @@ function Layer2Reset() {
     Layer2.clearLayers();
 }
 
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 // Zoom on map double-click
 map.on('dblclick', function(e) {
