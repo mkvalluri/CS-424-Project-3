@@ -112,6 +112,9 @@ ForceGraph.prototype = {
         var self = this,
             artists = null;
 
+        self.links = [];
+        self.nodes = [];
+
         if (self.mode == "global")
             artists = self.worldArtists;
         else
