@@ -15,7 +15,7 @@
 }
 
 .x.axis text {
-    fill       : black;
+    fill       : white;
     font-family: Verdana;
     font-size: 15px;
 }
@@ -29,4 +29,57 @@
 .left-opaque, .right-opaque{
     background: #000;
     opacity: 0.4;
+}
+
+.streamgraph-tooltip{
+    background-color: #eee;
+    box-shadow: 0 0 5px #999999;
+    color: #333;
+    display: none;
+    font-size: 12px;
+    left: 130px;
+    padding: 10px;
+    position: absolute;
+    text-align: center;
+    top: 95px;
+    width: 100px;
+    z-index: 20;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    font-family: sans-serif;
+}
+
+.streamgraph-tooltip:hover{
+    cursor: move;
+}
+
+.slider-barrier{
+    position: absolute;
+    z-index: 50;
+    bottom: 30px;
+}
+
+@media only screen and (min-width: 1000px) {
+
+}
+
+@media only screen and (min-width: 8000px) {
+
+    .streamgraph-tooltip {
+        width: 200px;
+        height: 100px;
+    }
+
+    .streamgraph-tooltip p {
+        font-size: 40px;
+    }
+
+    .x.axis text {
+        font-size: 30px;
+    }
 }

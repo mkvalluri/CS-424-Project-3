@@ -24,7 +24,7 @@ function StreamGraph(target, stream_data, startYear, endYear,user){
 
     /* container attributes */
     self.target = target;
-    self.margin = {top: 50, right: 20, bottom: 40, left: 80};
+    self.margin = {top: 10, right: 40, bottom: 30, left: 80};
     self.height = 0;
     self.width = 0;
     self.svg = null;
@@ -296,10 +296,17 @@ StreamGraph.prototype = {
                 var invertedx = self.x.invert(mousex[0]);
 
                 self.tooltip.html( "<p>" + d[0].name + "</p>" )
-                    .style("left", d3.event.pageX + "px")
+                    .style("left", (d3.event.pageX + 50) + "px")
                     .style("top", d3.event.pageY + "px")
-                    .style("visibility", "visible");
-                console.log(d[0].name);
+                    .style("display", "block");
+            })
+            .on("mousemove", function(){
+                mouse = d3.mouse(this);
+                console.log("(" + mouse[0] + "," + mouse[1] + ") - (" + d3.event.pageX + "," + d3.event.pageY + ")");
+                self.tooltip
+                    .style("left", (d3.event.pageX + 50) + "px")
+                    .style("top", d3.event.pageY + "px")
+                var x = 1;
             })
             .on("mouseout", function(d, i) {
                 self.svg.selectAll(".layer")
@@ -307,42 +314,29 @@ StreamGraph.prototype = {
                     .duration(250)
                     .attr("opacity", "1");
 
-                self.tooltip.style("visibility", "hidden");
+                self.tooltip.style("display", "none");
             });
 
         self.leftOpaqueSelection = d3.select(self.target)
             .append("div")
-            .attr("class", "left-opaque")
-            .style("position", "absolute")
-            .style("z-index", "50")
-            .style("width", "1px")
+            .attr("class", "left-opaque slider-barrier")
             .style("height", self.height + "px")
-            .style("top", self.margin.top + "px")
-            .style("bottom", "30px")
-            .style("left", self.margin.left + "px");
+            .style("left", self.margin.left + "px")
+            .attr("transform", "translate(" + 0 + "," + self.margin.top + ")");
 
         self.rightOpaqueSelection = d3.select(self.target)
             .append("div")
-            .attr("class", "right-opaque")
-            .style("position", "absolute")
-            .style("z-index", "50")
-            .style("width", "1px")
+            .attr("class", "right-opaque slider-barrier")
             .style("height", self.height+ "px")
-            .style("top", self.margin.top + "px")
-            .style("bottom", "30px")
-            .style("left", self.width + self.margin.left + "px");
+            .style("left", self.width + self.margin.left + "px")
+            .attr("transform", "translate(" + 0 + "," + self.margin.top + ")");
 
         gBrush.selectAll(".extent,.resize,.background")
             .remove();
 
         self.tooltip = d3.select(self.target)
             .append("div")
-            .attr("class", "tooltip")
-            .style("position", "absolute")
-            .style("z-index", "20")
-            .style("visibility", "hidden")
-            .style("top", "30px")
-            .style("left", "55px");
+            .attr("class", "streamgraph-tooltip");
 
         function dragmove() {
             mousex = d3.mouse(this);
@@ -370,9 +364,6 @@ StreamGraph.prototype = {
 
             if(self.user =="user1")
             {
-
-                
-                   
                     $.getJSON(
                                 'http://cs424.azurewebsites.net/api/TopArtists?startYear='+self.startYear+'&endYear='+self.endYear, 
                                 function(data) {
@@ -384,8 +375,6 @@ StreamGraph.prototype = {
                                     $$("user1_top_ten_genres").load(baseURL+'TopGenresByDecade?startYear='+self.extentTracker[0]+'&endYear='+self.extentTracker[1]);
                                     }
                             );
-                
-
             }
             else if(self.user=="user2")
             {

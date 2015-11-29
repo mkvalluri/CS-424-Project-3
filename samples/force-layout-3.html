@@ -13,7 +13,7 @@
     <style>
         #graph{
             width: 1000px;
-            height: 700px;
+            height: 800px;
             border-color: black;
             border-width: medium;
         }
@@ -22,6 +22,7 @@
 <body>
     <form>
         <input type="button" value="Insert node" onclick="insertNode()"/>
+
         <input type="button" value="Remove random node" onclick="removeRandomNode()"/>
         <div id="graph"></div>
     </form>
@@ -109,7 +110,7 @@
         data.nodes = nodes;
         data.links = links;*/
 
-        var graph = new ForceGraph("#graph", 1940, 2010, "#f03b20", "#2b8cbe", "#feb24c");
+        var graph = new ForceGraph("#graph", 1950, 2010, "#f03b20", "#2b8cbe", "#feb24c", "http://cs424.azurewebsites.net/api/");
         graph.init();
     </script>
 </body>

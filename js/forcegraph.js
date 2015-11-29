@@ -2,8 +2,13 @@
  * Created by juan on 11/16/15.
  */
 
-function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoincidence){
+function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoincidence, URI){
     var self = this;
+
+    self.URI = URI;
+
+    self.worldArtists = [];
+    self.usersArtists = [];
 
     self.startYear = startYear;
     self.endYear = endYear;
@@ -35,24 +40,29 @@ function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoinciden
                         .on("dragstart", function(d,i) { self.dragStart(d,i); })
                         .on("drag", function(d,i) { self.dragMove(d,i); })
                         .on("dragend", function(d,i) { self.dragEnd(d,i); });
+
+    /* Mode: Defines if the graph is showing information about the top ten artists
+     *  per decade (global) or if the graph shows the artists added by users (user).
+     *  By default start showing the global data */
+    self.mode = 'global';
+
     self.links = [];
     self.nodes = [];
 
-    self.getData();
+    self.getTopArtistsperDecade();
 }
 
 ForceGraph.prototype = {
     constructor: ForceGraph,
 
-    getData: function(){
+    getTopArtistsperDecade: function(){
         var self = this;
 
         var startYear = self.startYear;
         var endYear = self.endYear;
-        var artists = [];
 
         while (startYear + 10 <= endYear){
-            var url = 'http://cs424.azurewebsites.net/api/TopArtists?startYear='
+            var url = self.URI + 'TopArtists?startYear=' +
                 + startYear  + '&endYear=' + (startYear + 10);
 
             $.ajax({
@@ -64,6 +74,32 @@ ForceGraph.prototype = {
 
             startYear += 10;
         }
+
+        /* fetch the data from the JSON call into an artist array */
+        function success(data){
+            for(var i=0; i < data.length; i++){
+                if (!artistAlreadyAdded(data[i]))
+                    self.worldArtists.push(data[i]);
+            }
+        }
+
+        /* check if the artist was already added to the array to avoid duplicates */
+        function artistAlreadyAdded(artist){
+            for(var i=0; i < self.worldArtists.length; i++)
+                if (self.worldArtists[i].ArtistName === artist.ArtistName)
+                    return true;
+            return false;
+        }
+    },
+
+    fetchNodesLinks: function(){
+        var self = this,
+            artists = null;
+
+        if (self.mode = "global")
+            artists = self.worldArtists;
+        else
+            artists = self.usersArtists;
 
         /* start adding the elements to the nodes and links. artist should be
         * mapped to their genres and connecting artists by similar genres */
@@ -101,24 +137,6 @@ ForceGraph.prototype = {
         for(var i=0; i < genres.length; i++){
             genres[i].type = 'genre';
             self.nodes.push(genres[i]);
-        }
-
-        var x = 1;
-
-        /* fetch the data from the JSON call into an artist array */
-        function success(data){
-            for(var i=0; i < data.length; i++){
-                if (!artistAlreadyAdded(data[i]))
-                    artists.push(data[i]);
-            }
-        }
-
-        /* check if the artist was already added to the array to avoid duplicates */
-        function artistAlreadyAdded(artist){
-            for(var i=0; i < artists.length; i++)
-                if (artists[i].ArtistName === artist.ArtistName)
-                    return true;
-            return false;
         }
 
         /* check if the genre was already added to the array to avoid duplicates */
@@ -268,9 +286,20 @@ ForceGraph.prototype = {
         }
     },
 
+    updateUserArtists: function(artists){
+        var self = this;
+        self.mode = "user";
+
+        self.usersArtists = artists;
+        self.update();
+    },
+
     addNode: function(artist){
-        this.nodes.push(artist);
-        this.update();
+        var self = this;
+        self.mode = "user";
+
+        self.usersArtists.push(artist);
+        self.update();
     },
 
     removeNode: function(node){
@@ -310,6 +339,8 @@ ForceGraph.prototype = {
 
         self.svg.selectAll("line").remove();
         self.svg.selectAll("g.node").remove();
+
+        self.fetchNodesLinks();
 
         var link = self.svg.selectAll("line")
             .data(self.links);
@@ -439,7 +470,7 @@ ForceGraph.prototype = {
         self.force
             .charge(-120)
             .linkDistance(120)
-            .friction(0.99)
+            .friction(0.9)
             .size([self.width, self.height])
             .start();
 
