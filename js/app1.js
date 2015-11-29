@@ -29,6 +29,7 @@ sharedUI.sharedMap();
 sharedUI.sharedGraph();
 sharedUI.sharedTimeline();
 
+
 $(document).ready(function() {
 
   $$('user1_my_artist_list').clearAll();
@@ -46,7 +47,7 @@ $(document).ready(function() {
     //alert(this.getItem(id).ArtistName);
     $$('user1_top_ten_genres').unselect();
     $$('user1_related_artist').clearAll();
-    $$("user1_related_artist").load('http://cs424proj3.azurewebsites.net/api/SimilarArtistsByName?artistName=' + this.getItem(id).ArtistName);
+    $$("user1_related_artist").load(baseURL+'SimilarArtistsByName?artistName=' + this.getItem(id).ArtistName);
 
   })
 
@@ -143,7 +144,7 @@ $(document).ready(function() {
   $$("user1_top_ten_genres").attachEvent("onItemClick", function(id) {
     $$('user1_top_ten_artists').unselect();
     $$('user1_related_artist').clearAll();
-    $$("user1_related_artist").load('http://cs424proj3.azurewebsites.net/api/TopArtistsByGenre?genreName=' + this.getItem(id).Name);
+    $$("user1_related_artist").load(baseURL+'TopArtistsByGenre?genreName=' + this.getItem(id).Name);
 
   })
 
@@ -263,7 +264,7 @@ $(document).ready(function() {
     //alert(this.getItem(id).ArtistName);
     $$('user2_top_ten_genres').unselect();
     $$('user2_related_artist').clearAll();
-    $$("user2_related_artist").load('http://cs424proj3.azurewebsites.net/api/SimilarArtistsByName?artistName=' + this.getItem(id).ArtistName);
+    $$("user2_related_artist").load(baseURL+'SimilarArtistsByName?artistName=' + this.getItem(id).ArtistName);
 
   })
 
@@ -316,7 +317,7 @@ $(document).ready(function() {
   $$("user2_top_ten_genres").attachEvent("onItemClick", function(id) {
     $$('user2_top_ten_artists').unselect();
     $$('user2_related_artist').clearAll();
-    $$("user2_related_artist").load('http://cs424proj3.azurewebsites.net/api/TopArtistsByGenre?genreName=' + this.getItem(id).Name);
+    $$("user2_related_artist").load(baseURL+'TopArtistsByGenre?genreName=' + this.getItem(id).Name);
 
   })
 

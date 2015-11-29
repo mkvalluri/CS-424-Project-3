@@ -321,6 +321,50 @@
 
 
 
+
+.rowContainer {  
+  margin-top: -10px;
+  border-left: 0.1em solid gray;
+  width: calc(100% / 12 * 9);
+}
+
+.menuContainer {
+  height: calc(80vh / 4);
+  width: calc(100% / 12 * 2);
+}
+
+.barChartContainer, .pieChartContainer {
+  width: calc(100% / 12 * 7.5);
+  height: calc(80vh / 3);
+  border-left: 0.1em solid gray;
+}
+
+.pieChartContainer {
+  width: calc(100% / 12 * 2.5);
+  height: calc(80vh / 3);
+}
+
+.artistArt {
+  border: 0.1em solid black;
+  width: 10em;
+  height: 10em;
+  padding: 2em;  
+  margin: 1em;
+}
+
+.artistArt p {
+  height: 100%;
+  width: 100%;
+  font-size: 4em;
+  text-align: center;
+}
+
+.artistArt:hover {
+  cursor: pointer;
+  background-color: deepskyblue;
+}
+
+
 @media (max-width: 3000px) {
 
 	 #app{

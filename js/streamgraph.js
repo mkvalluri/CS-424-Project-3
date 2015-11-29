@@ -378,10 +378,10 @@ StreamGraph.prototype = {
                                 function(data) {
                                     console.log(data);
                                     $$("user1_top_ten_artists").clearAll();
-                                    $$("user1_top_ten_artists").load('http://cs424.azurewebsites.net/api/TopArtists?startYear='+self.extentTracker[0]+'&endYear='+self.extentTracker[1]);
+                                    $$("user1_top_ten_artists").load(baseURL+'TopArtists?startYear='+self.extentTracker[0]+'&endYear='+self.extentTracker[1]);
 
                                     $$("user1_top_ten_genres").clearAll();
-                                    $$("user1_top_ten_genres").load('http://cs424.azurewebsites.net/api/TopGenresByDecade?startYear='+self.extentTracker[0]+'&endYear='+self.extentTracker[1]);
+                                    $$("user1_top_ten_genres").load(baseURL+'TopGenresByDecade?startYear='+self.extentTracker[0]+'&endYear='+self.extentTracker[1]);
                                     }
                             );
                 
@@ -390,14 +390,14 @@ StreamGraph.prototype = {
             else if(self.user=="user2")
             {
                  $.getJSON(
-                                'http://cs424.azurewebsites.net/api/TopArtists?startYear='+self.startYear+'&endYear='+self.endYear, 
+                                baseURL+'TopArtists?startYear='+self.startYear+'&endYear='+self.endYear, 
                                 function(data) {
                                     console.log(data);
                                     $$("user2_top_ten_artists").clearAll();
-                                    $$("user2_top_ten_artists").load('http://cs424.azurewebsites.net/api/TopArtists?startYear='+self.extentTracker[0]+'&endYear='+self.extentTracker[1]);
+                                    $$("user2_top_ten_artists").load(baseURL+'TopArtists?startYear='+self.extentTracker[0]+'&endYear='+self.extentTracker[1]);
 
                                     $$("user2_top_ten_genres").clearAll();
-                                    $$("user2_top_ten_genres").load('http://cs424.azurewebsites.net/api/TopGenresByDecade?startYear='+self.extentTracker[0]+'&endYear='+self.extentTracker[1]);
+                                    $$("user2_top_ten_genres").load(baseURL+'TopGenresByDecade?startYear='+self.extentTracker[0]+'&endYear='+self.extentTracker[1]);
                                     }
                             );
             }
@@ -431,7 +431,7 @@ StreamGraph.prototype = {
 function getTop10GenresPerYear(startYear, endYear){
     var jsonData;
     
-    var url = "http://cs424.azurewebsites.net/api/TopGenres?startYear=" +
+    var url = baseURL+"TopGenres?startYear=" +
                 startYear + "&endYear="+ endYear;
 
     $.ajax({
