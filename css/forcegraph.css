@@ -28,3 +28,45 @@
     stroke: #F00;
     stroke-width: 2.5px;
 }
+
+/* Classes for the bottom right panel for changing views */
+.menu-ui {
+    background:#fff;
+    position:absolute;
+    bottom:30px;
+    right:10px;
+    z-index:1;
+    border-radius:3px;
+    width:120px;
+    border:1px solid rgba(0,0,0,0.4);
+}
+.menu-ui a {
+    font-size:15px;
+    color:#000;
+    display:block;
+    margin:0;
+    padding:0;
+    padding:10px;
+    text-decoration:none;
+    border-bottom:1px solid rgba(0,0,0,0.25);
+    text-align:center;
+}
+.menu-ui a:first-child {
+    border-radius:3px 3px 0 0;
+}
+.menu-ui a:last-child {
+    border:none;
+    border-radius:0 0 3px 3px;
+}
+.menu-ui a:hover {
+    background:#000;
+    color:#fff;
+}
+.menu-ui a.active {  /* Layer on */
+    background:#55E000;
+    color:#000;
+}
+.menu-ui a.active:hover {
+    background:#000;
+    color: #fff;
+}

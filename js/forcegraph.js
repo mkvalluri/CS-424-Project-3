@@ -15,7 +15,7 @@ function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoinciden
 
     /* container attributes */
     self.target = target;
-    self.margin = {top: 50, right: 20, bottom: 40, left: 80};
+    self.margin = {top: 0, right: 0, bottom: 0, left: 0};
     self.height = 0;
     self.width = 0;
     self.svg = null;
@@ -54,6 +54,22 @@ function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoinciden
 
 ForceGraph.prototype = {
     constructor: ForceGraph,
+
+    addButtons: function(){
+        var self = this;
+
+        var nav = d3.select(self.target).append("nav")
+            .attr("class", "menu-ui")
+            .attr("id", "menu-ui-forcegraph");
+
+        nav.append("a")
+            .attr("id", "btn-force-topten")
+            .html("Top Ten Artists");
+
+        nav.append("a")
+            .attr("id", "btn-force-user")
+            .html("User Information");
+    },
 
     getTopArtistsperDecade: function(){
         var self = this;
@@ -96,7 +112,7 @@ ForceGraph.prototype = {
         var self = this,
             artists = null;
 
-        if (self.mode = "global")
+        if (self.mode == "global")
             artists = self.worldArtists;
         else
             artists = self.usersArtists;
@@ -512,6 +528,7 @@ ForceGraph.prototype = {
         //self.nodes = self.force.nodes();
         //self.links = self.force.links();
 
+        self.addButtons();
         self.update();
     }
 }
