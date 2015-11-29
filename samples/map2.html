@@ -40,7 +40,7 @@
           border-radius:0 0 3px 3px;
           }
         .menu-ui a:hover {
-          background:#3074a4;
+          background:#000;
           color:#fff;
           }
         .menu-ui a.active {  /* Layer on */
@@ -48,7 +48,7 @@
           color:#000;
           }
           .menu-ui a.active:hover {
-            background:#3074a4;
+            background:#000;
             color: #fff;
             }
 </style>
@@ -184,26 +184,46 @@ var sampledata = {
     }
 }
 
+var testartist = {"ArtistId":17,"ArtistName":"Coldplay","ArtistLocation":"London, England","ArtistImageLink":"https://i.scdn.co/image/276b1ff385d67230f3a6ccbb9555556409a63618","ArtistMainGenre":"rock","ArtistGenres":[{"Name":"rock","Relevance":0.86},{"Name":"pop","Relevance":0.64},{"Name":"alternative rock","Relevance":0.08},{"Name":"indie rock","Relevance":0.05},{"Name":"electronic","Relevance":0.02},{"Name":"ambient","Relevance":0.01},{"Name":"easy listening","Relevance":0.01},{"Name":"electronica","Relevance":0.01},{"Name":"folk","Relevance":0.01},{"Name":"house","Relevance":0.01},{"Name":"pop rock","Relevance":0.01},{"Name":"indie pop","Relevance":0.0},{"Name":"piano rock","Relevance":0.0},{"Name":"soft rock","Relevance":0.0}],"ArtistActiveYears":[{"Start":1996,"End":0}],"ArtistSelected":0,"ArtistPopularity":72.443333333333328};
+
+var testartist2 = {"ArtistId":674,"ArtistName":"Red Hot Chili Peppers","ArtistLocation":"Los Angeles, CA","ArtistImageLink":"https://i.scdn.co/image/63815f898b95f2b24b3fcb9b6af4d2ed1b92270c","ArtistMainGenre":"rock","ArtistGenres":[{"Name":"rock","Relevance":1.0},{"Name":"funk","Relevance":0.27},{"Name":"funk rock","Relevance":0.14},{"Name":"punk","Relevance":0.08},{"Name":"alternative rock","Relevance":0.07},{"Name":"pop","Relevance":0.07},{"Name":"funk metal","Relevance":0.03},{"Name":"metal","Relevance":0.03},{"Name":"hard rock","Relevance":0.02},{"Name":"psychedelic rock","Relevance":0.02},{"Name":"rap","Relevance":0.02},{"Name":"rap rock","Relevance":0.02},{"Name":"soul","Relevance":0.02},{"Name":"blues","Relevance":0.0},{"Name":"classic rock","Relevance":0.0},{"Name":"grunge","Relevance":0.0},{"Name":"hardcore","Relevance":0.0}],"ArtistActiveYears":[{"Start":1983,"End":0}],"ArtistSelected":0,"ArtistPopularity":72.4}
+
 var testdata = [{"ArtistId":17,"ArtistName":"Coldplay","ArtistLocation":"London, England","ArtistImageLink":"https://i.scdn.co/image/276b1ff385d67230f3a6ccbb9555556409a63618","ArtistMainGenre":"rock","ArtistGenres":[{"Name":"rock","Relevance":0.86},{"Name":"pop","Relevance":0.64},{"Name":"alternative rock","Relevance":0.08},{"Name":"indie rock","Relevance":0.05},{"Name":"electronic","Relevance":0.02},{"Name":"ambient","Relevance":0.01},{"Name":"easy listening","Relevance":0.01},{"Name":"electronica","Relevance":0.01},{"Name":"folk","Relevance":0.01},{"Name":"house","Relevance":0.01},{"Name":"pop rock","Relevance":0.01},{"Name":"indie pop","Relevance":0.0},{"Name":"piano rock","Relevance":0.0},{"Name":"soft rock","Relevance":0.0}],"ArtistActiveYears":[{"Start":1996,"End":0}],"ArtistSelected":0,"ArtistPopularity":72.443333333333328},{"ArtistId":227,"ArtistName":"The XX","ArtistLocation":"London, England, GB","ArtistImageLink":"https://i.scdn.co/image/c051e25cb86c24c17715fae8abef3806402444c3","ArtistMainGenre":"pop","ArtistGenres":[{"Name":"pop","Relevance":0.5},{"Name":"electronic","Relevance":0.22},{"Name":"minimal","Relevance":0.11},{"Name":"soul","Relevance":0.11},{"Name":"indie pop","Relevance":0.07},{"Name":"indie rock","Relevance":0.07},{"Name":"rock","Relevance":0.05},{"Name":"dream pop","Relevance":0.03},{"Name":"electronica","Relevance":0.03},{"Name":"alternative rock","Relevance":0.02},{"Name":"new wave","Relevance":0.02},{"Name":"ambient","Relevance":0.01},{"Name":"post-punk","Relevance":0.01}],"ArtistActiveYears":[{"Start":2005,"End":0}],"ArtistSelected":0,"ArtistPopularity":74.0},{"ArtistId":3,"ArtistName":"Adele","ArtistLocation":"London, UK","ArtistImageLink":"https://i.scdn.co/image/ccbe7b4fef679f821988c78dbd4734471834e3d9","ArtistMainGenre":"pop","ArtistGenres":[{"Name":"pop","Relevance":1.0},{"Name":"soul","Relevance":0.3},{"Name":"r&b","Relevance":0.06},{"Name":"blues","Relevance":0.02},{"Name":"jazz","Relevance":0.02},{"Name":"country","Relevance":0.01},{"Name":"folk","Relevance":0.01},{"Name":"singer-songwriter","Relevance":0.01},{"Name":"easy listening","Relevance":0.0}],"ArtistActiveYears":[{"Start":2006,"End":0}],"ArtistSelected":0,"ArtistPopularity":71.42},{"ArtistId":460,"ArtistName":"John Mayer","ArtistLocation":"Bridgeport, CT","ArtistImageLink":"https://i.scdn.co/image/ebf1756844ffe2ac55c7846981b5b9f65757ae30","ArtistMainGenre":"pop","ArtistGenres":[{"Name":"pop","Relevance":0.97},{"Name":"rock","Relevance":0.79},{"Name":"blues","Relevance":0.35},{"Name":"jazz","Relevance":0.12},{"Name":"country","Relevance":0.09},{"Name":"blues-rock","Relevance":0.06},{"Name":"pop rock","Relevance":0.06},{"Name":"singer-songwriter","Relevance":0.06},{"Name":"folk","Relevance":0.03},{"Name":"alternative rock","Relevance":0.02},{"Name":"soul","Relevance":0.02},{"Name":"folk rock","Relevance":0.01},{"Name":"soft rock","Relevance":0.01}],"ArtistActiveYears":[{"Start":1998,"End":0}],"ArtistSelected":0,"ArtistPopularity":67.666666666666671},{"ArtistId":171,"ArtistName":"Muse","ArtistLocation":"Teignmouth, Devon, England","ArtistImageLink":"https://i.scdn.co/image/0b3c04473aa6a2db8235e5092ec3413f35752b8d","ArtistMainGenre":"rock","ArtistGenres":[{"Name":"rock","Relevance":1.0},{"Name":"alternative rock","Relevance":0.09},{"Name":"progressive rock","Relevance":0.07},{"Name":"pop","Relevance":0.05},{"Name":"electronica","Relevance":0.03},{"Name":"electronic","Relevance":0.02},{"Name":"metal","Relevance":0.02},{"Name":"classic rock","Relevance":0.01},{"Name":"hard rock","Relevance":0.01},{"Name":"punk","Relevance":0.01},{"Name":"soundtrack","Relevance":0.01},{"Name":"space rock","Relevance":0.01},{"Name":"experimental rock","Relevance":0.0},{"Name":"new wave","Relevance":0.0}],"ArtistActiveYears":[{"Start":1994,"End":0}],"ArtistSelected":0,"ArtistPopularity":74.0},{"ArtistId":674,"ArtistName":"Red Hot Chili Peppers","ArtistLocation":"Los Angeles, CA","ArtistImageLink":"https://i.scdn.co/image/63815f898b95f2b24b3fcb9b6af4d2ed1b92270c","ArtistMainGenre":"rock","ArtistGenres":[{"Name":"rock","Relevance":1.0},{"Name":"funk","Relevance":0.27},{"Name":"funk rock","Relevance":0.14},{"Name":"punk","Relevance":0.08},{"Name":"alternative rock","Relevance":0.07},{"Name":"pop","Relevance":0.07},{"Name":"funk metal","Relevance":0.03},{"Name":"metal","Relevance":0.03},{"Name":"hard rock","Relevance":0.02},{"Name":"psychedelic rock","Relevance":0.02},{"Name":"rap","Relevance":0.02},{"Name":"rap rock","Relevance":0.02},{"Name":"soul","Relevance":0.02},{"Name":"blues","Relevance":0.0},{"Name":"classic rock","Relevance":0.0},{"Name":"grunge","Relevance":0.0},{"Name":"hardcore","Relevance":0.0}],"ArtistActiveYears":[{"Start":1983,"End":0}],"ArtistSelected":0,"ArtistPopularity":72.4},{"ArtistId":479,"ArtistName":"The Script","ArtistLocation":"Dublin, Ireland","ArtistImageLink":"https://i.scdn.co/image/474c5cf617a29c3b021e0a4e26754585ace7ca7e","ArtistMainGenre":"pop","ArtistGenres":[{"Name":"pop","Relevance":1.0},{"Name":"rock","Relevance":0.53},{"Name":"pop rock","Relevance":0.08},{"Name":"soul","Relevance":0.04},{"Name":"r&b","Relevance":0.02},{"Name":"indie pop","Relevance":0.01},{"Name":"rap","Relevance":0.01},{"Name":"alternative rock","Relevance":0.0},{"Name":"indie rock","Relevance":0.0},{"Name":"piano rock","Relevance":0.0},{"Name":"soft rock","Relevance":0.0}],"ArtistActiveYears":[{"Start":2001,"End":0}],"ArtistSelected":0,"ArtistPopularity":67.0},{"ArtistId":92,"ArtistName":"Bruno Mars","ArtistLocation":"Los Angeles, CA ","ArtistImageLink":"https://i.scdn.co/image/f22774ca7d636e724164a65b2601ab39538a3aed","ArtistMainGenre":"pop","ArtistGenres":[{"Name":"pop","Relevance":1.0},{"Name":"rock","Relevance":0.47},{"Name":"soul","Relevance":0.2},{"Name":"r&b","Relevance":0.18},{"Name":"reggae","Relevance":0.1},{"Name":"blues","Relevance":0.07},{"Name":"funk","Relevance":0.05},{"Name":"dancehall","Relevance":0.01},{"Name":"folk","Relevance":0.01},{"Name":"hip hop","Relevance":0.01},{"Name":"pop rock","Relevance":0.01},{"Name":"romantic","Relevance":0.01},{"Name":"singer-songwriter","Relevance":0.01},{"Name":"soft rock","Relevance":0.01},{"Name":"soundtrack","Relevance":0.01},{"Name":"alternative hip hop","Relevance":0.0}],"ArtistActiveYears":[{"Start":2004,"End":0}],"ArtistSelected":0,"ArtistPopularity":78.0},{"ArtistId":253,"ArtistName":"Marc Anthony","ArtistLocation":"New York, NY","ArtistImageLink":"https://i.scdn.co/image/20dcbf6d753975b784cc9af19ad897da3df09675","ArtistMainGenre":"pop","ArtistGenres":[{"Name":"pop","Relevance":0.87},{"Name":"latin","Relevance":0.55},{"Name":"salsa","Relevance":0.28},{"Name":"latin pop","Relevance":0.16}],"ArtistActiveYears":[{"Start":1988,"End":0}],"ArtistSelected":0,"ArtistPopularity":66.0},{"ArtistId":34,"ArtistName":"Skrillex","ArtistLocation":"Los Angeles, CA, US","ArtistImageLink":"https://i.scdn.co/image/39e1d16745912f0ae73e7967f062a4414479775b","ArtistMainGenre":"dubstep","ArtistGenres":[{"Name":"dubstep","Relevance":0.68},{"Name":"electronic","Relevance":0.68},{"Name":"electro","Relevance":0.36},{"Name":"house","Relevance":0.28},{"Name":"techno","Relevance":0.09},{"Name":"trance","Relevance":0.08},{"Name":"dub","Relevance":0.07},{"Name":"electro house","Relevance":0.06},{"Name":"pop","Relevance":0.06},{"Name":"reggae","Relevance":0.06},{"Name":"electronica","Relevance":0.05},{"Name":"remix","Relevance":0.03},{"Name":"experimental","Relevance":0.02},{"Name":"fidget house","Relevance":0.02},{"Name":"hardcore","Relevance":0.02},{"Name":"rap","Relevance":0.02},{"Name":"soundtrack","Relevance":0.02},{"Name":"big beat","Relevance":0.01},{"Name":"breakcore","Relevance":0.01},{"Name":"downtempo","Relevance":0.01}],"ArtistActiveYears":[{"Start":2002,"End":0}],"ArtistSelected":0,"ArtistPopularity":65.0}]
 
 
-Layer1Data();
+Layer1Data(testdata);
+Layer2Data(testartist);
+Layer2Data(testartist2);
 
 // URL-ify the artist location
 // var query = data.response.artist.artist_location.location;
-function Layer1Data() {
-    for (var i = 0; i < testdata.length; i++) {
-        var query = testdata[i].ArtistLocation;
+function Layer1Data(data) { // send an array of artists
+    for (var i = 0; i < data.length; i++) {
+        var query = data[i].ArtistLocation;
         var query_url = query.split(' ').join('+');
 
         // Construct Google Maps Geocoding API request url
         var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
 
         geocodeLayer1(url,
-                      testdata[i].ArtistName,
-                      testdata[i].ArtistMainGenre, 
-                      testdata[i].ArtistImageLink);
+                      data[i].ArtistName,
+                      data[i].ArtistMainGenre, 
+                      data[i].ArtistImageLink);
     }
+}
+
+
+function Layer2Data(artist) { // send single artist
+    var query = artist.ArtistLocation;
+    var query_url = query.split(' ').join('+');
+
+    // Construct Google Maps Geocoding API request url
+    var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
+
+    geocodeLayer2(url,
+                  artist.ArtistName,
+                  artist.ArtistMainGenre, 
+                  artist.ArtistImageLink);
 }
 
 function geocodeLayer1(url, name, genre, image) {
@@ -227,7 +247,7 @@ function geocodeLayer1(url, name, genre, image) {
     });
 }
 
-function geocodeLayer2(name, genre, image) {
+function geocodeLayer2(url, name, genre, image) {
     // Perform request to get latlng for artist location
     $.get(url, function(data) {
         if (data.status.localeCompare("OK")) {
@@ -237,7 +257,7 @@ function geocodeLayer2(name, genre, image) {
         // Plot latlng marker on map
         var latlng = data.results[0].geometry.location;
         var dot = L.circleMarker(latlng, {
-                color: getColor(genre),
+                color: '#0000ff',
                 radius: 15,           // Circle radius
                 opacity: 1,          // Stroke opacity
                 weight: 2,           // Stroke weight
@@ -254,9 +274,6 @@ map.on('dblclick', function(e) {
     // Zoom exactly to each double-clicked point
     map.setView(e.latlng, map.getZoom() + 1);
 });
-
-
-
 
 
 </script>
