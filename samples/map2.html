@@ -70,12 +70,12 @@
   margin-bottom: 10px;
 }
 .custom-popup p {
-    margin: 0px;
+  margin: 0px;
 }
 .custom-popup .leaflet-popup-tip {
   border-left:15px solid transparent;
   border-right:15px solid transparent;
-  border-top:15px solid #2c3e50;
+  border-top:15px solid #973a5d;
   }
 </style>
 </head>
@@ -194,47 +194,6 @@ function getUserColor(x) {
 
 //==========================Data=====================================// 
 
-var sampledata = {
-    "response": {
-        "artist": [ {
-            "artist_location": {
-                "city": "Abingdon",
-                "country": "United Kingdom",
-                "location": "Abingdon, England, GB",
-                "region": "England"
-            },
-            "id": "ARH6W4X1187B99274F",
-            "name": "Radiohead",
-            "genre": "rock"
-        }, {
-            "artist_location": {
-                "city": "New York City",
-                "country": "United States",
-                "location": "New York City, New York, USA",
-                "region": "USA"
-            },
-            "id": "??????",
-            "name": "Sample Artist",
-            "genre": "pop"
-        }, {
-            "artist_location": {
-                "city": "London",
-                "country": "United Kingdom",
-                "location": "London, England, GB",
-                "region": "England"
-            },
-            "id": "ARH6W4X1187B99274F",
-            "name": "Sample Artist 2",
-            "genre": "--"
-        } ],
-        "status": {
-            "code": 0,
-            "message": "Success",
-            "version": "4.2"
-        }
-    }
-}
-
 var testartist = {"ArtistId":17,"ArtistName":"Coldplay","ArtistLocation":"London, England","ArtistImageLink":"https://i.scdn.co/image/276b1ff385d67230f3a6ccbb9555556409a63618","ArtistMainGenre":"rock","ArtistGenres":[{"Name":"rock","Relevance":0.86},{"Name":"pop","Relevance":0.64},{"Name":"alternative rock","Relevance":0.08},{"Name":"indie rock","Relevance":0.05},{"Name":"electronic","Relevance":0.02},{"Name":"ambient","Relevance":0.01},{"Name":"easy listening","Relevance":0.01},{"Name":"electronica","Relevance":0.01},{"Name":"folk","Relevance":0.01},{"Name":"house","Relevance":0.01},{"Name":"pop rock","Relevance":0.01},{"Name":"indie pop","Relevance":0.0},{"Name":"piano rock","Relevance":0.0},{"Name":"soft rock","Relevance":0.0}],"ArtistActiveYears":[{"Start":1996,"End":0}],"ArtistSelected":0,"ArtistPopularity":72.443333333333328};
 
 var testartist2 = {"ArtistId":674,"ArtistName":"Red Hot Chili Peppers","ArtistLocation":"Los Angeles, CA","ArtistImageLink":"https://i.scdn.co/image/63815f898b95f2b24b3fcb9b6af4d2ed1b92270c","ArtistMainGenre":"rock","ArtistGenres":[{"Name":"rock","Relevance":1.0},{"Name":"funk","Relevance":0.27},{"Name":"funk rock","Relevance":0.14},{"Name":"punk","Relevance":0.08},{"Name":"alternative rock","Relevance":0.07},{"Name":"pop","Relevance":0.07},{"Name":"funk metal","Relevance":0.03},{"Name":"metal","Relevance":0.03},{"Name":"hard rock","Relevance":0.02},{"Name":"psychedelic rock","Relevance":0.02},{"Name":"rap","Relevance":0.02},{"Name":"rap rock","Relevance":0.02},{"Name":"soul","Relevance":0.02},{"Name":"blues","Relevance":0.0},{"Name":"classic rock","Relevance":0.0},{"Name":"grunge","Relevance":0.0},{"Name":"hardcore","Relevance":0.0}],"ArtistActiveYears":[{"Start":1983,"End":0}],"ArtistSelected":0,"ArtistPopularity":72.4}
@@ -243,8 +202,8 @@ var testdata = [{"ArtistId":17,"ArtistName":"Coldplay","ArtistLocation":"London,
 
 
 Layer1Data(testdata);
-Layer2Data(testartist);
-Layer2Data(testartist2);
+// Layer2Data(testartist);
+// Layer2Data(testartist2);
 
 // URL-ify the artist location
 // var query = data.response.artist.artist_location.location;
@@ -276,6 +235,18 @@ function geocodeToLayer(url, artist, layer, num) {
         if (data.status.localeCompare("OK")) {
             alert("Geocoding request failed: STATUS " + data.status);
         }
+        var latlng = data.results[0].geometry.location;
+        console.log('new')
+
+
+        Layer1.eachLayer(function (layer) {
+            var mll = layer.getLatLng();
+
+            if (latlng.lat == mll.lat && latlng.lng == mll.lng) {
+                console.log('update');
+                layer.setRadius(layer.getRadius()+10);
+            }
+        });
 
         var mColor = '';
         if (num == 1)
@@ -284,13 +255,12 @@ function geocodeToLayer(url, artist, layer, num) {
             mColor = '#fff'; 
 
         // Plot latlng marker on map
-        var latlng = data.results[0].geometry.location;
         var dot = L.circleMarker(latlng, {
                 color: mColor,
-                radius: 15,           // Circle radius
+                radius: 7,           // Circle radius
                 opacity: 1,          // Stroke opacity
                 weight: 2,           // Stroke weight
-                fillOpacity: 0.5,    // Fill opacity);
+                fillOpacity: 0.2,    // Fill opacity);
                 artistName: artist.ArtistName,
                 artistGenre: artist.ArtistMainGenre,
                 artistLocation: artist.ArtistLocation,
@@ -298,12 +268,12 @@ function geocodeToLayer(url, artist, layer, num) {
 
         tooltip = '<img src="' + artist.ArtistImageLink + '" />' + 
                   '<p>' + artist.ArtistName + '</p>' +
-                  '<p>' + artist.ArtistMainGenre.capitalize() + '</p>' +
-                  '<p>' + artist.ArtistLocation + '</p>';
+                  '<p>' + artist.ArtistLocation + '</p>' +
+                  '<p>' + artist.ArtistMainGenre.capitalize() + '</p>';
 
 
         dot.bindPopup(tooltip, {
-            closeButton: false,
+            offset: new L.Point(-4, 0),
         });
         layer.addLayer(dot);
     });
