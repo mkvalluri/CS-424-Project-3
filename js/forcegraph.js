@@ -60,6 +60,7 @@ ForceGraph.prototype = {
 
         var nav = d3.select(self.target).append("nav")
             .attr("class", "menu-ui")
+            .style("position", "absolute")
             .attr("id", "menu-ui-forcegraph");
 
         nav.append("a")
@@ -114,6 +115,9 @@ ForceGraph.prototype = {
 
         self.links = [];
         self.nodes = [];
+        self.force
+            .links(self.links)
+            .nodes(self.nodes);
 
         if (self.mode == "global")
             artists = self.worldArtists;
@@ -468,11 +472,13 @@ ForceGraph.prototype = {
                 .attr("y2", function (d) { return d.target.y; });
 
             node.selectAll("rect")
-                .attr("x", function (d) { return d.x - 11; })
+                .attr("x", function (d) {
+                    return d.x - 11; })
                 .attr("y", function (d) { return d.y - 11; });
 
             node.selectAll("circle")
-                .attr("cx", function (d) { return d.x; })
+                .attr("cx", function (d) {
+                    return d.x; })
                 .attr("cy", function (d) { return d.y; });
 
             node.selectAll("text")
