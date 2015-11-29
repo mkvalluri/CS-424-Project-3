@@ -216,10 +216,7 @@ function Layer1Data(data) { // send an array of artists
         var query = data[i].ArtistLocation;
         var query_url = query.split(' ').join('+');
 
-        // Construct Google Maps Geocoding API request url
-        var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
-
-        geocodeToLayer(url, data[i], Layer1, 1);
+        geocodeToLayer(query_url, data[i], Layer1, 1);
     }
 }
 
@@ -227,14 +224,14 @@ function Layer2Data(artist) { // send single artist
     var query = artist.ArtistLocation;
     var query_url = query.split(' ').join('+');
 
+    geocodeToLayer(query_url, artist, Layer2, 2);
+}
+
+function geocodeToLayer(query_url, artist, layer, num) {
+
     // Construct Google Maps Geocoding API request url
     var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
 
-    console.log('hello');
-    geocodeToLayer(url, artist, Layer2, 2);
-}
-
-function geocodeToLayer(url, artist, layer, num) {
     // Perform request to get latlng for artist location
     $.get(url, function(data) {
         if (data.status.localeCompare("OK")) {
