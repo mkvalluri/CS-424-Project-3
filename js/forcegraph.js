@@ -60,15 +60,26 @@ ForceGraph.prototype = {
 
         var nav = d3.select(self.target).append("nav")
             .attr("class", "menu-ui")
+            .style("position", "absolute")
             .attr("id", "menu-ui-forcegraph");
 
-        nav.append("a")
+        var btn1 = nav.append("a")
             .attr("id", "btn-force-topten")
             .html("Top Ten Artists");
+        btn1.on("click", function() {
+            self.mode = "global";
+            self.update();
+        });
 
-        nav.append("a")
+
+        btn2 = nav.append("a")
             .attr("id", "btn-force-user")
             .html("User Information");
+        btn2.on("click", function(){
+            self.mode = "user";
+            self.update();
+        });
+
     },
 
     getTopArtistsperDecade: function(){
@@ -114,6 +125,9 @@ ForceGraph.prototype = {
 
         self.links = [];
         self.nodes = [];
+        self.force
+            .links(self.links)
+            .nodes(self.nodes);
 
         if (self.mode == "global")
             artists = self.worldArtists;
@@ -468,11 +482,13 @@ ForceGraph.prototype = {
                 .attr("y2", function (d) { return d.target.y; });
 
             node.selectAll("rect")
-                .attr("x", function (d) { return d.x - 11; })
+                .attr("x", function (d) {
+                    return d.x - 11; })
                 .attr("y", function (d) { return d.y - 11; });
 
             node.selectAll("circle")
-                .attr("cx", function (d) { return d.x; })
+                .attr("cx", function (d) {
+                    return d.x; })
                 .attr("cy", function (d) { return d.y; });
 
             node.selectAll("text")
