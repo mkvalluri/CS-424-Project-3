@@ -89,6 +89,7 @@ var layerData = [Layer1, Layer2]
 
 addLayer(Layer1, 'Top 10 Lists', 1, true);
 addLayer(Layer2, 'User Lists', 2, false);
+addButton(Layer1, 'Clear Layers', 3, false);
 
 function addLayer(layer, name, zIndex, layerOn) {
     layer.setZIndex(zIndex).addTo(map);
@@ -115,6 +116,25 @@ function addLayer(layer, name, zIndex, layerOn) {
             map.addLayer(layer);
             this.className = 'active';
         }
+    };
+
+    layerControl.appendChild(link);
+}
+
+function addButton(layer, name, zIndex, layerOn) {
+    layer.setZIndex(zIndex).addTo(map);
+
+    var link = document.createElement('a');
+        link.href = '#';
+        link.innerHTML = name;
+
+    link.className = '';
+
+    link.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        layer.clearLayers();
     };
 
     layerControl.appendChild(link);
@@ -205,13 +225,9 @@ function Layer1Data(data) { // send an array of artists
         // Construct Google Maps Geocoding API request url
         var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
 
-        geocodeLayer1(url,
-                      data[i].ArtistName,
-                      data[i].ArtistMainGenre, 
-                      data[i].ArtistImageLink);
+        geocodeToLayer(url, data[i], Layer1);
     }
 }
-
 
 function Layer2Data(artist) { // send single artist
     var query = artist.ArtistLocation;
@@ -220,13 +236,10 @@ function Layer2Data(artist) { // send single artist
     // Construct Google Maps Geocoding API request url
     var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
 
-    geocodeLayer2(url,
-                  artist.ArtistName,
-                  artist.ArtistMainGenre, 
-                  artist.ArtistImageLink);
+    geocodeToLayer(url, artist, Layer2);
 }
 
-function geocodeLayer1(url, name, genre, image) {
+function geocodeToLayer(url, artist, layer) {
     // Perform request to get latlng for artist location
     $.get(url, function(data) {
         if (data.status.localeCompare("OK")) {
@@ -236,36 +249,25 @@ function geocodeLayer1(url, name, genre, image) {
         // Plot latlng marker on map
         var latlng = data.results[0].geometry.location;
         var dot = L.circleMarker(latlng, {
-                color: getColor(genre),
+                color: getColor(artist.ArtistMainGenre),
                 radius: 15,           // Circle radius
                 opacity: 1,          // Stroke opacity
                 weight: 2,           // Stroke weight
                 fillOpacity: 0.5,    // Fill opacity);
-                artistName: name,
+                artistName: artist.ArtistName,
+                artistGenre: artist.ArtistMainGenre,
+                artistLocation: artist.ArtistLocation,
         });
-        Layer1.addLayer(dot);
+        layer.addLayer(dot);
     });
 }
 
-function geocodeLayer2(url, name, genre, image) {
-    // Perform request to get latlng for artist location
-    $.get(url, function(data) {
-        if (data.status.localeCompare("OK")) {
-            alert("Geocoding request failed: STATUS " + data.status);
-        }
+function Layer1Reset() {
+    Layer1.clearLayers();
+}
 
-        // Plot latlng marker on map
-        var latlng = data.results[0].geometry.location;
-        var dot = L.circleMarker(latlng, {
-                color: '#0000ff',
-                radius: 15,           // Circle radius
-                opacity: 1,          // Stroke opacity
-                weight: 2,           // Stroke weight
-                fillOpacity: 0.5,    // Fill opacity);
-                artistName: name,
-        });
-        Layer2.addLayer(dot);
-    });
+function Layer2Reset() {
+    Layer2.clearLayers();
 }
 
 
