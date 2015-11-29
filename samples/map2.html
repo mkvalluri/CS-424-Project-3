@@ -89,7 +89,7 @@ var layerData = [Layer1, Layer2]
 
 addLayer(Layer1, 'Top 10 Lists', 1, true);
 addLayer(Layer2, 'User Lists', 2, false);
-addButton(Layer1, 'Clear Layers', 3, false);
+addButton(Layer1, 'Reset Zoom', 3, false);
 
 function addLayer(layer, name, zIndex, layerOn) {
     layer.setZIndex(zIndex).addTo(map);
@@ -121,8 +121,8 @@ function addLayer(layer, name, zIndex, layerOn) {
     layerControl.appendChild(link);
 }
 
-function addButton(layer, name, zIndex, layerOn) {
-    layer.setZIndex(zIndex).addTo(map);
+function addButton(layer, name) {
+    // layer.setZIndex(zIndex).addTo(map);
 
     var link = document.createElement('a');
         link.href = '#';
@@ -134,7 +134,7 @@ function addButton(layer, name, zIndex, layerOn) {
         e.preventDefault();
         e.stopPropagation();
 
-        layer.clearLayers();
+        map.setView([35,-20], 3);
     };
 
     layerControl.appendChild(link);
@@ -152,13 +152,18 @@ var circle_options = {
     fillOpacity: 0.5,    // Fill opacity
 };
 
-function getColor(x) {
+function getGenreColor(x) {
     return x == 'rock'    ? '#55E000': // bright green
            x == 'pop'     ? '#CCFF00': // yellow-green
            x == 'dubstep' ? '#FFFF00': // 
                             '#FF0FD7'; // pink
 }
 
+function getUserColor(x) {
+    return x == 'user1'    ? '#55E000': // bright green
+           x == 'user2'    ? '#CCFF00': // yellow-green
+                             '#FF0FD7';
+}
 
 
 //==========================Data=====================================// 
@@ -225,7 +230,7 @@ function Layer1Data(data) { // send an array of artists
         // Construct Google Maps Geocoding API request url
         var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
 
-        geocodeToLayer(url, data[i], Layer1);
+        geocodeToLayer(url, data[i], Layer1, 1);
     }
 }
 
@@ -236,20 +241,26 @@ function Layer2Data(artist) { // send single artist
     // Construct Google Maps Geocoding API request url
     var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
 
-    geocodeToLayer(url, artist, Layer2);
+    geocodeToLayer(url, artist, Layer2, 2);
 }
 
-function geocodeToLayer(url, artist, layer) {
+function geocodeToLayer(url, artist, layer, num) {
     // Perform request to get latlng for artist location
     $.get(url, function(data) {
         if (data.status.localeCompare("OK")) {
             alert("Geocoding request failed: STATUS " + data.status);
         }
 
+        var mColor = '';
+        if (num == 1)
+            mColor = getGenreColor(artist.ArtistMainGenre);
+        else
+            mColor = '#fff'; 
+
         // Plot latlng marker on map
         var latlng = data.results[0].geometry.location;
         var dot = L.circleMarker(latlng, {
-                color: getColor(artist.ArtistMainGenre),
+                color: mColor,
                 radius: 15,           // Circle radius
                 opacity: 1,          // Stroke opacity
                 weight: 2,           // Stroke weight
