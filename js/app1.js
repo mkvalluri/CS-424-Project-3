@@ -26,7 +26,7 @@ user2.tabbedMenu();
 
 var sharedUI = new UI("sharedUI", "yellow");
 sharedUI.sharedMap();
-sharedUI.sharedGraph();
+//sharedUI.sharedGraph();
 sharedUI.sharedTimeline();
 
 
@@ -84,6 +84,7 @@ $(document).ready(function() {
           "ArtistName": this.getItem(id).ArtistName,
           "ArtistImageLink": this.getItem(id).ArtistImageLink,
           "ArtistMainGenre": this.getItem(id).ArtistMainGenre,
+          "ArtistLocation": this.getItem(id).ArtistLocation,
           "ArtistGenres":this.getItem(id).ArtistGenres,
           "ArtistPopularity":this.getItem(id).ArtistPopularity,
           "start": this.getItem(id).ArtistActiveYears[0].Start,
@@ -96,7 +97,9 @@ $(document).ready(function() {
         ArtistName: this.getItem(id).ArtistName
       })
 
-      fG.updateUserArtists(shared_timeline_data);
+      //fG.updateUserArtists(shared_timeline_data);
+     sM.Layer1Reset();
+     sM.Layer1Data(shared_timeline_data);
     }
   })
 
