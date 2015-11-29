@@ -12,6 +12,7 @@ var user2_my_artists_list_data=[];
 var user2_my_genres_list_data=[];
 var user2_related_artists_data={};
 
+var shared_timeline_data=[];
 var shared_pool={};
 var shared_pool_artists={};
 var shared_pool_genres={};
@@ -30,6 +31,12 @@ function UI(user,userColor,stream_graph_holder,artists_list_holder,genres_list_h
 }
 
 UI.prototype ={
+
+
+	sharedTimeline: function(){
+		 sT = new sharedTimeline(1950,2015);
+		 sT.init();
+	},
 
 
 	streamGraph: function(){
