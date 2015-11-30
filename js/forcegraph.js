@@ -685,9 +685,7 @@ ForceGraph.prototype = {
     }
 }
 
-getTopArtistsperDecade: function(startYear, endYear, URI){
-    var self = this;
-
+function getTopArtistsperDecade(startYear, endYear, URI){
     var startYear = startYear;
     var endYear = endYear;
     var artists = [];
