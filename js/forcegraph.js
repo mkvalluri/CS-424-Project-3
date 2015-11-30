@@ -65,9 +65,14 @@ ForceGraph.prototype = {
 
         var btn1 = nav.append("a")
             .attr("id", "btn-force-topten")
+            .attr("class", "selected")
             .html("Top Ten Artists");
         btn1.on("click", function() {
             self.mode = "global";
+            if (!$(this).hasClass("selected")){
+                $(this).addClass("selected");
+                $("#btn-force-user").removeClass("selected");
+            }
             self.update();
         });
 
@@ -77,6 +82,10 @@ ForceGraph.prototype = {
             .html("User Information");
         btn2.on("click", function(){
             self.mode = "user";
+            if (!$(this).hasClass("selected")){
+                $(this).addClass("selected");
+                $("#btn-force-topten").removeClass("selected");
+            }
             self.update();
         });
 
@@ -395,7 +404,6 @@ ForceGraph.prototype = {
             .attr("class", "node")
             .classed("resizable", true)
             //.call(self.force.drag)
-            .on('click', function(d){ self.connectNodes(d) })
             .on('dblclick', self.releaseNode)
             .on("mousedown", function(){
                 self.svg.on("zoom", null);
@@ -416,7 +424,8 @@ ForceGraph.prototype = {
                     else if (d.ArtistSelected == 3)
                         return self.colorCoincidente;
                 } else return self.color(d.group);
-            });
+            })
+            .on('click', function(d){ self.connectNodes(d) });
 
         nodeEnter.append("circle")
             .attr("r", function(d){
@@ -439,7 +448,8 @@ ForceGraph.prototype = {
                     else if (d.ArtistSelected == 3)
                         return self.colorCoincidente;
                 } else return self.color(d.group);
-            });
+            })
+            .on('click', function(d){ self.connectNodes(d) });
 
         self.svg.selectAll(".circleartist").remove();
         self.svg.selectAll(".rectgenre").remove();
@@ -452,7 +462,8 @@ ForceGraph.prototype = {
             .attr("x", function(d) { return (0);})
             .attr("y", function(d) { return (0);})
             .attr("height", 25)
-            .attr("width", 25);
+            .attr("width", 25)
+            .on('click', function(d){ self.connectNodes(d) });
 
         nodeEnter.append("text")
             .attr("dx", function(d){

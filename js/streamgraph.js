@@ -278,9 +278,17 @@ StreamGraph.prototype = {
             .enter().append("path")
             .attr("class", "layer")
             .attr("d", function(d){
-                var x = area(d);
                 return area(d); })
-            .style("fill", function() { return color(Math.random()); });
+            .style("fill", function(d) {
+                var colorVal = color(Math.random());
+                if (typeof shared_color != 'undefined' && shared_color != null){
+                    shared_color.push({
+                        genre: d[0].Name,
+                        color: colorVal
+                    });
+                }
+                return colorVal;
+            });
 
         /* add the hover over events. Reduce the opacity of all the path not selected
          * while mouseover. Restore opacity when mouseout */
