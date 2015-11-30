@@ -2,7 +2,7 @@
  * Created by juan on 11/16/15.
  */
 
-function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoincidence, URI){
+function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoincidence, URI, data){
     var self = this;
 
     self.URI = URI;
@@ -682,5 +682,45 @@ ForceGraph.prototype = {
         self.addNodeControls();
         self.addZoomControls();
         self.update();
+    }
+}
+
+getTopArtistsperDecade: function(startYear, endYear, URI){
+    var self = this;
+
+    var startYear = startYear;
+    var endYear = endYear;
+    var artists = [];
+
+    while (startYear + 10 <= endYear){
+        var url = URI + 'TopArtists?startYear=' +
+            + startYear  + '&endYear=' + (startYear + 10);
+
+        $.ajax({
+            dataType: "json",
+            url: url,
+            async: false,
+            success: success
+        });
+
+        startYear += 10;
+    }
+
+    /* fetch the data from the JSON call into an artist array */
+    function success(data){
+        for(var i=0; i < data.length; i++){
+            if (!artistAlreadyAdded(data[i]))
+                artists.push(data[i]);
+        }
+
+        return artists;
+    }
+
+    /* check if the artist was already added to the array to avoid duplicates */
+    function artistAlreadyAdded(artist){
+        for(var i=0; i < artists.length; i++)
+            if (artists[i].ArtistName === artist.ArtistName)
+                return true;
+        return false;
     }
 }
