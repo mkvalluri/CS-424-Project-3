@@ -61,6 +61,7 @@
  	width:75%;
  	margin-top: 1%;
  	margin-right:5%;
+ 	position: relative;
 
  }
 
@@ -86,7 +87,7 @@
 
  #shared_graph{
  	height:60vh;
- 	background-color:#CFD0D2;
+ 	background-color:#A09D9D;
  	width:20%;
  	float: left;
  	position: relative;
@@ -97,6 +98,7 @@
 	 position: :relative;	
 	 min-height: 100%;
 	 min-width: 100%;
+
 }
 
 
@@ -245,6 +247,39 @@
  	background-size: contain;
  }
 
+#shared_pool .webix_view.webix_list-x{
+	height:100% !important; 
+}
+
+#shared_pool .webix_view{
+	background-color: #323232 !important;
+}
+
+#shared_pool .webix_list_item{
+	padding-top: 20px;
+	height: 100% !important;
+}
+#shared_pool .webix_list_item img {
+	width:150px;
+	height:150px;
+}
+
+#shared_pool .user1 {
+	border:solid red !important;
+}
+#shared_pool .user2 {
+	border:solid blue !important;
+}
+
+#shared_pool .common {
+	border:solid yellow !important;
+}
+
+#shared_pool .webix_strong{
+	color: white;
+	font-size: 1.5em;
+	text-align: center;
+}
 
 
 
@@ -290,11 +325,13 @@
 		}
 
 		.mini text {
-			font: 9px sans-serif;	
+			font: 1.2em;
+			fill: white;	
 		}
 
 		.main text {
-			font: 12px sans-serif;	
+			font: 1.2em;
+			fill:white;
 		}
 
 		.miniItem0 {
@@ -315,9 +352,9 @@
 		}
 
 		.brush .extent {
-			stroke: gray;
+			stroke: white !important;
 			fill: dodgerblue;
-			fill-opacity: .365;
+			fill-opacity: .365 !important;
 		}
 
 

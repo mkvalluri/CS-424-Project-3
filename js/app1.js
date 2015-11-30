@@ -28,6 +28,7 @@ var sharedUI = new UI("sharedUI", "yellow");
 sharedUI.sharedMap();
 sharedUI.sharedGraph();
 sharedUI.sharedTimeline();
+sharedUI.sharedPool();
 
 
 $(document).ready(function() {
@@ -54,6 +55,7 @@ $(document).ready(function() {
   $$("user1_top_ten_artists").attachEvent("onItemDblClick", function(id) {
 
     var item = this.getItem(id).ArtistId;
+    var itemName = this.getItem(id).ArtistName;
     var user = "user1";
     var isItemAlreadyOnTheList = false;
 
@@ -75,6 +77,13 @@ $(document).ready(function() {
               shared_timeline_data[i].user = user;
             }
           });
+
+          $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == itemName) {
+            	shared_pool_data[i].user =user;
+        }
+      });
+
         }
       });
 
@@ -91,21 +100,51 @@ $(document).ready(function() {
           "end": this.getItem(id).ArtistActiveYears[0].End,
           "user":user
         });
+
+        shared_pool_data.push({
+        	"Name":this.getItem(id).ArtistName,
+        	"imageLink":this.getItem(id).ArtistImageLink,
+        	"user":user
+        });
+
+  
+       /*$$('shared_pool').add({
+        Name: this.getItem(id).ArtistName,
+        imageLink: this.getItem(id).ArtistImageLink
+      })*/
+
+
       }
       $$('user1_my_artist_list').add({
         ArtistId: this.getItem(id).ArtistId,
         ArtistName: this.getItem(id).ArtistName
       })
 
-      fG.updateUserArtists(shared_timeline_data);
-     sM.Layer1Reset();
-     sM.Layer1Data(shared_timeline_data);
+
+     fG.updateUserArtists(shared_timeline_data);
+     sM.Layer2Reset();
+     sM.Layer2Data(shared_timeline_data);
+
+
+
+     $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+
+    });
+
+
     }
   })
 
   $$("user1_related_artist").attachEvent("onItemDblClick", function(id) {
 
     var item = this.getItem(id).ArtistId;;
+    var itemName = this.getItem(id).ArtistName;
     var user = "user1";
     var isItemAlreadyOnTheList = false;
 
@@ -128,6 +167,14 @@ $(document).ready(function() {
               shared_timeline_data[i].user = user;
             }
           });
+
+            $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == itemName) {
+            	shared_pool_data[i].user =user;
+        }
+      });
+
+
         }
       });
 
@@ -135,12 +182,38 @@ $(document).ready(function() {
         shared_timeline_data.push({
           "ArtistId": this.getItem(id).ArtistId,
           "ArtistName": this.getItem(id).ArtistName,
+          "ArtistImageLink": this.getItem(id).ArtistImageLink,
           "ArtistMainGenre": this.getItem(id).ArtistMainGenre,
+          "ArtistLocation": this.getItem(id).ArtistLocation,
+          "ArtistGenres":this.getItem(id).ArtistGenres,
+          "ArtistPopularity":this.getItem(id).ArtistPopularity,
           "start": this.getItem(id).ArtistActiveYears[0].Start,
           "end": this.getItem(id).ArtistActiveYears[0].End,
           "user":user
         });
+
+
+        shared_pool_data.push({
+        	"Name":this.getItem(id).ArtistName,
+        	"imageLink":this.getItem(id).ArtistImageLink,
+        	"user":user
+        });
       }
+
+     fG.updateUserArtists(shared_timeline_data);
+     sM.Layer2Reset();
+     sM.Layer2Data(shared_timeline_data);
+
+          $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+
+    });
+
 
       $$('user1_my_artist_list').add({
         ArtistId: this.getItem(id).ArtistId,
@@ -159,6 +232,7 @@ $(document).ready(function() {
   $$("user1_top_ten_genres").attachEvent("onItemDblClick", function(id) {
 
     var item = this.getItem(id).Name;
+    var user = "user1";
     var isItemAlreadyOnTheList = false
     user1_my_genres_list_data.forEach(function(d, i) {
       if (d.Name == item)
@@ -171,12 +245,47 @@ $(document).ready(function() {
         "Relevance": this.getItem(id).Relevance
       });
 
+      $.each(user2_my_genres_list_data, function(i) {
+        if (user2_my_genres_list_data[i].Name == item) {
+            $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == item) {
+            	user="common";
+            	shared_pool_data[i].user =user;
+        }
+      });
+
+
+        }
+      });
+
+      if (user!="common") {
+
+
+        shared_pool_data.push({
+        	"Name":this.getItem(id).Name,
+        	"imageLink":this.getItem(id).imageLink,
+        	"user":user
+        });
+    }
+
+         $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+
+    });
+
+
       $$('user1_my_genre_list').add({
         Name: this.getItem(id).Name,
         Relevance: this.getItem(id).Relevance
       })
-    }
-  })
+    
+  }
+})
 
   $('#user1_my_artist_clear').click(function() {
 
@@ -191,6 +300,13 @@ $(document).ready(function() {
               shared_timeline_data[i].user = "user2";
             }
           });
+
+          $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == user1_my_artists_list_data[item].ArtistName) {
+            	shared_pool_data[i].user ="user2";
+        }
+      });
+
         }
       });
 
@@ -201,9 +317,29 @@ $(document).ready(function() {
         return false;
       }
     });
+
+           $.each(shared_pool_data, function(i) {
+      if (shared_pool_data[i].Name === user1_my_artists_list_data[item].ArtistName) {
+        shared_pool_data.splice(i, 1);
+        return false;
+      }
+    });
     }
 
   });
+
+     fG.updateUserArtists(shared_timeline_data);
+     sM.Layer2Reset();
+     sM.Layer2Data(shared_timeline_data);
+
+      $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+				});
 
     
     $$('user1_my_artist_list').clearAll();
@@ -211,13 +347,55 @@ $(document).ready(function() {
   })
 
   $('#user1_my_genre_clear').click(function() {
-    $$('user1_my_genre_list').clearAll();
+  
+
+     var isCommon;
+  $.each(user1_my_genres_list_data, function(item) {
+  	isCommon=false;
+  	$.each(user2_my_genres_list_data, function(i) {
+        if (user2_my_genres_list_data[i].Name == user1_my_genres_list_data[item].Name) {
+
+          $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == user1_my_genres_list_data[item].Name) {
+            	isCommon=true;
+            	shared_pool_data[i].user ="user2";
+        }
+      });
+
+        }
+      });
+
+  	if(!isCommon){
+
+           $.each(shared_pool_data, function(i) {
+      if (shared_pool_data[i].Name === user1_my_genres_list_data[item].Name) {
+        shared_pool_data.splice(i, 1);
+        return false;
+      }
+    });
+    }
+
+     
+
+  });
+
+ $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+				});
+
+ $$('user1_my_genre_list').clearAll();
     user1_my_genre_list_data = [];
   })
 
   $$("user1_my_artist_list").attachEvent("onItemDblClick", function(id) {
 
   	var item = this.getItem(id).ArtistId;
+  	var itemName = this.getItem(id).ArtistName;
   	var isCommon=false;
     var selectedId = this.getItem(id).ArtistId;
     $$("user1_my_artist_list").remove($$("user1_my_artist_list").getSelectedId());
@@ -237,6 +415,13 @@ $(document).ready(function() {
               shared_timeline_data[i].user = "user2";
             }
           });
+
+               $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == itemName) {
+            	shared_pool_data[i].user ="user2";
+        }
+      });
+
         }
       });
 
@@ -247,21 +432,74 @@ $(document).ready(function() {
         return false;
       }
     });
+
+      $.each(shared_pool_data, function(i) {
+      if (shared_pool_data[i].Name === itemName) {
+        shared_pool_data.splice(i, 1);
+        return false;
+      }
+    });
+
     }
+
+     fG.updateUserArtists(shared_timeline_data);
+     sM.Layer2Reset();
+     sM.Layer2Data(shared_timeline_data);
+
+
+      $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+				});
 
   })
 
   $$("user1_my_genre_list").attachEvent("onItemDblClick", function(id) {
-
+  	var isCommon=false;
     var selectedId = this.getItem(id).Name;
     $$("user1_my_genre_list").remove($$("user1_my_genre_list").getSelectedId());
 
     $.each(user1_my_genres_list_data, function(i) {
-      if (user1_my_genres_list_data[i].ArtistId === selectedId) {
+      if (user1_my_genres_list_data[i].Name === selectedId) {
         user1_my_genres_list_data.splice(i, 1);
         return false;
       }
     });
+
+
+
+   $.each(user2_my_genres_list_data, function(i) {
+        if (user2_my_genres_list_data[i].Name == selectedId) {
+        		isCommon=true;
+               $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == selectedId) {
+            	shared_pool_data[i].user ="user2";
+        }
+      });
+
+        }
+      });
+	if(!isCommon){
+        $.each(shared_pool_data, function(i) {
+      if (shared_pool_data[i].Name === selectedId) {
+        shared_pool_data.splice(i, 1);
+        return false;
+      }
+    });
+    }
+
+        $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+				});
 
   })
 
@@ -279,7 +517,9 @@ $(document).ready(function() {
   $$("user2_top_ten_artists").attachEvent("onItemDblClick", function(id) {
 
     var item = this.getItem(id).ArtistId;
+    var itemName = this.getItem(id).ArtistName;
     var user = "user2";
+    var mapData;
     var isItemAlreadyOnTheList = false;
 
     user2_my_artists_list_data.forEach(function(d, i) {
@@ -301,6 +541,12 @@ $(document).ready(function() {
               shared_timeline_data[i].user = user;
             }
           });
+
+            $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == itemName) {
+            	shared_pool_data[i].user =user;
+        }
+      });
         }
       });
 
@@ -308,13 +554,39 @@ $(document).ready(function() {
         shared_timeline_data.push({
           "ArtistId": this.getItem(id).ArtistId,
           "ArtistName": this.getItem(id).ArtistName,
+          "ArtistImageLink": this.getItem(id).ArtistImageLink,
           "ArtistMainGenre": this.getItem(id).ArtistMainGenre,
+          "ArtistLocation": this.getItem(id).ArtistLocation,
+          "ArtistGenres":this.getItem(id).ArtistGenres,
+          "ArtistPopularity":this.getItem(id).ArtistPopularity,
           "start": this.getItem(id).ArtistActiveYears[0].Start,
           "end": this.getItem(id).ArtistActiveYears[0].End,
           "user":user
         });
+
+
+        shared_pool_data.push({
+        	"Name":this.getItem(id).ArtistName,
+        	"imageLink":this.getItem(id).ArtistImageLink,
+        	"user":user
+        });
       }
 
+     fG.updateUserArtists(shared_timeline_data);
+     sM.Layer2Reset();
+     sM.Layer2Data(shared_timeline_data);
+
+          $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+
+    });
+
+    
       $$('user2_my_artist_list').add({
         ArtistId: this.getItem(id).ArtistId,
         ArtistName: this.getItem(id).ArtistName
@@ -333,6 +605,7 @@ $(document).ready(function() {
 
     var item = this.getItem(id).Name;
     var isItemAlreadyOnTheList = false
+    var user="user2";
     user2_my_genres_list_data.forEach(function(d, i) {
       if (d.Name == item)
         isItemAlreadyOnTheList = true;
@@ -344,6 +617,43 @@ $(document).ready(function() {
         "Relevance": this.getItem(id).Relevance
       });
 
+       $.each(user2_my_genres_list_data, function(i) {
+        if (user2_my_genres_list_data[i].Name == item) {
+            $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == item) {
+            	user="common";
+            	shared_pool_data[i].user =user;
+        }
+      });
+
+
+        }
+      });
+
+      if (user!="common") {
+
+
+        shared_pool_data.push({
+        	"Name":this.getItem(id).Name,
+        	"imageLink":this.getItem(id).imageLink,
+        	"user":user
+        });
+    }
+
+
+         $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+
+    });
+
+
+
+
       $$('user2_my_genre_list').add({
         Name: this.getItem(id).Name,
         Relevance: this.getItem(id).Relevance
@@ -354,6 +664,7 @@ $(document).ready(function() {
   $$("user2_related_artist").attachEvent("onItemDblClick", function(id) {
 
     var item = this.getItem(id).ArtistId;
+    var itemName = this.getItem(id).ArtistName;
     var user="user2"
     var isItemAlreadyOnTheList = false;
     user2_my_artists_list_data.forEach(function(d, i) {
@@ -375,6 +686,12 @@ $(document).ready(function() {
               shared_timeline_data[i].user = user;
             }
           });
+
+            $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == itemName) {
+            	shared_pool_data[i].user =user;
+        }
+      });
         }
       });
 
@@ -382,12 +699,38 @@ $(document).ready(function() {
         shared_timeline_data.push({
           "ArtistId": this.getItem(id).ArtistId,
           "ArtistName": this.getItem(id).ArtistName,
+          "ArtistImageLink": this.getItem(id).ArtistImageLink,
           "ArtistMainGenre": this.getItem(id).ArtistMainGenre,
+          "ArtistLocation": this.getItem(id).ArtistLocation,
+          "ArtistGenres":this.getItem(id).ArtistGenres,
+          "ArtistPopularity":this.getItem(id).ArtistPopularity,
           "start": this.getItem(id).ArtistActiveYears[0].Start,
           "end": this.getItem(id).ArtistActiveYears[0].End,
           "user":user
         });
+
+
+        shared_pool_data.push({
+        	"Name":this.getItem(id).ArtistName,
+        	"imageLink":this.getItem(id).ArtistImageLink,
+        	"user":user
+        });
       }
+
+     fG.updateUserArtists(shared_timeline_data);
+     sM.Layer2Reset();
+     sM.Layer2Data(shared_timeline_data);
+
+          $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+
+    });
+
 
       $$('user2_my_artist_list').add({
         ArtistId: this.getItem(id).ArtistId,
@@ -409,6 +752,13 @@ $(document).ready(function() {
               shared_timeline_data[i].user = "user1";
             }
           });
+
+               $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == user2_my_artists_list_data[item].ArtistName) {
+            	shared_pool_data[i].user ="user1";
+        }
+      });
+
         }
       });
 
@@ -419,7 +769,29 @@ $(document).ready(function() {
         return false;
       }
     });
+
+
+      $.each(shared_pool_data, function(i) {
+      if (shared_pool_data[i].Name === user2_my_artists_list_data[item].ArtistName) {
+        shared_pool_data.splice(i, 1);
+        return false;
+      }
+    });
     }
+
+     fG.updateUserArtists(shared_timeline_data);
+     sM.Layer2Reset();
+     sM.Layer2Data(shared_timeline_data);
+
+
+      $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+	});
 
   });
     $$('user2_my_artist_list').clearAll();
@@ -427,14 +799,55 @@ $(document).ready(function() {
   })
 
   $('#user2_my_genre_clear').click(function() {
-    $$('user2_my_genre_list').clearAll();
-    user2_genre_list_data = [];
+    
+     var isCommon;
+  $.each(user2_my_genres_list_data, function(item) {
+  	isCommon=false;
+  	$.each(user1_my_genres_list_data, function(i) {
+        if (user1_my_genres_list_data[i].Name == user2_my_genres_list_data[item].Name) {
+
+          $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == user2_my_genres_list_data[item].Name) {
+            	isCommon=true;
+            	shared_pool_data[i].user ="user1";
+        }
+      });
+
+        }
+      });
+
+  	if(!isCommon){
+
+           $.each(shared_pool_data, function(i) {
+      if (shared_pool_data[i].Name === user2_my_genres_list_data[item].Name) {
+        shared_pool_data.splice(i, 1);
+        return false;
+      }
+    });
+    }
+
+     
+
+  });
+
+ $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+				});
+
+ $$('user2_my_genre_list').clearAll();
+    user2_my_genre_list_data = [];
   })
 
   $$("user2_my_artist_list").attachEvent("onItemDblClick", function(id) {
 
     var selectedId = this.getItem(id).ArtistId;
     var item = this.getItem(id).ArtistId;
+  	var itemName = this.getItem(id).ArtistName;
     var isCommon=false;
 
 
@@ -455,6 +868,12 @@ $(document).ready(function() {
               shared_timeline_data[i].user = "user1";
             }
           });
+               $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == itemName) {
+            	shared_pool_data[i].user ="user1";
+        }
+      });
+
         }
       });
 
@@ -465,21 +884,75 @@ $(document).ready(function() {
         return false;
       }
     });
+
+
+      $.each(shared_pool_data, function(i) {
+      if (shared_pool_data[i].Name === itemName) {
+        shared_pool_data.splice(i, 1);
+        return false;
+      }
+    });
     }
+
+     fG.updateUserArtists(shared_timeline_data);
+     sM.Layer2Reset();
+     sM.Layer2Data(shared_timeline_data);
+
+      $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+		});
 
   })
 
   $$("user2_my_genre_list").attachEvent("onItemDblClick", function(id) {
 
     var selectedId = this.getItem(id).Name;
+    var isCommon=false;
     $$("user2_my_genre_list").remove($$("user2_my_genre_list").getSelectedId());
 
     $.each(user2_my_genres_list_data, function(i) {
-      if (user2_my_genres_list_data[i].ArtistId === selectedId) {
+      if (user2_my_genres_list_data[i].Name === selectedId) {
         user2_my_genres_list_data.splice(i, 1);
         return false;
       }
     });
+
+   $.each(user1_my_genres_list_data, function(i) {
+        if (user1_my_genres_list_data[i].Name == selectedId) {
+        		isCommon=true;
+               $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == selectedId) {
+            	shared_pool_data[i].user ="user1";
+        }
+      });
+
+        }
+      });
+   
+	if(!isCommon){
+        $.each(shared_pool_data, function(i) {
+      if (shared_pool_data[i].Name === selectedId) {
+        shared_pool_data.splice(i, 1);
+        return false;
+      }
+    });
+    }
+
+        $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+				});
   });
+
+
 
 });

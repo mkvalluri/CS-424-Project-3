@@ -5,7 +5,7 @@
 var lanes;
 var laneLength;
 var margin = {"top":20,"right":15,"bottom":15,"left":120};
-var width = 960 -margin.right - margin.left;
+var width = 8000 -margin.right - margin.left;
 var height = 500 - margin.top - margin.bottom;
 var miniHeight,mainHeight;
 var x,x1,y1,y2;
@@ -27,20 +27,20 @@ sharedTimeline.prototype = {
 		items=shared_timeline_data;
 		miniHeight = laneLength * 12 +50;
 		mainHeight = height - miniHeight - 50;
-
-		var x = d3.scale.linear()
-				  .domain([this.startYear,this.endYear])
+console.log(width);
+		x = d3.scale.linear()
+				  .domain([0,getEndYear(0)])
 				  .range([0,width]);
-		var x1 = d3.scale.linear()
+	    x1 = d3.scale.linear()
 				 	.domain([0,width]);
-		var y1 = d3.scale.linear()
+		y1 = d3.scale.linear()
 					.domain([0,laneLength])
 					.range([0,mainHeight]);
-		var y2 = d3.scale.linear()
+		y2 = d3.scale.linear()
 					.domain([0,laneLength])
 					.range([0,miniHeight]);
 
-		var chart = d3.select("#shared_timeline")
+		chart = d3.select("#shared_timeline")
 					   .append("svg")
 					   .attr("width",width+margin.right+margin.left)
 					   .attr("height",height+margin.top+margin.bottom)
@@ -131,9 +131,9 @@ sharedTimeline.prototype = {
 					return y2(getLane(d.ArtistMainGenre)+.5) - .5;
 				})
 				.attr("width",function(d){
-					if(d.end==0)
-						d.end=new Date().getFullYear();
-					return x(d.end - d.start);
+
+					console.log(x(getEndYear(d.end) - d.start));
+					return x(getEndYear(d.end) - d.start);
 				})
 				.attr("height",10);
 
@@ -160,6 +160,73 @@ sharedTimeline.prototype = {
 			.attr("height",miniHeight -1);
 
 			display();
+
+
+			function display(){
+	var rects,labels;
+	var minExtent = brush.extent()[0];
+	var maxExtent = brush.extent()[1];
+	var visItems = shared_timeline_data.filter(function(d){return d.start < maxExtent && getEndYear(d.end) > minExtent;});
+
+	mini.select(".brush")
+		.call(brush.extent([minExtent,maxExtent]));
+
+	x1.domain([minExtent,maxExtent]);
+
+	rects = itemRects.selectAll("rects")
+			.data(visItems, function(d){
+				return d.ArtistName;
+			})
+			.attr("x",function(d){return x1(d.start);})
+			.attr("width",function(d){return x1(d.end) - x1(d.start);});
+
+	rects.enter().append("rect")
+		.attr("class",function(d){
+			return "miniItem" + getLane(d.ArtistMainGenre);
+		})
+		.attr("x",function(d){
+			return x1(d.start);
+		})
+		.attr("y",function(d){
+			return y1(getLane(d.ArtistMainGenre))+10;
+		})
+		.attr("width",function(d){
+			return x1(getEndYear(d.end)) - x1(d.start);
+		})
+		.attr("height",function(d){
+			return .8*y1(1);
+		});
+
+		rects.exit().remove();
+
+
+		labels = itemRects.selectAll("text")
+		.data(visItems, function(d){
+			return d.ArtistName;
+		})
+		.attr("x",function(d){
+			return x1(Math.max(d.start,minExtent) + 2)
+		});
+
+		labels.enter().append("text")
+		.text(function(d){
+			return d.ArtistName;
+		})
+		.attr("x",function(d){
+			return x1(Math.max(d.start,minExtent));
+		})
+		.attr("y",function(d){
+			return y1(getLane(d.ArtistMainGenre)+.5);
+		})
+		.attr("text-anchor","start");
+
+		labels.exit().remove();
+
+
+
+
+
+}
 
 
 
@@ -191,6 +258,10 @@ function getLane(artistMainGenre){
 	}
 }
 
-function display(){
-//	var rects,labels,
+function getEndYear(end){
+	if(end==0)
+		return new Date().getFullYear();
+	else
+		return end;
 }
+

@@ -12,8 +12,10 @@ var user2_my_artists_list_data=[];
 var user2_my_genres_list_data=[];
 var user2_related_artists_data={};
 
+
+
 var shared_timeline_data=[];
-var shared_pool={};
+var shared_pool_data=[];
 var shared_pool_artists={};
 var shared_pool_genres={};
 
@@ -131,6 +133,28 @@ map.on('dblclick', function(e) {
     map.setView(e.latlng, map.getZoom() + 1);
 });
 
+var currZoom = map.getZoom();
+map.on('zoomstart', function(e) {
+    console.log('start');
+    currZoom = map.getZoom();
+})
+map.on('zoomend', function(e) {
+    console.log('end');
+
+    var zoomfactor;
+    if (map.getZoom() > currZoom)
+        zoomfactor = 1.5;
+    else
+        zoomfactor =  2/3;
+    Layer1.eachLayer(function (layer) {
+                layer.setRadius(layer.getRadius()*zoomfactor);
+               });
+       Layer2.eachLayer(function (layer) {
+                layer.setRadius(layer.getRadius()*zoomfactor);
+               });
+})
+
+
 },
 
 	sharedGraph: function(){
@@ -189,6 +213,18 @@ map.on('dblclick', function(e) {
 			}
 
 			]
+		});
+	},
+
+	sharedPool: function(){
+		webix.ui({
+			container:"shared_pool",
+			id:"shared_pool",
+			view:"list",
+			scroll:"x",
+			layout:"x",
+			template:"<img class =#user# src=#imageLink#><div class='webix_strong'>#Name# </div>",
+			data:shared_pool_data
 		});
 	},
 
@@ -255,7 +291,7 @@ map.on('dblclick', function(e) {
 									elements:[
 										{
 											view:"text",
-											label:"<div class='webix_strong'>Artist/Genre</div>",
+											label:"<div class='webix_strong'>Search Artist</div>",
 										},
 										
 										{

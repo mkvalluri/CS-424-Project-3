@@ -109,10 +109,12 @@ sharedMap.prototype = {
 },
 
  Layer2Data:function(artist) { // send single artist
-    var query = artist.ArtistLocation;
-    var query_url = query.split(' ').join('+');
+    for (var i = 0; i < artist.length; i++) {
+      var query = artist[i].ArtistLocation;
+        var query_url = query.split(' ').join('+');
 
-    this.geocodeToLayer(query_url, artist, Layer2, 2);
+    this.geocodeToLayer(query_url, artist[i], Layer2, 2);
+    }
 },
 
 
