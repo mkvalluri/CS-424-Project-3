@@ -435,11 +435,12 @@ ForceGraph.prototype = {
         /* get the size params depending on the window width  */
         var windowWidth = $(window).width();
         var imageSize, circlePathRadius, genreRadius, mainGenreRadius,
-            charge, linkDistance, imageOffset, borderRadius;
+            charge, linkDistance, imageOffset, textDx, textDy;
         if (windowWidth > 7000){
             imageSize = 100;
             circlePathRadius = 45;
-            borderRadius = 40;
+            textDx = 45;
+            textDy = 5;
             genreRadius = 20;
             mainGenreRadius = 30;
             imageOffset = 50;
@@ -448,7 +449,8 @@ ForceGraph.prototype = {
         } else {
             imageSize = 50;
             circlePathRadius = 20;
-            borderRadius = 18;
+            textDx = 15;
+            textDy = 5;
             genreRadius = 8;
             mainGenreRadius = 12;
             imageOffset = 25;
@@ -496,11 +498,16 @@ ForceGraph.prototype = {
 
         nodeEnter.append("text")
             .attr("dx", function(d){
+                /*
                 if (d.type == "artist") return "17";
-                else return "10";})
+                else return "10";*/
+                return textDx;
+            })
             .attr("dy", function(d){
+                /*
                 if (d.type == "artist") return ".45em";
-                else return ".35em";
+                else return ".35em";*/
+                return textDy;
             })
             .text(function(d){
                 if (d.type == "artist")
