@@ -26,7 +26,7 @@ user2.tabbedMenu();
 
 var sharedUI = new UI("sharedUI", "yellow");
 sharedUI.sharedMap();
-//sharedUI.sharedGraph();
+sharedUI.sharedGraph();
 sharedUI.sharedTimeline();
 
 
@@ -97,7 +97,7 @@ $(document).ready(function() {
         ArtistName: this.getItem(id).ArtistName
       })
 
-      //fG.updateUserArtists(shared_timeline_data);
+      fG.updateUserArtists(shared_timeline_data);
      sM.Layer1Reset();
      sM.Layer1Data(shared_timeline_data);
     }

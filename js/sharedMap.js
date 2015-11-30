@@ -206,15 +206,11 @@ function getGenreColor(x){
 
 
 
-    // String.prototype.capitalize = function() {
-    //     return this.charAt(0).toUpperCase() + this.slice(1);
-    // }
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
-    // // Zoom on map double-click
-    // map.on('dblclick', function(e) {
-    //     // Zoom exactly to each double-clicked point
-    //     map.setView(e.latlng, map.getZoom() + 1);
-    // });
+
 
 
 //===========================Styles==================================// 
