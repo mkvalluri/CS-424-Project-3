@@ -160,8 +160,8 @@ map.on('zoomend', function(e) {
 },
 
 	sharedGraph: function(){
-		top_artist_per_decade = getTop10GenresPerYear();
-		fG = new ForceGraph("#shared_graph", 1940, 2010, "#f03b20", "#2b8cbe", "#feb24c",baseURL);
+		top_artist_per_decade = getTopArtistsperDecade(1950,2015,baseURL);
+		fG = new ForceGraph("#shared_graph", 1950, 2015, "#f03b20", "#2b8cbe", "#feb24c",baseURL,top_artist_per_decade);
         fG.init();
 
 		
