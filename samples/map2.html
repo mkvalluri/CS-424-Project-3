@@ -300,6 +300,24 @@ map.on('dblclick', function(e) {
 });
 
 
+var currZoom = map.getZoom();
+map.on('zoomstart', function(e) {
+    console.log('start');
+    currZoom = map.getZoom();
+})
+map.on('zoomend', function(e) {
+    console.log('end');
+
+    var zoomfactor;
+    if (map.getZoom() > currZoom)
+        zoomfactor = 1.5;
+    else
+        zoomfactor =  2/3;
+    Layer1.eachLayer(function (layer) {
+                layer.setRadius(layer.getRadius()*zoomfactor);
+               });
+})
+
 </script>
 </body>
 </html>
