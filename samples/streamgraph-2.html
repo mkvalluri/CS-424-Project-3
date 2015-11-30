@@ -97,9 +97,12 @@
 */
             //var data = bumpLayer(2020 - 1950);
 
-            var jsonData = getTop10GenresPerYear(1960,2010);
-            s = new StreamGraph("#streamgraph", jsonData, 1960, 2010);
-            s.init();
+            //var jsonData = getTop10GenresPerYear(1960,2010);
+
+            d3.json("../data/top10genresPerYear.json", function(error, data){
+                s = new StreamGraph("#streamgraph", data, 1960, 2010);
+                s.init();
+            });
         });
 
         function getTop10GenresPerYear(startYear, endYear){
