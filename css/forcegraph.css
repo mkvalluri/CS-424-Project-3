@@ -31,7 +31,7 @@
 
 /* Classes for the bottom right panel for changing views */
 .menu-ui {
-    background:#fff;
+    background:#cccccc;
     position:absolute;
     bottom:30px;
     right:10px;
@@ -41,6 +41,7 @@
     border:1px solid rgba(0,0,0,0.4);
 }
 .menu-ui a {
+    font-family: Verdana, sans-serif;
     font-size:15px;
     color:#000;
     display:block;
@@ -61,12 +62,70 @@
 .menu-ui a:hover {
     background:#000;
     color:#fff;
+    cursor: pointer;
 }
 .menu-ui a.active {  /* Layer on */
-    background:#55E000;
+    background:#636363;
     color:#000;
 }
-.menu-ui a.active:hover {
+.menu-ui a.selected:hover {
     background:#000;
     color: #fff;
+    cursor: pointer;
+}
+
+.menu-ui a.selected {
+    background:#636363;
+    color: #FFF;
+}
+
+/* zoom controls */
+.menu-ui-zoom {
+    background:#cccccc;
+    position:absolute;
+    top:10px;
+    left:10px;
+    z-index:1;
+    border-radius:3px;
+    width:50px;
+    border:1px solid rgba(0,0,0,0.4);
+}
+.menu-ui-zoom a {
+    font-family: Verdana, sans-serif;
+    font-size:15px;
+    color:#000;
+    display:block;
+    margin:0;
+    padding:0;
+    padding:10px;
+    text-decoration:none;
+    border-bottom:1px solid rgba(0,0,0,0.25);
+    text-align:center;
+}
+
+.menu-ui-zoom:hover{
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 8000px) {
+    .link {
+        stroke: #999;
+        stroke-opacity: 1;
+    }
+
+    .menu-ui {
+        width:400px;
+    }
+
+    .menu-ui a {
+        font-size: 40px;
+    }
+
+    .menu-ui-zoom {
+        width: 100;
+    }
+
+    .menu-ui-zoom a {
+        font-size: 40px;
+    }
 }

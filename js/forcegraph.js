@@ -55,7 +55,7 @@ function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoinciden
 ForceGraph.prototype = {
     constructor: ForceGraph,
 
-    addButtons: function(){
+    addNodeControls: function(){
         var self = this;
 
         var nav = d3.select(self.target).append("nav")
@@ -65,9 +65,14 @@ ForceGraph.prototype = {
 
         var btn1 = nav.append("a")
             .attr("id", "btn-force-topten")
+            .attr("class", "selected")
             .html("Top Ten Artists");
         btn1.on("click", function() {
             self.mode = "global";
+            if (!$(this).hasClass("selected")){
+                $(this).addClass("selected");
+                $("#btn-force-user").removeClass("selected");
+            }
             self.update();
         });
 
@@ -77,8 +82,73 @@ ForceGraph.prototype = {
             .html("User Information");
         btn2.on("click", function(){
             self.mode = "user";
+            if (!$(this).hasClass("selected")){
+                $(this).addClass("selected");
+                $("#btn-force-topten").removeClass("selected");
+            }
             self.update();
         });
+
+    },
+
+    addZoomControls: function(){
+        var self = this;
+
+        var zoomContainer = d3.select(self.target).append("nav")
+            .attr("class", "menu-ui-zoom")
+            .style("position", "absolute")
+            .attr("id", "menu-ui-zoomContainer");
+
+        var btnZoomIn = zoomContainer.append("a")
+            .attr("id", "btn-zoomin")
+            .html("+")
+            .on("click", zoomClick);
+
+        var btnZoomIn = zoomContainer.append("a")
+            .attr("id", "btn-zoomout")
+            .html("-")
+            .on("click", zoomClick)
+
+        function interpolateZoom (translate, scale) {
+            return d3.transition().duration(350).tween("zoom", function () {
+                var iTranslate = d3.interpolate(self.zoom.translate(), translate),
+                    iScale = d3.interpolate(self.zoom.scale(), scale);
+                return function (t) {
+                    self.zoom
+                        .scale(iScale(t))
+                        .translate(iTranslate(t));
+                    self.zoomed();
+                };
+            });
+        }
+
+        function zoomClick() {
+            var clicked = d3.event.target,
+                direction = 1,
+                factor = 0.2,
+                target_zoom = 1,
+                center = [self.width / 2, self.height / 2],
+                extent = self.zoom.scaleExtent(),
+                translate = self.zoom.translate(),
+                translate0 = [],
+                l = [],
+                view = {x: translate[0], y: translate[1], k: self.zoom.scale()};
+
+            d3.event.preventDefault();
+            direction = (this.id === 'btn-zoomin') ? 1 : -1;
+            target_zoom = self.zoom.scale() * (1 + factor * direction);
+
+            if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+            translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+            view.k = target_zoom;
+            l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+            view.x += center[0] - l[0];
+            view.y += center[1] - l[1];
+
+            interpolateZoom([view.x, view.y], view.k);
+        }
 
     },
 
@@ -190,28 +260,24 @@ ForceGraph.prototype = {
         return function(d) {
             var rb, nx1, nx2, ny1, ny2, radius;
 
-            if (d.type == 'artist') radius = 20;
-            else radius = 8;
+            var windowWidth = $(window).width();
+            var circlePathRadius, mainGenreRadius;
+            if (windowWidth > 7000){
+                circlePathRadius = 45;
+                mainGenreRadius = 30;
+            } else {
+                circlePathRadius = 20;
+                mainGenreRadius = 12;
+            }
+
+            if (d.type == 'artist') radius = circlePathRadius + 10;
+            else radius = mainGenreRadius + 10;
 
             rb = 2 * radius+ self.padding;
             nx1 = d.x - rb;
             nx2 = d.x + rb;
             ny1 = d.y - rb;
             ny2 = d.y + rb;
-            /*
-            if (d.type == "genre") {
-                rb = 2 * self.radius + self.padding;
-                nx1 = d.x - rb;
-                nx2 = d.x + rb;
-                ny1 = d.y - rb;
-                ny2 = d.y + rb;
-            } else {
-                rb = 10 + self.padding;
-                nx1 = d.x - rb;
-                nx2 = d.x + rb;
-                ny1 = d.y - rb;
-                ny2 = d.y + rb;
-            }*/
 
             quadtree.visit(function(quad, x1, y1, x2, y2) {
                 if (quad.point && (quad.point !== d)) {
@@ -360,21 +426,45 @@ ForceGraph.prototype = {
         var self = this;
 
         self.svg.attr("transform", "translate(" +
-            d3.event.translate + ")scale(" + d3.event.scale + ")");
-        /*
-        console.log(d3.event.scale);
-        d3.selectAll(".resizable").attr("transform", "translate(" +
-            d3.event.translate + ")scale(" + d3.event.scale + ")");*/
+            self.zoom.translate() + ")scale(" + self.zoom.scale() + ")");
     },
 
     update: function(){
         var self = this;
 
+        /* get the size params depending on the window width  */
+        var windowWidth = $(window).width();
+        var imageSize, circlePathRadius, genreRadius, mainGenreRadius,
+            charge, linkDistance, imageOffset, borderRadius;
+        if (windowWidth > 7000){
+            imageSize = 100;
+            circlePathRadius = 45;
+            borderRadius = 40;
+            genreRadius = 20;
+            mainGenreRadius = 30;
+            imageOffset = 50;
+            charge = -200;
+            linkDistance = 400;
+        } else {
+            imageSize = 50;
+            circlePathRadius = 20;
+            borderRadius = 18;
+            genreRadius = 8;
+            mainGenreRadius = 12;
+            imageOffset = 25;
+            charge = -120;
+            linkDistance = 180;
+        }
+
+        /* remove any existing content */
         self.svg.selectAll("line").remove();
         self.svg.selectAll("g.node").remove();
 
+        /* populate the nodes and links based on the graph mode */
         self.fetchNodesLinks();
 
+        /* append all the links that represent the relationships
+         * between nodes and stored in self.links (force.links) */
         var link = self.svg.selectAll("line")
             .data(self.links);
 
@@ -387,6 +477,9 @@ ForceGraph.prototype = {
 
         link.exit().remove();
 
+        /* append each node as a SVG group that will contain an
+         * image, circle border and clip path for artists, and a
+         * circle for genre */
         var node = self.svg.selectAll(".node")
             .data(self.nodes);
 
@@ -395,64 +488,11 @@ ForceGraph.prototype = {
             .attr("class", "node")
             .classed("resizable", true)
             //.call(self.force.drag)
-            .on('click', function(d){ self.connectNodes(d) })
             .on('dblclick', self.releaseNode)
             .on("mousedown", function(){
                 self.svg.on("zoom", null);
             })
             .call(self.nodeDrag);
-
-        nodeEnter.append("circle")
-            //.attr("width", 26)
-            //.attr("height", 26)
-            .attr("r", 20)
-            .attr("class", function(d){ return "rect" + d.type; })
-            .style("fill", function (d) {
-                if (d.type == 'artist'){
-                    if (d.ArtistSelected == 1)
-                        return self.colorUser1;
-                    else if (d.ArtistSelected == 2)
-                        return self.colorUser2;
-                    else if (d.ArtistSelected == 3)
-                        return self.colorCoincidente;
-                } else return self.color(d.group);
-            });
-
-        nodeEnter.append("circle")
-            .attr("r", function(d){
-                if (d.type == "genre"){
-                    if (d.priority == 1)
-                        return 8;
-                    else
-                        return 4;
-                } else
-                    return 1;
-            })
-            .attr("class", function(d){ return "circle" +  d.type; })
-            .classed("node", true)
-            .style("fill", function (d) {
-                if (d.type == 'artist'){
-                    if (d.ArtistSelected == 1)
-                        return self.colorUser1;
-                    else if (d.ArtistSelected == 2)
-                        return self.colorUser2;
-                    else if (d.ArtistSelected == 3)
-                        return self.colorCoincidente;
-                } else return self.color(d.group);
-            });
-
-        self.svg.selectAll(".circleartist").remove();
-        self.svg.selectAll(".rectgenre").remove();
-
-        nodeEnter.append("image")
-            .attr("xlink:href",  function(d) {
-                if (d.type == 'artist')
-                    return d.ArtistImageLink;
-            })
-            .attr("x", function(d) { return (0);})
-            .attr("y", function(d) { return (0);})
-            .attr("height", 25)
-            .attr("width", 25);
 
         nodeEnter.append("text")
             .attr("dx", function(d){
@@ -471,40 +511,127 @@ ForceGraph.prototype = {
             .style("stroke", "black")
             .style("opacity", 0);
 
+        var defs = nodeEnter.append("defs")
+            .append("clipPath")
+             .attr("id", function(d){
+                 var clip_id;
+                 if (d.type == "artist") clip_id = d.ArtistId;
+                 else clip_id = d.Name;
+                 return self.mode + "_" + clip_id;
+             })
+            .append("use")
+             .attr("xlink:href", function(d){
+                 var clip_id;
+                 if (d.type == "artist") clip_id = d.ArtistId;
+                 else clip_id = d.Name;
+                 return "#" + self.mode + "_circle" + "_" + clip_id;
+             });
+
+        nodeEnter
+            .append("circle")
+             .attr("id", function(d){
+                 var clip_id;
+                 if (d.type == "artist") clip_id = d.ArtistId;
+                 else clip_id = d.Name;
+                 return self.mode + "_circle" + "_" + clip_id;
+             })
+              .attr("class", function(d){
+                return "clippath-" + d.type;
+              })
+              .attr("r", circlePathRadius)
+              .attr("fill", "none")
+              .attr("stroke", function (d) {
+                  if (d.type == 'artist'){
+                      if (d.ArtistSelected == 1)
+                          return self.colorUser1;
+                      else if (d.ArtistSelected == 2)
+                          return self.colorUser2;
+                      else if (d.ArtistSelected == 3)
+                          return self.colorCoincidente;
+                  } else return self.color(d.group);
+              })
+              .attr("stroke-width", 3);
+
+        d3.selectAll(".clippath-genre").remove();
+
+        nodeEnter.append("circle")
+            .attr("r", function(d){
+                if (d.type == "genre"){
+                    if (d.priority == 1)
+                        return mainGenreRadius;
+                    else
+                        return genreRadius;
+                } else
+                    return genreRadius;
+            })
+            .attr("class", function(d){ return "circle" +  d.type; })
+            .classed("node", true)
+            .style("fill", function (d) {
+                if (d.type == 'artist'){
+                    if (d.ArtistSelected == 1)
+                        return self.colorUser1;
+                    else if (d.ArtistSelected == 2)
+                        return self.colorUser2;
+                    else if (d.ArtistSelected == 3)
+                        return self.colorCoincidente;
+                } else return self.color(d.group);
+            })
+            .on('click', function(d){ self.connectNodes(d) });
+
+        self.svg.selectAll(".circleartist").remove();
+        self.svg.selectAll(".rectgenre").remove();
+
+        nodeEnter.append("image")
+            .attr("xlink:href",  function(d) {
+                if (d.type == 'artist')
+                    return d.ArtistImageLink;
+            })
+            .attr("x", function(d) { return (0);})
+            .attr("y", function(d) { return (0);})
+            .attr("height", imageSize)
+            .attr("width", imageSize)
+            .attr("clip-path", function(d){
+                var clip_id;
+                if (d.type == "artist") clip_id = d.ArtistId;
+                else clip_id = d.Name;
+
+                clip_id = self.mode + "_" + clip_id;
+
+                return "url(#" + clip_id + ")";
+            })
+            .on('click', function(d){ self.connectNodes(d) });
+
         node.exit().remove();
 
         self.force.on("tick", function(){
+            d3.selectAll(".circlegenre")
+                .attr("cx", function (d) { return Math.max(30, Math.min(self.width - 30, d.x)); })
+                .attr("cy", function (d) { return Math.max(30, Math.min(self.width - 30, d.y)); });
+
+            d3.selectAll(".clippath-artist")
+                .attr("cx", function (d) { return Math.max(30, Math.min(self.width - 30, d.x)); })
+                .attr("cy", function (d) { return Math.max(30, Math.min(self.width - 30, d.y)); });
+
+            node.selectAll("text")
+                .attr("x", function (d) { return d.x + 10; })
+                .attr("y", function (d) { return d.y; });
+
+            node.selectAll("image")
+                .attr("x", function (d) { return d.x - imageOffset; })
+                .attr("y", function (d) { return d.y - imageOffset; });
+
             link
-                .attr("x1", function (d) {
-                    return d.source.x; })
+                .attr("x1", function (d) { return d.source.x; })
                 .attr("y1", function (d) { return d.source.y  })
                 .attr("x2", function (d) { return d.target.x; })
                 .attr("y2", function (d) { return d.target.y; });
 
-            node.selectAll("rect")
-                .attr("x", function (d) {
-                    return d.x - 11; })
-                .attr("y", function (d) { return d.y - 11; });
-
-            node.selectAll("circle")
-                .attr("cx", function (d) {
-                    return d.x; })
-                .attr("cy", function (d) { return d.y; });
-
-            node.selectAll("text")
-                .attr("x", function (d) { return d.x; })
-                .attr("y", function (d) { return d.y; });
-
-            node.selectAll("image")
-                .attr("x", function (d) { return d.x - 10; })
-                .attr("y", function (d) { return d.y - 10; });
-
-            node.each(self.collide(0.5)); // prevent collision
+            node.each(self.collide(0.1)); // prevent collision
         });
 
         self.force
-            .charge(-120)
-            .linkDistance(120)
+            .charge(charge)
+            .linkDistance(linkDistance)
             .friction(0.9)
             .size([self.width, self.height])
             .start();
@@ -544,10 +671,9 @@ ForceGraph.prototype = {
         self.force = d3.layout.force()
              .links(self.links)
              .nodes(self.nodes);
-        //self.nodes = self.force.nodes();
-        //self.links = self.force.links();
 
-        self.addButtons();
+        self.addNodeControls();
+        self.addZoomControls();
         self.update();
     }
 }

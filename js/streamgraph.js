@@ -24,7 +24,7 @@ function StreamGraph(target, stream_data, startYear, endYear,user){
 
     /* container attributes */
     self.target = target;
-    self.margin = {top: 10, right: 40, bottom: 30, left: 80};
+    self.margin = {top: 10, right: 40, bottom: 60, left: 80};
     self.height = 0;
     self.width = 0;
     self.svg = null;
@@ -238,7 +238,6 @@ StreamGraph.prototype = {
         var color = d3.scale.ordinal()
             .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 */
-
         /* The area function get the path positions along the graph*/
         var area = d3.svg.area()
             .x(function(d) {
@@ -257,7 +256,7 @@ StreamGraph.prototype = {
 
         self.svg.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + self.height + ")")
+            .attr("transform", "translate(0," + (self.height + 5) + ")")
             .call(xAxis);
 
         /* create the brush before the path elements so brush does not blocks the hover over
@@ -273,14 +272,22 @@ StreamGraph.prototype = {
         for(var i = 0; i < self.data[0].length; i++)
             self.data[0][i].y0 = 0;
 
-        var paths = self.svg.selectAll(".layer")
+        self.svg.selectAll(".layer")
             .data(self.data)
             .enter().append("path")
             .attr("class", "layer")
             .attr("d", function(d){
-                var x = area(d);
                 return area(d); })
-            .style("fill", function() { return color(Math.random()); });
+            .style("fill", function(d) {
+                var colorVal = color(Math.random());
+                if (typeof shared_color != 'undefined' && shared_color != null){
+                    shared_color.push({
+                        genre: d[0].name,
+                        color: colorVal
+                    });
+                }
+                return colorVal;
+            });
 
         /* add the hover over events. Reduce the opacity of all the path not selected
          * while mouseover. Restore opacity when mouseout */
@@ -296,17 +303,15 @@ StreamGraph.prototype = {
                 var invertedx = self.x.invert(mousex[0]);
 
                 self.tooltip.html( "<p>" + d[0].name + "</p>" )
-                    .style("left", (d3.event.pageX + 50) + "px")
-                    .style("top", d3.event.pageY + "px")
+                    .style("left", (mousex[0] + 50) + "px")
+                    .style("top", (mousex[1] + 20)+ "px")
                     .style("display", "block");
             })
             .on("mousemove", function(){
                 mouse = d3.mouse(this);
-                console.log("(" + mouse[0] + "," + mouse[1] + ") - (" + d3.event.pageX + "," + d3.event.pageY + ")");
                 self.tooltip
-                    .style("left", (d3.event.pageX + 50) + "px")
-                    .style("top", d3.event.pageY + "px")
-                var x = 1;
+                    .style("left", (mouse[0]+ 50) + "px")
+                    .style("top", (mouse[1] + 20)  + "px")
             })
             .on("mouseout", function(d, i) {
                 self.svg.selectAll(".layer")
@@ -340,7 +345,13 @@ StreamGraph.prototype = {
 
         function dragmove() {
             mousex = d3.mouse(this);
-            d3.select(this).attr("cx", mousex[0]);
+
+            if ($(this).attr("class") == 'handle left' && mousex[0] < 0){
+                d3.select(this).attr("cx", self.x(self.startYear));
+            } else if ($(this).attr("class") == 'handle right' && mousex[0] > 0){
+                d3.select(this).attr("cx", self.x(self.endYear));
+            } else
+                 d3.select(this).attr("cx", mousex[0]);
         }
 
         function dragend(side) {
@@ -402,16 +413,22 @@ StreamGraph.prototype = {
             .on("drag", dragmove)
             .on("dragend", function() { dragend('left'); });
 
+        /* set the radius dependant */
+        var windowWidth = $(window).width();
+        var handleRadius;
+        if (windowWidth > 7000) handleRadius = 30;
+        else handleRadius = 12;
+
         var handleLeft = self.svg.append("circle")
             .attr("class", "handle left")
             .attr("transform", "translate(0," + self.height + ")")
-            .attr("r", 12)
+            .attr("r", handleRadius)
             .call(dragLeft);
 
         var handleRight = self.svg.append("circle")
             .attr("class", "handle right")
             .attr("transform", "translate(" + self.width + "," + self.height + ")")
-            .attr("r", 12)
+            .attr("r", handleRadius)
             .call(dragRight);
     }
 }
