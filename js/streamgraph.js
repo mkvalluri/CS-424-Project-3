@@ -283,7 +283,7 @@ StreamGraph.prototype = {
                 var colorVal = color(Math.random());
                 if (typeof shared_color != 'undefined' && shared_color != null){
                     shared_color.push({
-                        genre: d[0].Name,
+                        genre: d[0].name,
                         color: colorVal
                     });
                 }
