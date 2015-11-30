@@ -7,7 +7,7 @@ function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoinciden
 
     self.URI = URI;
 
-    self.worldArtists = [];
+    self.worldArtists = data;
     self.usersArtists = [];
 
     self.startYear = startYear;
@@ -49,7 +49,7 @@ function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoinciden
     self.links = [];
     self.nodes = [];
 
-    self.getTopArtistsperDecade();
+    //self.getTopArtistsperDecade();
 }
 
 ForceGraph.prototype = {
