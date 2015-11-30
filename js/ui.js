@@ -49,80 +49,13 @@ UI.prototype ={
 
 
 	streamGraph: function(){
-		var jsonData = getTop10GenresPerYear(1960,2010);
-		var data = bumpLayer(100);
-        this.s = new StreamGraph(this.stream_graph_holder, jsonData, 1960, 2010,this.user);
-        this.s.init();
+		d3.json("../data/top10genresPerYear.json", function(error, data){
+			this.s = new StreamGraph(this.stream_graph_holder,data, 1960, 2010,this.user);
+       	 	this.s.init();
+		});
 
-        // Inspired by Lee Byron's test data generator.
-        function bumpLayer(n) {
 
-            function getGenres(genres){
-                var selectedGenres = [], rand, rank;
-
-                for(var i = 0; i < genres.length; i++)
-                    selectedGenres[i] = { genre: genres[i], rate: 0 };
-
-                for(var i = 0; i < 10; i++){
-                    rand = Math.floor((Math.random() * genres.length));
-                    rank = Math.floor((Math.random() * 1000) + 1);
-
-                    for(var j = 0; i < selectedGenres.length; j++){
-                        if (selectedGenres[j].genre == genres[rand]){
-                            selectedGenres[j].rate = rank;
-                            genres.splice(rand,1);
-                            break;
-                        }
-                    }
-                }
-
-                return selectedGenres;
-            }
-
-            var elems = [], i, iyear = 1900;
-            var genres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's'];
-            var countGenres = genres.length;
-
-            for (i = 0; i < n; i++) {
-                elems[i] = { year: iyear + i, genres: getGenres(genres.slice()) };
-            }
-
-            /*
-             totals = [];
-             elems.forEach(function(elem){
-             var y0 = 0;
-             elem.layer = elem.genres.map(function(d, i){
-             return { x: i, name: d.genre, y0: y0, y1: y0 += +d.rate }
-             });
-             elem.total = elem.layer[countGenres - 1].y1;
-             totals.push(elem.total);
-             });
-             */
-            elems.forEach(function(elem){
-                elem.layer = elem.genres.map(function(d, i){
-                    return { x: i, name: d.genre, y: d.rate }
-                });
-            });
-
-            var results = [];
-            for(var i = 0; i < countGenres; i++){
-                var gens = [];
-                for(var j = 0; j < n; j++){
-                    gens[j] = elems[j].layer[i];
-                    gens[j].year = elems[j].year;
-                }
-                results[i] = gens;
-            }
-
-            for(var i = 0; i < results.length; i++) {
-                for(var j = 0; j < results[i].length; j++){
-                    results[i][j].x = j;
-                }
-            }
-
-            return results;
-            //return elems.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
-        }
+       
 	},
 
 	sharedMap: function(){
