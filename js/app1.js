@@ -6,7 +6,7 @@ var user1 = new UI("user1",
   "user1_tabbed_menu"
 );
 
-user1.streamGraph();
+
 user1.artistList();
 user1.genreList();
 user1.tabbedMenu();
@@ -19,16 +19,27 @@ var user2 = new UI("user2",
   "user2_tabbed_menu"
 );
 
-user2.streamGraph();
+
 user2.artistList();
 user2.genreList();
 user2.tabbedMenu();
 
 var sharedUI = new UI("sharedUI", "yellow");
 sharedUI.sharedMap();
-sharedUI.sharedGraph();
+
 sharedUI.sharedTimeline();
 sharedUI.sharedPool();
+
+d3.json("../data/top10ArtistsPerDecade1960-2014.json",function(error,data){
+	top_artist_per_decade =data;
+	sharedUI.sharedGraph(data);
+});
+
+d3.json("../data/top10genresPerYear.json", function(error, data){
+user1.streamGraph(data);
+user2.streamGraph(data);
+	});
+
 
 
 $(document).ready(function() {
