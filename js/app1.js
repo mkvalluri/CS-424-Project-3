@@ -376,6 +376,12 @@ $(document).ready(function() {
     }
 
      
+           $.each(shared_pool_data, function(i) {
+      if (shared_pool_data[i].Name === user1_my_genres_list_data[item].Name) {
+        shared_pool_data.splice(i, 1);
+        return false;
+      }
+    });
 
   });
 
@@ -826,6 +832,13 @@ $(document).ready(function() {
     });
     }
 
+
+           $.each(shared_pool_data, function(i) {
+      if (shared_pool_data[i].Name === user2_my_genres_list_data[item].Name) {
+        shared_pool_data.splice(i, 1);
+        return false;
+      }
+    });
      
 
   });
