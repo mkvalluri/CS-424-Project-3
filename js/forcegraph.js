@@ -692,7 +692,7 @@ function getTopArtistsperDecade(startYear, endYear, URI){
 
     while (startYear + 10 <= endYear){
         var url = URI + 'TopArtists?startYear=' +
-            + startYear  + '&endYear=' + (startYear + 10);
+            + startYear  + '&endYear=' + (startYear + 9);
 
         $.ajax({
             dataType: "json",
@@ -704,14 +704,14 @@ function getTopArtistsperDecade(startYear, endYear, URI){
         startYear += 10;
     }
 
+    return artists;
+
     /* fetch the data from the JSON call into an artist array */
     function success(data){
         for(var i=0; i < data.length; i++){
             if (!artistAlreadyAdded(data[i]))
                 artists.push(data[i]);
         }
-
-        return artists;
     }
 
     /* check if the artist was already added to the array to avoid duplicates */
