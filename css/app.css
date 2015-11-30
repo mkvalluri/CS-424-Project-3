@@ -65,6 +65,10 @@
 
  }
 
+ .streamgraph{
+ 	height: 100% !important;
+ }
+
  .user_tabbed_menu{
  	float:right;
  	height:55%;
@@ -356,7 +360,10 @@
 			fill: dodgerblue;
 			fill-opacity: .365 !important;
 		}
-
+#shared_timeline .user1 {
+	fill:red;
+	stroke-width: 6;	
+}
 
 
 
