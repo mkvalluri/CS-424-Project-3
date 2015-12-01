@@ -5,7 +5,7 @@ var lanes;
 var laneLength;
 var margin = {"top":20,"right":15,"bottom":15,"left":120};
 var width = 8000-margin.right - margin.left;
-var height = 500 - margin.top - margin.bottom;
+var height = 600 - margin.top - margin.bottom;
 var miniHeight,mainHeight;
 var x,x1,y1,y2;
 var chart;
@@ -22,11 +22,11 @@ sharedTimeline.prototype = {
 		lanes = ["rock","pop","jazz","hip-hop","others"];
 		laneLength = lanes.length;
 		items=shared_timeline_data;
-		miniHeight = laneLength * 12 +50;
+		miniHeight = laneLength * 12 +500;
 	
 console.log(width);
 		x = d3.scale.linear()
-				  .domain([1960,getEndYear(0)])
+				  .domain([1930,getEndYear(0)])
 				  .range([0,width]);
 	    x1 = d3.scale.linear()
 				 	.domain([0,width]);
@@ -79,7 +79,7 @@ console.log(width);
 			.enter()
 			.append("text")
 			.text(function(d){return d})
-			.attr("x","50px")
+			.attr("x","150px")
 			.attr("y",function(d,i){return y2(i+.5);})
 			.attr("dy",".5ex")
 			.attr("text-anchor","end")
@@ -102,7 +102,7 @@ console.log(width);
 					return y2(getLane(d.ArtistMainGenre)+.5) - .5;
 				})
 				.attr("width",function(d){
-					return x((getEndYear(d.end) - d.start)+1950);
+					return x((getEndYear(d.end) - d.start)+1930);
 				})
 				.attr("height",30);
 
@@ -117,6 +117,15 @@ console.log(width);
 				})
 				.attr("dy",".5ex");
 
+			xAxis = d3.svg.axis()
+						.scale(x)
+						.orient("bottom")
+						.tickFormat(d3.format("d"));
+
+			mini.append("g")
+				.attr("class","x axis")
+				.attr("transform","translate(5,550)")
+				.call(xAxis);
 
 
 	}

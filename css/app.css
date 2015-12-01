@@ -329,40 +329,45 @@
 		}
 
 		.mini text {
-			font: 1.2em;
+			font: 3em;
+			font-size:50px;
 			fill: white;	
 		}
 
 		.main text {
-			font: 1.2em;
+			font: 3em;
 			fill:white;
 		}
 
-		.miniItem0 {
-			fill: darksalmon;
-			stroke-width: 6;	
-		}
 
-		.miniItem1 {
-			fill: darkolivegreen;
-			fill-opacity: .7;
-			stroke-width: 6;	
-		}
-
-		.miniItem2 {
-			fill: slategray;
-			fill-opacity: .7;
-			stroke-width: 6;	
-		}
-
-		.brush .extent {
-			stroke: white !important;
-			fill: dodgerblue;
-			fill-opacity: .365 !important;
-		}
 #shared_timeline .user1 {
-	fill:red;
+	fill:#FF5144;
 	stroke-width: 6;	
+}
+
+		
+#shared_timeline .user2 {
+	fill:#3AC0FF;
+	stroke-width: 6;	
+}
+
+
+		
+#shared_timeline .common{
+	fill:yellow;
+	stroke-width: 6;	
+}
+
+#shared_timeline .axis line,#shared_timeline .axis path{
+	stroke:#fff;
+	stroke-width:2px;
+	shape-rendering:crispEdges;
+}
+
+#shared_timeline x.axis text{
+	fill:white;
+	font-size:40px;
+	font-family: Lato;
 }
 
 
