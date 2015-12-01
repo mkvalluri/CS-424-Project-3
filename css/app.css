@@ -274,10 +274,10 @@
 }
 
 #shared_pool .user1 {
-	border:solid red !important;
+	border:solid #ff5144 !important;
 }
 #shared_pool .user2 {
-	border:solid blue !important;
+	border:solid #3Ac0ff !important;
 }
 
 #shared_pool .common {
