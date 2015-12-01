@@ -128,12 +128,6 @@
                 return false;
             }
 
-            for (var i = 0; i < unique.length; i++){
-                var x =1;
-
-                    console.log(unique[i].ArtistName);
-            }
-
             graph = new ForceGraph("#graph", 1950, 2010, "#f03b20", "#2b8cbe", "#feb24c", "http://cs424.azurewebsites.net/api/", data);
             graph.init();
         });

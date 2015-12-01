@@ -389,6 +389,9 @@ ForceGraph.prototype = {
         var self = this;
         self.mode = "user";
 
+        $("#btn-force-user").addClass("selected");
+        $("#btn-force-topten").removeClass("selected");
+
         self.usersArtists = artists;
         self.update();
     },
@@ -549,11 +552,11 @@ ForceGraph.prototype = {
               .attr("fill", "none")
               .attr("stroke", function (d) {
                   if (d.type == 'artist'){
-                      if (d.ArtistSelected == 1)
+                      if (d.user == "user1")
                           return self.colorUser1;
-                      else if (d.ArtistSelected == 2)
+                      else if (d.user == "user2")
                           return self.colorUser2;
-                      else if (d.ArtistSelected == 3)
+                      else if (d.user == "common")
                           return self.colorCoincidente;
                   } else return self.color(d.group);
               })
