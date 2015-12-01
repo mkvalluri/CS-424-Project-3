@@ -179,13 +179,27 @@ var circle_options = {
 };
 
 function getGenreColor(x) {
-    return x == 'rock'    ? '#55E000': // bright green
-           x == 'pop'     ? '#CCFF00': // yellow-green
-           x == 'dubstep' ? '#FFFF00': // 
-                            '#FF0FD7'; // pink
+    // var result = shared_colors.filter(function(elem) {return elem.genre == x});
+
+    // if (result.isArray()) {
+    //    return result[0].color;
+    // }
+    // else
+    //   return result.color
+
+    for (var i = 0; i < shared_colors.length; i++) {
+      if (shared_colors[i].genre == x) {
+        return shared_colors[i].color;
+      }
+
+    }
+
 }
 
+
+
 function getUserColor(x) {
+
     return x == 'user1'    ? '#55E000': // bright green
            x == 'user2'    ? '#CCFF00': // yellow-green
                              '#FF0FD7'; // common
