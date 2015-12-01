@@ -124,7 +124,7 @@ sharedTimeline.prototype = {
 
 			mini.append("g")
 				.attr("class","x axis")
-				.attr("transform","translate(5,550)")
+				.attr("transform","translate(5,450)")
 				.call(xAxis);
 
 
