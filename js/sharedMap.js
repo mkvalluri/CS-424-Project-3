@@ -5,7 +5,8 @@ var Layer1,Layer2,layerControl;
 
 
 function sharedMap(){
-	  // ===========================MapLayers============================ //
+
+// ===========================MapLayers============================ //
 
 L.mapbox.accessToken = 'pk.eyJ1IjoicmV2cmVkZHkiLCJhIjoiY2lmdHlqdmNvMWZ3enVla3Fnc2xrZG93ciJ9.cy6JtcSeMkTM3AsMDtmYOg';
 
@@ -24,6 +25,8 @@ L.mapbox.accessToken = 'pk.eyJ1IjoicmV2cmVkZHkiLCJhIjoiY2lmdHlqdmNvMWZ3enVla3Fnc
     'Color': Streets,
     'Dark': Dark
 }
+
+// Set map layer to dark 
 mapLayers.Dark.addTo(map);
 L.control.layers(mapLayers).addTo(map);
 
@@ -32,7 +35,7 @@ L.control.layers(mapLayers).addTo(map);
 
     layerControl = document.getElementById('menu-ui');
 
-
+// Map controls to change the layer
 this.addLayer(Layer1, 'Top 10 Artists', 1, true);
 this.addLayer(Layer2, 'User Information', 2, false);
 this.addButton(Layer1, 'Reset Zoom', 3, false);
@@ -40,14 +43,20 @@ this.addButton(Layer1, 'Reset Zoom', 3, false);
 
 }
 
+
+// Adds a button for the layer controls on map 
 sharedMap.prototype = {
+
+    // adds 
     addLayer: function(layer,name,zIndex,layerOn){
         layer.setZIndex(zIndex).addTo(map);
 
+    // creates the html code for button
     var link = document.createElement('a');
         link.href = '#';
         link.innerHTML = name;
 
+    // sets button initial state to on or off
     if (layerOn)
         link.className = 'active';
     else {
@@ -55,6 +64,7 @@ sharedMap.prototype = {
         map.removeLayer(layer);
     }
 
+    // defines onclick action to turn on/off layer
     link.onclick = function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -68,9 +78,11 @@ sharedMap.prototype = {
         }
     };
 
+    // adds html code to full site html
     layerControl.appendChild(link);
     },
 
+    // adds button for the reset zoom
     addButton: function(layer,name){
          var link = document.createElement('a');
         link.href = '#';
@@ -78,6 +90,7 @@ sharedMap.prototype = {
 
     link.className = '';
 
+    // onclick action to execute the reset action
     link.onclick = function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -88,17 +101,8 @@ sharedMap.prototype = {
     layerControl.appendChild(link);
     },
 
-    
-
-
-
-
-
 // URL-ify the artist location
 // var query = data.response.artist.artist_location.location;
-
-
-
  Layer1Data:function(data) { // send an array of artists
      var self = this;
 
@@ -118,7 +122,7 @@ sharedMap.prototype = {
     }
 
 */
-
+     // changes the spaces to plus signs and then sends for geocoding
      function getGeocode(d){
          var query = d.ArtistLocation;
          var query_url = query.split(' ').join('+');
@@ -128,6 +132,8 @@ sharedMap.prototype = {
 
      var i = 0;
 
+     // makes the geocode requests at 100ms intervals
+    // one city location at a time for each artist
      function myLoop () {
          setTimeout(function () {
              getGeocode(data[i])
@@ -141,7 +147,8 @@ sharedMap.prototype = {
      myLoop();                      //  start the loop
 },
 
- Layer2Data:function(artist) { // send single artist
+ // geocoding for a single artist
+ Layer2Data:function(artist) { 
     for (var i = 0; i < artist.length; i++) {
       var query = artist[i].ArtistLocation;
         var query_url = query.split(' ').join('+');
@@ -151,6 +158,7 @@ sharedMap.prototype = {
 },
 
 
+// Performs the geocoding and plotting of the artist locations to the shared map
  geocodeToLayer:function(query_url, artist, layer, num) {
 
     // Construct Google Maps Geocoding API request url
@@ -158,11 +166,13 @@ sharedMap.prototype = {
 
     // Perform request to get latlng for artist location
     $.get(url, function(data) {
+        // check response status
         if (data.status.localeCompare("OK")) {
             alert("Geocoding request failed: STATUS " + data.status);
         }
-        var latlng = data.results[0].geometry.location;
+        var latlng = data.results[0].geometry.location; // save latlng from response
 
+        // fetch color to use for the circlemarker based on layer
         var mColor;
         if (num == 1) {
             Layer1.eachLayer(function (layer) {
@@ -192,22 +202,28 @@ sharedMap.prototype = {
                 fillOpacity: 0.2,    // Fill opacity);
         });
 
+        // generate tool tip html
         tooltip = '<img src="' + artist.ArtistImageLink + '" />' + 
                   '<p>' + artist.ArtistName + '</p>' +
                   '<p>' + artist.ArtistLocation + '</p>' +
                   '<p>' + artist.ArtistMainGenre + '</p>';
 
+        // set popup position relative to mouse click on marker
         dot.bindPopup(tooltip, {
             offset: new L.Point(-4, 0),
         });
+
+        // add marker to map
         layer.addLayer(dot);
     });
 },
 
+// clear all markers to layer 1
  Layer1Reset:function() {
     Layer1.clearLayers();
 },
 
+  // clear all markers to layer 2
  Layer2Reset:function() {
     Layer2.clearLayers();
 }
@@ -223,7 +239,7 @@ sharedMap.prototype = {
 
 
 
-
+// get matching genre color from streamgraph
 function getGenreColor(x){
 
     for (var i = 0; i < shared_color.length; i++){
@@ -239,6 +255,7 @@ function getGenreColor(x){
                             '#FF0FD7'; // pink*/
 }
 
+    // get color of user
     function getUserColor(x) {
         return x == 'user1'    ? '#FF5144': // bright green
            x == 'user2'    ? '#3AC0FF': // yellow-green
@@ -248,7 +265,7 @@ function getGenreColor(x){
 
 
 
-
+// sets the first letter of a string to uppercase
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
