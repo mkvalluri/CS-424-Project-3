@@ -30,15 +30,17 @@ var sharedUI = new UI("sharedUI", "yellow");
 sharedUI.sharedTimeline();
 sharedUI.sharedPool();
 
-d3.json("../data/top10ArtistsPerDecade1960-2014.json",function(error,data){
-	top_artist_per_decade =data;
-	sharedUI.sharedGraph(data);
-	sharedUI.sharedMap(data);
-});
+
 
 d3.json("../data/top10genresPerYear.json", function(error, data){
 user1.streamGraph(data);
 user2.streamGraph(data);
+d3.json("../data/top10ArtistsPerDecade1960-2014.json",function(error,data){
+	top_artist_per_decade =data;
+	sharedUI.sharedGraph(data);
+	sharedUI.sharedMap(data);
+	
+});
 	});
 
 
