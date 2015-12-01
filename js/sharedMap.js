@@ -33,8 +33,8 @@ L.control.layers(mapLayers).addTo(map);
     layerControl = document.getElementById('menu-ui');
 
 
-this.addLayer(Layer1, 'Top 10 Lists', 1, true);
-this.addLayer(Layer2, 'User Lists', 2, false);
+this.addLayer(Layer1, 'Top 10 Artists', 1, true);
+this.addLayer(Layer2, 'User Information', 2, false);
 this.addButton(Layer1, 'Reset Zoom', 3, false);
 
 

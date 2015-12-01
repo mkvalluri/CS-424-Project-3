@@ -33,79 +33,87 @@
 
 <h3 id="toc_0">Basics</h3>
 
-<p>If you would like to download the source, please go <a href="">here</a>.</p>
+    <p>If you would like to download the source, please go <a href="">here</a>.</p>
 
 <h3 id="toc_1">Tutorial</h3>
 
-<p>The following will provide a step-by-step guide to ensure proper usage and getting the most out of all features implemented. </p>
+    <p>The following will provide a step-by-step guide to ensure proper usage and getting the most out of all features implemented.</p>
 
 <h3 id="toc_2">Loading the App</h3>
 
-<p>To begin, select the &#39;Application&#39; link on the navigation sidebar to load the app. Please be patient as the site requires about 30secs to 1min to fetch all the data and load the elements. The loading is finished when user panels on the left and right sides have loaded the artist information in the lists. </p>
+    <p>To begin, select the &#39;Application&#39; link on the navigation sidebar to load the app. Please be patient as the site requires about 30secs to 1min to fetch all the data and load the elements. The loading is finished when user panels on the left and right sides have loaded the artist information in the lists. </p>
 
-<p>Also, please note that the app is designed for the big presentation screen, which has a resolution of approximately 8196 x 2100, used in our EVL classroom. Attempting to load the app on a regular desktop window will lead to an erroneous layout. However, to simulate the normal resolution, use the <a href="https://developers.google.com/web/tools/chrome-devtools/iterate/device-mode/">Device Mode</a> in Chrome browser&#39;s Developer Tools.</p>
+    <p>Also, please note that the app is designed for the big presentation screen, which has a resolution of approximately 8196 x 2100, used in our EVL classroom. Attempting to load the app on a regular desktop window will lead to an erroneous layout. However, to simulate the normal resolution, use the <a href="https://developers.google.com/web/tools/chrome-devtools/iterate/device-mode/">Device Mode</a> in Chrome browser&#39;s Developer Tools and set the display to the required resolution.</p>
 
 <h3 id="toc_3">Layout</h3>
 
-<p>Our alpha design choices is outlined on the <a href="http://mvallu.github.io/CS-424-Project-3/design.html">Design page</a> of our project site, which is still very consistent with our final design. The layout is based on the following:</p>
+    <p>Our alpha design choices is outlined on the <a href="http://mvallu.github.io/CS-424-Project-3/design.html">Design page</a> of our project site, which is still very consistent with our final design. The layout is based on the following:</p>
 
-<p><img src="http://mvallu.github.io/CS-424-Project-3/design/areas-detailed.png" alt="Alpha Design"></p>
+    <p><img src="http://mvallu.github.io/CS-424-Project-3/design/areas-detailed.png" alt="Alpha Design" width='100%'></p>
 
-<p><img src="full.png" alt="Final Design SS" width="100%"></p>
+    <p><img src="how_to/fullview.png" alt="Final Design SS" width="100%"></p>
 
 <h3 id="toc_4">Initial content on load</h3>
 
-<p>Once the app is fully loaded, we have various initial sets of data being shown in the panels. The shared map and shared force graph will show the data for the Top 10 Artists for all decades. The user artist selection panels will be initialized with a list of artists for all decades and the top ten genres per year in a Streamgraph. The user search panels will be empty but ready for use. The shared timeline as well as the user selected artists and genres will initially be empty as well.</p>
+    <p>Once the app is fully loaded, we have various initial sets of data being shown in the panels. The shared map and shared force graph will show the data for the Top 10 Artists for all years from 1960 to 2010. The user Explore panels will be initialized with a list of artists for all years and User Timeline will display the top ten genres per year in the form of a streamgraph. The user search panels will be empty but ready for use. The shared timeline and shared user selections rows at the top of app as well as the user My Artists and My Genre lists will initially be empty as well.</p>
 
 <h3 id="toc_5">Modes</h3>
 
-<p>There are two main modes to the app: Top 10 Lists and User Selections.</p>
+    <p>There are two main modes to the app: Top 10 Lists and User Selections.</p>
 
-<p>Top 10 Artists layers contains the initial data set with all the Top 10 artists for every decade displayed. After the initial load, this data will remain there and does not change. </p>
+    <p>Top 10 Artists layers contains the initial data set with all the Top 10 artists for all years displayed. After the initial load, this data will remain there and does not change. This is meant to provide the users with a clear overview of the data regardless of what selections they make afterwards.</p>
 
-<p>To change the views for the Shared Map and Shared Force Graph, click the &#39;Top 10 Artists&#39; button once to hide the layer. The button will change from green to white. Then click &#39;User Selections&#39; button to turn on this layer. The button will go from white to green. While both layers can be turned on at the same time, this would considered in unintended usage as both sets of data are being shown and be confusing.</p>
+    <p>To change the views for the Shared Map and Shared Force Graph, click the &#39;Top 10 Artists&#39; button once to hide the layer. The button will change from green to white. Then click &#39;User Selections&#39; button to turn on this layer. The button will go from white to green. While both layers can be turned on at the same time, this would considered in unintended usage as both sets of data are being shown and be confusing.</p>
 
 <p>In short, Gray is ON and White is OFF.</p>
 
-<h3 id="toc_6">User 1 and 2</h3>
+<h3 id="toc_6">User 1 and 2 Sections</h3>
 
-<p><img src="userviews.png" alt="User view" width="100%"></p>
+    <p><img src="how_to/userviews.png" alt="User view" width="70%"></p>
 
-<p>The app has the possibility to handle two separate users, user1 (red) on left side and user2 (blue) on right side. Each user can use the app independantly of the other. Both user selections will be color coded and added to the Shared Timeline, the User Selections layers of Shared Map and Shared Force Graph, and the Shared User Artists and Genres row. These four shared panels of the app will be collectively referred to as &#39;shared views&#39; for the remainder of the tutorial.</p>
+    <p>The app has the possibility to handle two separate users, user1 (red) on left side and user2 (blue) on right side. Each user can use the app independantly of the other. Both user selections will be color coded and added to the Shared Timeline, the User Selections layers of Shared Map and Shared Force Graph, and the Shared User Artists and Genres row. These four shared panels of the app will be collectively referred to as &#39;shared views&#39; for the remainder of the tutorial.</p>
 
 <h3 id="toc_7">User Timeline</h3>
 
-<p>The User Timeline shows the music genre data per year and displays based on a popularity algorithm using values provided by the API and additional adjustments that are calculated by us. Each fill color is represents one genre. There are 10 genres displayed at any given year. As a result of this, a some colors may be persistent across all years, like Pop, while others briefly show up for a few years and disappear. </p>
+    <p>The User Timeline shows the music genre data per year and displays based on a popularity algorithm using values provided by the API and additional adjustments that are calculated by us. Each fill color is represents one genre. There are 10 genres displayed at any given year. As a result of this, a some colors may be persistent across all years, like Pop, while others briefly show up for a few years and disappear. </p>
 
-<p><img src="stream_hover.PNG" alt="User Timeline Hover Genre" width="100%"></p>
+    <p><img src="how_to/stream_hover.png" alt="User Timeline Hover Genre" width="70%"></p>
 
-<p>Hovering over a specific genre will bring it to focus while graying out all the other genres. This provides easy clarity to easily see how the genre popularity changes over the years.</p>
+    <p>Hovering over a specific genre will bring it to focus while graying out all the other genres. This provides easy clarity to easily see how the genre popularity changes over the years.</p>
 
-<p>On the User Timeline, the initial range of data will be 1960 to 2010. This range of years will be initially displayed on the shared map and shared force graph. At the bottom of the User Timeline, there are two slider dots to control the lower and upper bounds of the ranges. The user can click on the any handle and slide to the left or right to adjust the bounds. The resulting changes in the range will update the user list panels for artists and genres.</p>
+    <p><img src="how_to/stream_range.png" alt="User Timeline Hover Genre" width="70%"></p>
+
+    <p>On the User Timeline, the initial range of data will be 1960 to 2010. This range of years will be initially displayed on the shared map and shared force graph. At the bottom of the User Timeline, there are two slider dots to control the lower and upper bounds of the ranges. The user can click on either blue dot and slide to the left or right to adjust the bounds. The resulting changes in the range will update the user list panels for artists and genres.</p>
 
 <h3 id="toc_8">User Selection Lists (Explore)</h3>
 
-<p><img src="explore.png" alt="Explore view" width="100%"></p>
+    <p><img src="how_to/explore2.png" alt="Explore view" width="50%"></p>
 
-<p>Any duplicate artists that show as Top 10 for more than one year will not be duplicated in the user list panels. This range selection is independant of the other user and does not affect the shared views.</p>
+    <p>The Explore panel for each user contains all the unique artists that were in the Top 10 for any given year for the range of years selected in the User Timeline. Any duplicate artists that show as Top 10 for more than one year will not be duplicated in the user list panels. This range selection is independant of the other user and does not affect the shared views.</p>
 
-<p>When a user selects by double clicking a specific artist or genre from their personal Top 10 Lists, then the artist or genre will be added to their respective User1/2 selections panels as well as the shared views.</p>
+    <p><img src="how_to/explore.png" alt="Explore view" width="50%"></p>
 
-<p>Note: Search tab is currently not working.</p>
+    <p>When the user clicks an artist in the Top 10 Artists list, it will fetch the related artists and display on the right half of the Explore panel. The user can then navigate these artist and select them as well. The same occurs when selecting a genre in the Top 10 Genres list.</p>
+
+    <p>A user selects a specific artist or genre by double-clicking from their list of artists or genres, then the artist or genre will be added to their respective User1/2 selections panels as well as the shared views.</p>
+
+    <p>The ordering of both Top 10 lists are based on the overall popularity of the artist or genre in descending order for the currently selected range of years from the User's Timeline. </p>
 
 <h3 id="toc_9">My Artists and My Genres</h3>
 
-<p><img src="myartistsgenres.png" alt="My artists and genres" width="100%"></p>
+    <p><img src="how_to/myartistsgenres.png" alt="My artists and genres" width="20%"></p>
 
-<p>After a user has chosen a specific artist or genre from the list, it will be added to My Artist/Genre lists. These panels will allow the user to clearly see what is added to their shared views and easily allow them to remove any artists or genres from their list by clicking the trash can next to their name. The trash can at the top of the list containers removes all items in their respective lists.</p>
+    <p>After a user has chosen a specific artist or genre from the list (by double-clicking them), it will be added to My Artist/Genre lists. These panels will allow the user to clearly see what is added to their shared views and easily allow them to remove any artists or genres from their list by double-clicking anywhere on the item row (note: the trash can for each row does not work, use double-clicking). </p>
+    
+    <p>The trash can in the headers at the top of the list containers removes all items in their respective lists. This will also clear those user selections from all the other shared views.</p>
 
 <h3 id="toc_10">Shared Map</h3>
 
-<p>The map contains standard features including zoom and panning. Each artist&#39;s location, given by the API, is represented by on the map as a circle. The circle is colored according to the main genre of the artist, which matches that of the genre colors of the user timelines. If multiple artists are from the same location, additional circles will surround each other, like a bulleye. Clicking each circle will load a small popup into view that shows the artist album image, artist name, artist location, and artist main genre. Clicking the &#39;X&#39; on the popup or clicking on the map elsewhere will close the popup. </p>
+    <p>The map contains standard features including zoom and panning. Each artist&#39;s location, given by the API, is represented by on the map as a circle. The circle is colored according to the main genre of the artist, which matches that of the genre colors of the user timelines. If multiple artists are from the same location, additional circles will surround each other, like a bulleye. Clicking each circle will load a small popup into view that shows the artist album image, artist name, artist location, and artist main genre. Clicking the &#39;X&#39; on the popup or clicking on the map elsewhere will close the popup. </p>
 
-<p>See the Modes section above for instruction on how to toggle the layers. The </p>
+    <p>See the Modes section above for instruction on how to toggle the layers.</p>
 
-<p>The reset zoom button simply brings the map back to its initial position and zoom. This is useful when zoomed in deeply and panned, and want to quickly reset the map.</p>
+    <p>The reset zoom button simply brings the map back to its initial position and zoom. This is useful when zoomed in deeply and panned, and want to quickly reset the map.</p>
 
 <h3 id="toc_11">Force Graph</h3>
 
