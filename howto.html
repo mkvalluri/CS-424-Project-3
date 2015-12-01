@@ -48,9 +48,9 @@
 
 <p>Our alpha design choices is outlined on the <a href="http://mvallu.github.io/CS-424-Project-3/design.html">Design page</a> of our project site, which is still very consistent with our final design. The layout is based on the following:</p>
 
-<p><img src="http://mvallu.github.io/CS-424-Project-3/design/areas-detailed.png" alt="Alpha Design" width="100%"></p>
+<p><img src="http://mvallu.github.io/CS-424-Project-3/design/areas-detailed.png" alt="Alpha Design"></p>
 
-<p>[Final Design SS]()</p>
+<p><img src="full.png" alt="Final Design SS" width="100%"></p>
 
 <h3 id="toc_4">Initial content on load</h3>
 
@@ -68,6 +68,8 @@
 
 <h3 id="toc_6">User 1 and 2</h3>
 
+<p><img src="userviews.png" alt="User view" width="100%"></p>
+
 <p>The app has the possibility to handle two separate users, user1 (red) on left side and user2 (blue) on right side. Each user can use the app independantly of the other. Both user selections will be color coded and added to the Shared Timeline, the User Selections layers of Shared Map and Shared Force Graph, and the Shared User Artists and Genres row. These four shared panels of the app will be collectively referred to as &#39;shared views&#39; for the remainder of the tutorial.</p>
 
 <h3 id="toc_7">User Timeline</h3>
@@ -82,11 +84,17 @@
 
 <h3 id="toc_8">User Selection Lists (Explore)</h3>
 
+<p><img src="explore.png" alt="Explore view" width="100%"></p>
+
 <p>Any duplicate artists that show as Top 10 for more than one year will not be duplicated in the user list panels. This range selection is independant of the other user and does not affect the shared views.</p>
 
 <p>When a user selects by double clicking a specific artist or genre from their personal Top 10 Lists, then the artist or genre will be added to their respective User1/2 selections panels as well as the shared views.</p>
 
+<p>Note: Search tab is currently not working.</p>
+
 <h3 id="toc_9">My Artists and My Genres</h3>
+
+<p><img src="myartistsgenres.png" alt="My artists and genres" width="100%"></p>
 
 <p>After a user has chosen a specific artist or genre from the list, it will be added to My Artist/Genre lists. These panels will allow the user to clearly see what is added to their shared views and easily allow them to remove any artists or genres from their list by clicking the trash can next to their name. The trash can at the top of the list containers removes all items in their respective lists.</p>
 
@@ -111,7 +119,7 @@
 
 <p>Finally, the black lines are the connections between the artists and the genres. Every artist is connected to at least one genre circle, however almost all artist have several connections since their music often has multiple genre classifications.</p>
 
-<p>Selecting a particular artist circle will highlight the artist and all their genres. Selecting a particular genre circle will highlight that genre and all the artists that are connected to it. Any selection will display the artist and genres names.</p>
+<p>Selecting a particular artist circle will highlight the artist and all their genres. Selecting a particular genre circle will highlight that genre and all the artists that are connected to it. Any selection will display the artist and genres names. To unselect, just click on the originally selected circle again.</p>
 
 <h5 id="toc_12">Single Artist Selection:</h5>
 
@@ -125,6 +133,8 @@
 
 <h3 id="toc_14">Shared Selected Artists and Genres</h3>
 
+<p><img src="Sharedusertimeline.png" alt="Force Graph Shared Selections" width="100%"></p>
+
 <p>This section is the middle horizontal row. This contains all the user 1 and 2 selections chronologically added to the stream. </p>
 
 <p>When either user selects an artist to add to the shared views, the square will contains the artist album image. The square border represents the user that added the element; either red for user 1, blue for user 2 or yellow is both users selected the element. Below the square the artist name. </p>
@@ -132,6 +142,10 @@
 <p>When either user selects a genre, the square simply contains the name of the genre with the border color corresponding again to the user selection. The name of the genre is shown below the square.</p>
 
 <h3 id="toc_15">Shared Timeline</h3>
+
+<p><img src="sharedtimeline.png" alt="" width="100%"></p>
+
+<p>Shared timeline shows the years in which a particular artist was popular. The most popular genres of rock, pop, jazz, and hip-hop are shown on the left column and the x axis is the time.</p>
 
         <hr>
         <footer class="text-center">
