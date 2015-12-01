@@ -260,12 +260,13 @@
 }
 
 #shared_pool .webix_list_item{
-	padding-top: 20px;
+	padding-top: 0px;
 	height: 100% !important;
+	text-align: center;
 }
 #shared_pool .webix_list_item img {
-	width:150px;
-	height:150px;
+	width:90px;
+	height:90px;
 }
 
 #shared_pool .user1 {
