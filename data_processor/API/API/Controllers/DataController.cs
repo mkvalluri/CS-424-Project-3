@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using WebApi.OutputCache.V2;
 
 namespace API.Controllers
 {
@@ -35,6 +36,7 @@ namespace API.Controllers
             db.GetTopArtistsListBasedOnYearRange(1950, 2015);
         }
 
+        [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)]
         [Route("api/TopArtists")]
         [HttpGet]
         public List<Artist> GetTopArtists(int startYear, int endYear)
@@ -44,7 +46,7 @@ namespace API.Controllers
             return artistList;
         }
 
-
+        [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)]
         [Route("api/TopGenres")]
         [HttpGet]
         public List<TopGenres> GetTopGenres(int startYear, int endYear)
@@ -52,7 +54,7 @@ namespace API.Controllers
             return db.GetTopGenres(startYear, endYear);
         }
 
-        
+        [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)]
         [Route("api/TopGenresByDecade")]
         [HttpGet]
         public List<Genre> GetTopGenresByDecade(int startYear, int endYear)
@@ -60,6 +62,7 @@ namespace API.Controllers
             return db.GetTopGenresByDecade(startYear, endYear);
         }
 
+        [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)]
         [Route("api/SearchArtistsByName")]
         [HttpGet]
         public List<Artist> GetArtists(string artistName)
@@ -69,7 +72,7 @@ namespace API.Controllers
             return artistList;
         }
 
-
+        [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)]
         [Route("api/SearchArtistsByYearRange")]
         [HttpGet]
         public List<Artist> GetArtistsByYearRange(int startYear, int endYear)
@@ -79,6 +82,7 @@ namespace API.Controllers
             return artistList;
         }
 
+        [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)]
         [Route("api/SimilarArtistsByName")]
         [HttpGet]
         public List<Artist> GetSimilarArtistsByArtistName(string artistName)
@@ -94,6 +98,7 @@ namespace API.Controllers
             return artistList;
         }
 
+        [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)]
         [Route("api/TopArtistsByGenre")]
         [HttpGet]
         public List<Artist> GetTopArtistsByGenre(string genreName)
