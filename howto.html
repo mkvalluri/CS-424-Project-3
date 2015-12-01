@@ -109,15 +109,22 @@
 
 <h3 id="toc_10">Shared Map</h3>
 
-    <p>The map contains standard features including zoom and panning. Each artist&#39;s location, given by the API, is represented by on the map as a circle. The circle is colored according to the main genre of the artist, which matches that of the genre colors of the user timelines. If multiple artists are from the same location, additional circles will surround each other, like a bulleye. Clicking each circle will load a small popup into view that shows the artist album image, artist name, artist location, and artist main genre. Clicking the &#39;X&#39; on the popup or clicking on the map elsewhere will close the popup. </p>
+    <p><img src="how_to/map_full.png" alt="Map full" width="50%"></p>
 
-    <p>See the Modes section above for instruction on how to toggle the layers.</p>
+    <p>The map contains standard features including zoom and panning. Each artist&#39;s location, given by the API, is represented by on the map as a circle. The circle is colored according to the main genre of the artist, which matches that of the genre colors of the user timelines. If multiple artists are from the same location, additional circles will surround each other, like a bulleye.</p>
+
+    <p><img src="how_to/map_popup.png" alt="Map pop" width="50%"></p>
+
+
+    <p>Clicking each circle will load a small popup into view that shows the artist album image, artist name, artist location, and artist main genre. Clicking the &#39;X&#39; on the popup or clicking on the map elsewhere will close the popup. </p>
+
+    <p>See the Modes section above for instruction on how to toggle the layers. Gray is ON, White is OFF. When in User Information view, the user will see only the artists that are currently selected. Once again, they will follow the same red/blue/yellow color scheme of the other shared views.</p>
 
     <p>The reset zoom button simply brings the map back to its initial position and zoom. This is useful when zoomed in deeply and panned, and want to quickly reset the map.</p>
 
 <h3 id="toc_11">Force Graph</h3>
 
-    <p><img src="forcegraph_top.PNG" alt="Force Graph Full Data" width="100%"></p>
+    <p><img src="how_to/forcegraph_full.png" alt="Force Graph Full Data" width="40%"></p>
 
     <p>The force graph contains two types of circles. The first is the artist circle, which contains the artist album image in the center and an outline edge to correspond to the user color. The second type corresponds to the genres which have the following encodings:</p>
 
@@ -130,19 +137,21 @@
 
     <p>Selecting a particular artist circle will highlight the artist and all their genres. Selecting a particular genre circle will highlight that genre and all the artists that are connected to it. Any selection will display the artist and genres names. To unselect, just click on the originally selected circle again.</p>
 
+    <p>When either user makes a selection in their user panels, they will be added to the force graph and it will automatically change to the 'User Information' layer to show the new network.</p>
+
 <h5 id="toc_12">Single Artist Selection:</h5>
 
-<p><img src="forcegraph_selection.PNG" alt="Force Graph Single Artist Selection" width="100%"></p>
+<p><img src="how_to/forcegraph_selection.PNG" alt="Force Graph Single Artist Selection" width="40%"></p>
 
 <h5 id="toc_13">User 1 and 2 Selections:</h5>
 
-<p><img src="forcegraph_users.PNG" alt="Force Graph User 1 and 2 Selections" width="100%"></p>
+<p><img src="how_to/forcegraph_genre.PNG" alt="Force Graph User 1 and 2 Selections" width="40%"></p>
 
 <p>User 1 (left user) is Red, User 1 (right user) is Blue, and Common (both users) is Orange.</p>
 
 <h3 id="toc_14">Shared Selected Artists and Genres</h3>
 
-<p><img src="Sharedusertimeline.png" alt="Force Graph Shared Selections" width="100%"></p>
+<p><img src="how_to/Sharedusertimeline.png" alt="Force Graph Shared Selections" width="20%"></p>
 
 <p>This section is the middle horizontal row. This contains all the user 1 and 2 selections chronologically added to the stream. </p>
 
@@ -152,7 +161,7 @@
 
 <h3 id="toc_15">Shared Timeline</h3>
 
-<p><img src="sharedtimeline.png" alt="" width="100%"></p>
+<p><img src="how_to/sharedtimeline.png" alt="" width="100%"></p>
 
 <p>Shared timeline shows the years in which a particular artist was popular. The most popular genres of rock, pop, jazz, and hip-hop are shown on the left column and the x axis is the time.</p>
 
