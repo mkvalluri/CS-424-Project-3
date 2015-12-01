@@ -63,7 +63,7 @@ $(document).ready(function() {
     //alert(this.getItem(id).ArtistName);
     $$('user1_top_ten_genres').unselect();
     $$('user1_related_artist').clearAll();
-    $$("user1_related_artist").load(baseURL+'SimilarArtistsByName?artistName=' + this.getItem(id).ArtistName);
+    $$("user1_related_artist").load(baseURL+'SimilarArtists?artistName=' + this.getItem(id).ArtistName);
 
   })
 
@@ -624,7 +624,7 @@ $(document).ready(function() {
     //alert(this.getItem(id).ArtistName);
     $$('user2_top_ten_genres').unselect();
     $$('user2_related_artist').clearAll();
-    $$("user2_related_artist").load(baseURL+'SimilarArtistsByName?artistName=' + this.getItem(id).ArtistName);
+    $$("user2_related_artist").load(baseURL+'SimilarArtists?artistName=' + this.getItem(id).ArtistName);
 
   })
 
@@ -1173,13 +1173,15 @@ function searchQuery(user){
   if(user.user=="user1")
   {
     $$('user1_search_artist').clearAll();
-    $$("user1_search_artist").load('http://mkvalluri-001-site1.atempurl.com/api/SearchArtistsByName?artistName=' + $('#user1_search_query').val());
+    //$$("user1_search_artist").load('http://mkvalluri-001-site1.atempurl.com/api/SearchArtistsByName?artistName=' + $('#user1_search_query').val());
+      $$("user1_search_artist").load(baseURL + 'SearchArtistsByName?artistName=' + $('#user1_search_query').val());
 
   }
 
   else if(user.user=="user2")
     {
       $$('user2_search_artist').clearAll();
-      $$("user2_search_artist").load('http://mkvalluri-001-site1.atempurl.com/api/SearchArtistsByName?artistName=' + $('#user2_search_query').val());
+      //$$("user2_search_artist").load('http://mkvalluri-001-site1.atempurl.com/api/SearchArtistsByName?artistName=' + $('#user2_search_query').val());
+        $$("user2_search_artist").load(baseURL + 'SearchArtistsByName?artistName=' + $('#user2_search_query').val());
     }
 }

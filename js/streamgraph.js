@@ -137,7 +137,7 @@ StreamGraph.prototype = {
     /* moves the left slider by updating its width in x pixels. The left value remains
      * constant so the square always increases to the right.*/
     moveLeftSlider: function(x){
-        d3.select(".left-opaque").style("width", x + "px");
+        d3.select(this.target).select(".left-opaque").style("width", x + "px");
     },
 
     /* moves the right slider by updating its width and left. The left value moves
@@ -145,7 +145,7 @@ StreamGraph.prototype = {
      * the square to be moving to the left.*/
     moveRightSlider: function(x){
         var self = this;
-        d3.select(".right-opaque")
+        d3.select(self.target).select(".right-opaque")
             .style("width", x + "px")
             .style("left", self.width + self.margin.left - x + "px");
     },
@@ -354,10 +354,10 @@ StreamGraph.prototype = {
                  d3.select(this).attr("cx", mousex[0]);
         }
 
-        function dragend(side) {
+        function dragend() {
             var year = self.x.invert(mousex[0]);
 
-            if (side == 'right')
+            if ($(this).attr("class") == 'handle right')
                 year = Math.round(year) + (self.endYear - self.startYear);
             else
                 year = Math.round(year);
@@ -365,12 +365,23 @@ StreamGraph.prototype = {
             if (year%10 < 5) year = year - (year%10);
             else year = year - (year%10) + 10;
 
+            /*
             if (side == 'left') {
                 self.brushed('manual', [year, self.yearsSelected[1]]);
-                d3.select(".handle." + side).attr("cx", self.x(year));
+                d3.select(this).attr("cx", self.x(self.year));
+                //d3.select(".handle." + side).attr("cx", self.x(year));
             } else {
-                d3.select(".handle." + side).attr("cx", self.x(year) - self.width);
+                d3.select(this).attr("cx", self.x(year) - self.width);
+                //d3.select(".handle." + side).attr("cx", self.x(year) - self.width);
                 self.brushed('manual', [self.yearsSelected[0], year]);
+            }*/
+
+            if ($(this).attr("class") == 'handle left'){
+                self.brushed('manual', [year, self.yearsSelected[1]]);
+                d3.select(this).attr("cx", self.x(year));
+            } else if ($(this).attr("class") == 'handle right'){
+                self.brushed('manual', [self.yearsSelected[0], year]);
+                d3.select(this).attr("cx", self.x(year) - self.width);
             }
 
             if(self.user =="user1")
@@ -407,11 +418,11 @@ StreamGraph.prototype = {
 
         var dragRight = d3.behavior.drag()
             .on("drag", dragmove)
-            .on("dragend", function() { dragend('right'); });
+            .on("dragend", dragend);
 
         var dragLeft = d3.behavior.drag()
             .on("drag", dragmove)
-            .on("dragend", function() { dragend('left'); });
+            .on("dragend", dragend);
 
         /* set the radius dependant */
         var windowWidth = $(window).width();
