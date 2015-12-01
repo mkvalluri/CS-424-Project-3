@@ -77,11 +77,11 @@
 
     <p>The User Timeline shows the music genre data per year and displays based on a popularity algorithm using values provided by the API and additional adjustments that are calculated by us. Each fill color is represents one genre. There are 10 genres displayed at any given year. As a result of this, a some colors may be persistent across all years, like Pop, while others briefly show up for a few years and disappear. </p>
 
-    <p><img src="how_to/stream_hover.png" alt="User Timeline Hover Genre" width="70%"></p>
+    <p><img src="stream_hover.png" alt="User Timeline Hover Genre" width="70%"></p>
 
     <p>Hovering over a specific genre will bring it to focus while graying out all the other genres. This provides easy clarity to easily see how the genre popularity changes over the years.</p>
 
-    <p><img src="how_to/stream_range.png" alt="User Timeline Hover Genre" width="70%"></p>
+    <p><img src="how_to/stream_range.png" alt="User Timeline Range" width="70%"></p>
 
     <p>On the User Timeline, the initial range of data will be 1960 to 2010. This range of years will be initially displayed on the shared map and shared force graph. At the bottom of the User Timeline, there are two slider dots to control the lower and upper bounds of the ranges. The user can click on either blue dot and slide to the left or right to adjust the bounds. The resulting changes in the range will update the user list panels for artists and genres.</p>
 
@@ -117,18 +117,18 @@
 
 <h3 id="toc_11">Force Graph</h3>
 
-<p><img src="forcegraph_top.PNG" alt="Force Graph Full Data" width="100%"></p>
+    <p><img src="forcegraph_top.PNG" alt="Force Graph Full Data" width="100%"></p>
 
-<p>The force graph contains two types of circles. The first is the artist circle, which contains the artist album image in the center and an outline edge to correspond to the user color. The second type corresponds to the genres which have the following encodings:</p>
+    <p>The force graph contains two types of circles. The first is the artist circle, which contains the artist album image in the center and an outline edge to correspond to the user color. The second type corresponds to the genres which have the following encodings:</p>
 
-<ul>
-<li>Size: Smaller circles are not a main genre for any artist in the graph while bigger ones are at least the main genre for one artist in the graph.</li>
-<li>Color: If the genre appears in the Top Ten Genres per Year Graph, the circle will map the same color used in that graph. Otherwise, blue is used. </li>
-</ul>
+    <ul>
+    <li>Size: Smaller circles are not a main genre for any artist in the graph while bigger ones are at least the main genre for one artist in the graph.</li>
+    <li>Color: If the genre appears in the Top Ten Genres per Year Graph, the circle will map the same color used in that graph. Otherwise, blue is used. </li>
+    </ul>
 
-<p>Finally, the black lines are the connections between the artists and the genres. Every artist is connected to at least one genre circle, however almost all artist have several connections since their music often has multiple genre classifications.</p>
+    <p>Finally, the black lines are the connections between the artists and the genres. Every artist is connected to at least one genre circle, however almost all artist have several connections since their music often has multiple genre classifications.</p>
 
-<p>Selecting a particular artist circle will highlight the artist and all their genres. Selecting a particular genre circle will highlight that genre and all the artists that are connected to it. Any selection will display the artist and genres names. To unselect, just click on the originally selected circle again.</p>
+    <p>Selecting a particular artist circle will highlight the artist and all their genres. Selecting a particular genre circle will highlight that genre and all the artists that are connected to it. Any selection will display the artist and genres names. To unselect, just click on the originally selected circle again.</p>
 
 <h5 id="toc_12">Single Artist Selection:</h5>
 
