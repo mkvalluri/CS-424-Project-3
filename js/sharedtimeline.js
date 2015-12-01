@@ -24,7 +24,7 @@ sharedTimeline.prototype = {
 		items=shared_timeline_data;
 		miniHeight = laneLength * 12 +500;
 	
-console.log(width);
+
 		x = d3.scale.linear()
 				  .domain([1930,getEndYear(0)])
 				  .range([0,width]);

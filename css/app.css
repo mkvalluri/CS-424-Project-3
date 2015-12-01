@@ -342,13 +342,15 @@
 
 #shared_timeline .user1 {
 	fill:#FF5144;
-	stroke-width: 6;	
+	stroke-width: 6;
+	opacity: 0.3;	
 }
 
 		
 #shared_timeline .user2 {
 	fill:#3AC0FF;
-	stroke-width: 6;	
+	stroke-width: 6;
+	opacity: 0.3;		
 }
 
 

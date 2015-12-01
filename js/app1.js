@@ -136,6 +136,8 @@ $(document).ready(function() {
      fG.updateUserArtists(shared_timeline_data);
      sM.Layer2Reset();
      sM.Layer2Data(shared_timeline_data);
+     d3.select('.chart').remove();
+     sT.init();
 
 
 
@@ -215,6 +217,8 @@ $(document).ready(function() {
      fG.updateUserArtists(shared_timeline_data);
      sM.Layer2Reset();
      sM.Layer2Data(shared_timeline_data);
+      d3.select('.chart').remove();
+     sT.init();
 
           $$('shared_pool').clearAll();
 	$.each(shared_pool_data, function(i) {
@@ -343,6 +347,8 @@ $(document).ready(function() {
      fG.updateUserArtists(shared_timeline_data);
      sM.Layer2Reset();
      sM.Layer2Data(shared_timeline_data);
+      d3.select('.chart').remove();
+     sT.init();
 
       $$('shared_pool').clearAll();
 	$.each(shared_pool_data, function(i) {
@@ -463,6 +469,8 @@ $(document).ready(function() {
      fG.updateUserArtists(shared_timeline_data);
      sM.Layer2Reset();
      sM.Layer2Data(shared_timeline_data);
+      d3.select('.chart').remove();
+     sT.init();
 
 
       $$('shared_pool').clearAll();
@@ -593,6 +601,8 @@ $(document).ready(function() {
      fG.updateUserArtists(shared_timeline_data);
      sM.Layer2Reset();
      sM.Layer2Data(shared_timeline_data);
+     d3.select('.chart').remove();
+     sT.init();
 
           $$('shared_pool').clearAll();
 	$.each(shared_pool_data, function(i) {
@@ -738,6 +748,8 @@ $(document).ready(function() {
      fG.updateUserArtists(shared_timeline_data);
      sM.Layer2Reset();
      sM.Layer2Data(shared_timeline_data);
+      d3.select('.chart').remove();
+     sT.init();
 
           $$('shared_pool').clearAll();
 	$.each(shared_pool_data, function(i) {
@@ -800,6 +812,8 @@ $(document).ready(function() {
      fG.updateUserArtists(shared_timeline_data);
      sM.Layer2Reset();
      sM.Layer2Data(shared_timeline_data);
+      d3.select('.chart').remove();
+     sT.init();
 
 
       $$('shared_pool').clearAll();
@@ -922,6 +936,8 @@ $(document).ready(function() {
      fG.updateUserArtists(shared_timeline_data);
      sM.Layer2Reset();
      sM.Layer2Data(shared_timeline_data);
+      d3.select('.chart').remove();
+     sT.init();
 
       $$('shared_pool').clearAll();
 	$.each(shared_pool_data, function(i) {
