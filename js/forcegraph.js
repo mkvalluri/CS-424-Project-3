@@ -577,6 +577,7 @@ ForceGraph.prototype = {
             .attr("class", function(d){ return "circle" +  d.type; })
             .classed("node", true)
             .style("fill", function (d) {
+                /*
                 if (d.type == 'artist'){
                     if (d.ArtistSelected == 1)
                         return self.colorUser1;
@@ -584,7 +585,21 @@ ForceGraph.prototype = {
                         return self.colorUser2;
                     else if (d.ArtistSelected == 3)
                         return self.colorCoincidente;
-                } else return self.color(d.group);
+                } else return self.color(d.group);*/
+                var color = "#1F77B4";
+                if (d.type == "genre"){
+                    if (d.priority == 1){
+                        /* try to get the color of streamgraph*/
+                        if (typeof shared_color != 'undefined' && shared_color != null){
+                            var sharedColor = (shared_color.filter(function(elem){
+                                return elem.genre == d.Name;
+                            }));
+                            if (sharedColor.length > 0)
+                                color = sharedColor[0].color;
+                        }
+                    }
+                }
+                return color;
             })
             .on('click', function(d){ self.connectNodes(d) });
 
@@ -647,6 +662,7 @@ ForceGraph.prototype = {
             .start();
 
         /* update linked log */
+        self.linkedByIndex = [];
         for (var i = 0; i < self.nodes.length; i++) self.linkedByIndex[i + "," + i] = 1;
         self.links.forEach(function (d) {
             self.linkedByIndex[d.source.index + "," + d.target.index] = 1;
