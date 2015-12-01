@@ -5,7 +5,7 @@ var lanes;
 var laneLength;
 var margin = {"top":20,"right":15,"bottom":15,"left":120};
 var width = screen.width-margin.right - margin.left;
-var height = 400 - margin.top - margin.bottom;
+var height = 435 - margin.top - margin.bottom;
 var miniHeight,mainHeight;
 var x,x1,y1,y2;
 var chart;
