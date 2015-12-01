@@ -11,8 +11,8 @@
 }
 
 .link {
-    stroke: #999;
-    stroke-opacity: .6;
+    stroke: #000;
+    stroke-opacity: 1;
 }
 
 .neighbour {
@@ -109,8 +109,9 @@
 
 @media only screen and (min-width: 8000px) {
     .link {
-        stroke: #999;
-        stroke-opacity: 1;
+        stroke: #000;
+        stroke-opacity: 0.6;
+        stroke-width: 2;
     }
 
     .menu-ui {

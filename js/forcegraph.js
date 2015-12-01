@@ -389,6 +389,9 @@ ForceGraph.prototype = {
         var self = this;
         self.mode = "user";
 
+        $("#btn-force-user").addClass("selected");
+        $("#btn-force-topten").removeClass("selected");
+
         self.usersArtists = artists;
         self.update();
     },
