@@ -552,11 +552,11 @@ ForceGraph.prototype = {
               .attr("fill", "none")
               .attr("stroke", function (d) {
                   if (d.type == 'artist'){
-                      if (d.ArtistSelected == 1)
+                      if (d.user == "user1")
                           return self.colorUser1;
-                      else if (d.ArtistSelected == 2)
+                      else if (d.user == "user2")
                           return self.colorUser2;
-                      else if (d.ArtistSelected == 3)
+                      else if (d.user == "common")
                           return self.colorCoincidente;
                   } else return self.color(d.group);
               })
