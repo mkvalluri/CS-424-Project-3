@@ -100,12 +100,45 @@ sharedMap.prototype = {
 
 
  Layer1Data:function(data) { // send an array of artists
-    for (var i = 0; i < data.length; i++) {
-        var query = data[i].ArtistLocation;
-        var query_url = query.split(' ').join('+');
+     var self = this;
 
-        this.geocodeToLayer(query_url, data[i], Layer1, 1);
+     /*
+    for (var i = 0; i < data.length; i++) {
+        /*
+         var query = data[i].ArtistLocation;
+         var query_url = query.split(' ').join('+');
+
+         this.geocodeToLayer(query_url, data[i], Layer1, 1);*/
+/*
+        if (i % 10 == 0)
+            setTimeout(getGeocode(data[i]), 2000);
+        else
+            getGeocode(data[i]);
+
     }
+
+*/
+
+     function getGeocode(d){
+         var query = d.ArtistLocation;
+         var query_url = query.split(' ').join('+');
+
+         self.geocodeToLayer(query_url, d, Layer1, 1);
+     }
+
+     var i = 0;
+
+     function myLoop () {
+         setTimeout(function () {
+             getGeocode(data[i])
+             i++;                     //  increment the counter
+             if (i < data.length) {            //  if the counter < 10, call the loop function
+                 myLoop();             //  ..  again which will trigger another
+             }                        //  ..  setTimeout()
+         }, 100)
+     }
+
+     myLoop();                      //  start the loop
 },
 
  Layer2Data:function(artist) { // send single artist
