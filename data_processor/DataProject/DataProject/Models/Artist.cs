@@ -29,6 +29,7 @@ namespace DataProject.Models
         public string ArtistName { get; set; }
         public string ArtistImageURL { get; set; }
         public string ArtistLocation { get; set; }
+        public Nullable<decimal> ArtistCurrentPopularity { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ActiveYear> ActiveYears { get; set; }

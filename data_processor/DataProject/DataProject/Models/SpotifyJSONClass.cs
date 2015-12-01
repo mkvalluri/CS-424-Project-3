@@ -34,7 +34,7 @@ namespace DataProject.Models
     public class Followers
     {
         public object href { get; set; }
-        public int total { get; set; }
+        public object total { get; set; }
     }
 
     public class Artists
@@ -163,6 +163,11 @@ namespace DataProject.Models
         public string uri { get; set; }
     }
 
+    public class SpotifyAlbumList
+    {
+        public List<SpotifyAlbumObject> albums { get; set; }
+    }
+
     public class SpotifyAlbumJSON
     {
         public string href { get; set; }
@@ -204,4 +209,45 @@ namespace DataProject.Models
 
         public int NumSamples { get; set; }
     }
+
+
+    public class EchoStatus
+    {
+        public string version { get; set; }
+        public int code { get; set; }
+        public string message { get; set; }
+    }
+
+    public class EchoGenre
+    {
+        public string name { get; set; }
+    }
+
+    public class EchoResponse
+    {
+        public EchoStatus status { get; set; }
+        public int start { get; set; }
+        public List<EchoGenre> genres { get; set; }
+        public int total { get; set; }
+    }
+
+    public class EchoRootObject
+    {
+        public EchoResponse response { get; set; }
+    }
+    
+    public class SpotifyRootObject
+    {
+        public ExternalUrls external_urls { get; set; }
+        public Followers followers { get; set; }
+        public List<string> genres { get; set; }
+        public string href { get; set; }
+        public string id { get; set; }
+        public List<Image> images { get; set; }
+        public string name { get; set; }
+        public int popularity { get; set; }
+        public string type { get; set; }
+        public string uri { get; set; }
+    }
+
 }

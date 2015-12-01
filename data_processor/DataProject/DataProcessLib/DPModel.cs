@@ -43,20 +43,35 @@ namespace DataProcessLib
 
     public class Genre
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
+        public string imageLink { get; set; }
+
         public double Relevance { get; set; }
+    }
+
+    public class TempArtist
+    {
+        public int ArtistId { get; set; }
+
+        public string MainGenre { get; set; }
+
+        public double Popularity { get; set; }
+
+        public string EchonestId { get; set; }
     }
 
     public class TopArtistsRaw
     {
         public int Year { get; set; }
 
-        public List<Artist> Artists { get; set; }
+        public List<TempArtist> ArtistIds { get; set; }
 
         public TopArtistsRaw()
         {
-            Artists = new List<Artist>();
+            ArtistIds = new List<TempArtist>();
         }
     }
     
@@ -76,11 +91,9 @@ namespace DataProcessLib
     {
         public int ArtistId { get; set; }
 
-        public string ArtistName { get; set; }
+        public string EchonestId { get; set; }
 
-        public string ArtistLocation { get; set; }
-
-        public string ArtistImageURL { get; set; }
+        public string MainGenre { get; set; }
 
         public int Year { get; set; }
 
@@ -89,6 +102,10 @@ namespace DataProcessLib
 
     public class DBArtistGenre
     {
+        public int GenreId { get; set; }
+
+        public string GenreImageURL {get;set;}
+
         public int ArtistId { get; set; }
 
         public string GenreName { get; set; }
@@ -104,4 +121,30 @@ namespace DataProcessLib
 
         public int End { get; set; }
     }
+
+
+
+    public class Status
+    {
+        public string version { get; set; }
+        public int code { get; set; }
+        public string message { get; set; }
+    }
+
+    public class EArtist
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+    }
+
+    public class EAResponse
+    {
+        public Status status { get; set; }
+        public List<EArtist> artists { get; set; }
+    }
+
+    public class EGRootObject
+    {
+        public EAResponse response { get; set; }
+    }    
 }
