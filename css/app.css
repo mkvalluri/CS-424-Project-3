@@ -26,7 +26,7 @@
  #shared_pool{
  	height:10vh;
  	background-color:#323232;
- 	width: 100%; 
+ 	width: 100%;
  }
 
  #user1{
@@ -38,7 +38,7 @@
 
  #user1_tag{
  	height:2vh;
- 	background-color:#FF5144; 
+ 	background-color:#FF5144;
  }
 
  .user_artist_list{
@@ -99,7 +99,7 @@
  }
 
  #shared_graph img{
-	 position: :relative;	
+	 position: :relative;
 	 min-height: 100%;
 	 min-width: 100%;
 
@@ -116,7 +116,7 @@
 
  #user2_tag{
  	height:2vh;
- 	background-color:#3AC0FF; 
+ 	background-color:#3AC0FF;
  }
 
  .my_artist_title{
@@ -176,7 +176,7 @@
  	height: 5% !important;
  	width: 100% !important;
  	font-size: 2.5em;
- 	
+
  	float:none !important;
  }
 
@@ -206,16 +206,20 @@
 
  .user_tabbed_menu input[type="text"]{
  	display: inline;
- 	
+  margin-top: 100px;
  	background-color: #CFD0D2;
  	font-size: 2em;
- 	width:500px !important;
+  padding-right: 20px !important;
+ 	width:1000px !important;
+  height: 100px;
  }
 
  .user_tabbed_menu .webix_img_btn{
  	float:right;
+  margin-top: 100px;
+  margin-right: 500px !important;
  	border:0;
- 	width:30px !important;
+ 	width:60px !important;
  	background:url(../resources/images/search.png) no-repeat;
  	background-size: contain;
  }
@@ -231,7 +235,7 @@
 
  .user_tabbed_menu .webix_hcell{
  	font-size: 2em;
- 
+
  }
 
  .user_tabbed_menu .webix_hcell input[type="text"]{
@@ -252,7 +256,7 @@
  }
 
 #shared_pool .webix_view.webix_list-x{
-	height:100% !important; 
+	height:100% !important;
 }
 
 #shared_pool .webix_view{
@@ -332,7 +336,7 @@
 		.mini text {
 			font: 3em;
 			font-size:25px;
-			fill: white;	
+			fill: white;
 		}
 
 		.main text {
@@ -344,21 +348,21 @@
 #shared_timeline .user1 {
 	fill:#FF5144;
 	stroke-width: 6;
-	opacity: 0.3;	
+	opacity: 0.3;
 }
 
-		
+
 #shared_timeline .user2 {
 	fill:#3AC0FF;
 	stroke-width: 6;
-	opacity: 0.3;		
+	opacity: 0.3;
 }
 
 
-		
+
 #shared_timeline .common{
 	fill:yellow;
-	stroke-width: 6;	
+	stroke-width: 6;
 	opacity: 0.3;
 }
 
@@ -380,7 +384,7 @@
   border: 0.1em solid black;
   width: 10em;
   height: 10em;
-  padding: 2em;  
+  padding: 2em;
   margin: 1em;
 }
 
@@ -483,19 +487,19 @@
 	 #shared_pool{
 	 	height:10vh;
 	 	background-color:#323232;
-	 	width: 100%; 
+	 	width: 100%;
 	 }
 
 	 #user1{
 	 	height:60vh;
 	 	background-color:black;
 	 	width:50%;
-	 	
+
 	 }
 
 	 #user1_tag{
 	 	height:2vh;
-	 	background-color:#FF5144; 
+	 	background-color:#FF5144;
 	 }
 
 	 #shared_map{
@@ -506,7 +510,7 @@
 	 }
 
 	 #shared_map img{
-		 	
+
 		 height: 100%;
 		 width: 100%;
 	}
@@ -521,7 +525,7 @@
 	 }
 
 	 #shared_graph img{
-		 	
+
 		 height: 100%;
 		 width: 100%;
 	}
@@ -537,7 +541,7 @@
 
 	 #user2_tag{
 	 	height:2vh;
-	 	background-color:#3AC0FF; 
+	 	background-color:#3AC0FF;
 	 }
 
 
@@ -580,19 +584,19 @@
 	 #shared_pool{
 	 	height:10vh;
 	 	background-color:#323232;
-	 	width: 100%; 
+	 	width: 100%;
 	 }
 
 	 #user1{
 	 	height:60vh;
 	 	background-color:black;
 	 	width:100%;
-	 	
+
 	 }
 
 	 #user1_tag{
 	 	height:2vh;
-	 	background-color:#FF5144; 
+	 	background-color:#FF5144;
 	 }
 
 	 #shared_map{
@@ -602,7 +606,7 @@
 	 }
 
 	 #shared_map img{
-		 	
+
 		 height: 100%;
 		 width: 100%;
 	}
@@ -616,7 +620,7 @@
 	 }
 
 	 #shared_graph img{
-		 	
+
 		 height: 100%;
 		 width: 100%;
 	}
@@ -631,7 +635,7 @@
 
 	 #user2_tag{
 	 	height:2vh;
-	 	background-color:#3AC0FF; 
+	 	background-color:#3AC0FF;
 	 }
 
 

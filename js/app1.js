@@ -39,7 +39,8 @@ d3.json("../data/top10ArtistsPerDecade1960-2014.json",function(error,data){
 	top_artist_per_decade =data;
 	sharedUI.sharedGraph(data);
 	sharedUI.sharedMap(data);
-	
+
+
 });
 	});
 
@@ -121,7 +122,98 @@ $(document).ready(function() {
         	"user":user
         });
 
-  
+
+       /*$$('shared_pool').add({
+        Name: this.getItem(id).ArtistName,
+        imageLink: this.getItem(id).ArtistImageLink
+      })*/
+
+
+      }
+      $$('user1_my_artist_list').add({
+        ArtistId: this.getItem(id).ArtistId,
+        ArtistName: this.getItem(id).ArtistName
+      })
+
+
+     fG.updateUserArtists(shared_timeline_data);
+     sM.Layer2Reset();
+     sM.Layer2Data(shared_timeline_data);
+     d3.select('.chart').remove();
+     sT.init();
+
+
+
+     $$('shared_pool').clearAll();
+	$.each(shared_pool_data, function(i) {
+			$$('shared_pool').add({
+        	Name: shared_pool_data[i].Name,
+        	imageLink: shared_pool_data[i].imageLink,
+        	user:shared_pool_data[i].user
+		})
+
+    });
+
+
+    }
+  })
+
+  $$("user1_search_artist").attachEvent("onItemDblClick", function(id) {
+
+    var item = this.getItem(id).ArtistId;
+    var itemName = this.getItem(id).ArtistName;
+    var user = "user1";
+    var isItemAlreadyOnTheList = false;
+
+    user1_my_artists_list_data.forEach(function(d, i) {
+      if (d.ArtistId == item)
+        isItemAlreadyOnTheList = true;
+    });
+
+    if (!isItemAlreadyOnTheList) {
+      user1_my_artists_list_data.push({
+        "ArtistId": this.getItem(id).ArtistId,
+        "ArtistName": this.getItem(id).ArtistName
+      });
+      $.each(user2_my_artists_list_data, function(i) {
+        if (user2_my_artists_list_data[i].ArtistId == item) {
+          $.each(shared_timeline_data, function(i) {
+            if (shared_timeline_data[i].ArtistId == item) {
+              user="common"
+              shared_timeline_data[i].user = user;
+            }
+          });
+
+          $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == itemName) {
+            	shared_pool_data[i].user =user;
+        }
+      });
+
+        }
+      });
+
+      if (user!="common") {
+        shared_timeline_data.push({
+          "ArtistId": this.getItem(id).ArtistId,
+          "ArtistName": this.getItem(id).ArtistName,
+          "ArtistImageLink": this.getItem(id).ArtistImageLink,
+          "ArtistMainGenre": this.getItem(id).ArtistMainGenre,
+          "ArtistLocation": this.getItem(id).ArtistLocation,
+          "ArtistGenres":this.getItem(id).ArtistGenres,
+          "ArtistPopularity":this.getItem(id).ArtistPopularity,
+          "start": this.getItem(id).ArtistActiveYears[0].Start,
+          "end": this.getItem(id).ArtistActiveYears[0].End,
+          "user":user
+        });
+
+        shared_pool_data.push({
+        	"Name":this.getItem(id).ArtistName,
+        	"imageLink":this.getItem(id).ArtistImageLink,
+        	"user":user
+        });
+
+
        /*$$('shared_pool').add({
         Name: this.getItem(id).ArtistName,
         imageLink: this.getItem(id).ArtistImageLink
@@ -297,11 +389,14 @@ $(document).ready(function() {
     });
 
 
+
+
+
       $$('user1_my_genre_list').add({
         Name: this.getItem(id).Name,
         Relevance: this.getItem(id).Relevance
       })
-    
+
   }
 })
 
@@ -361,13 +456,12 @@ $(document).ready(function() {
 		})
 				});
 
-    
+
     $$('user1_my_artist_list').clearAll();
     user1_my_artists_list_data = [];
   })
 
   $('#user1_my_genre_clear').click(function() {
-  
 
      var isCommon;
   $.each(user1_my_genres_list_data, function(item) {
@@ -394,14 +488,6 @@ $(document).ready(function() {
       }
     });
     }
-
-     
-           $.each(shared_pool_data, function(i) {
-      if (shared_pool_data[i].Name === user1_my_genres_list_data[item].Name) {
-        shared_pool_data.splice(i, 1);
-        return false;
-      }
-    });
 
   });
 
@@ -616,7 +702,7 @@ $(document).ready(function() {
 
     });
 
-    
+
       $$('user2_my_artist_list').add({
         ArtistId: this.getItem(id).ArtistId,
         ArtistName: this.getItem(id).ArtistName
@@ -630,6 +716,96 @@ $(document).ready(function() {
     $$("user2_related_artist").load(baseURL+'TopArtistsByGenre?genreName=' + this.getItem(id).Name);
 
   })
+
+  $$("user2_search_artist").attachEvent("onItemDblClick", function(id) {
+
+    var item = this.getItem(id).ArtistId;
+    var itemName = this.getItem(id).ArtistName;
+    var user = "user2";
+    var mapData;
+    var isItemAlreadyOnTheList = false;
+
+    user2_my_artists_list_data.forEach(function(d, i) {
+      if (d.ArtistId == item)
+        isItemAlreadyOnTheList = true;
+    });
+
+    if (!isItemAlreadyOnTheList) {
+      user2_my_artists_list_data.push({
+        "ArtistId": this.getItem(id).ArtistId,
+        "ArtistName": this.getItem(id).ArtistName
+      });
+
+     $.each(user1_my_artists_list_data, function(i) {
+        if (user1_my_artists_list_data[i].ArtistId == item) {
+          $.each(shared_timeline_data, function(i) {
+            if (shared_timeline_data[i].ArtistId == item) {
+              user = "common";
+              shared_timeline_data[i].user = user;
+            }
+          });
+
+            $.each(shared_pool_data, function(i) {
+            if (shared_pool_data[i].Name == itemName) {
+              shared_pool_data[i].user =user;
+        }
+      });
+        }
+      });
+
+      if (user!="common") {
+        shared_timeline_data.push({
+          "ArtistId": this.getItem(id).ArtistId,
+          "ArtistName": this.getItem(id).ArtistName,
+          "ArtistImageLink": this.getItem(id).ArtistImageLink,
+          "ArtistMainGenre": this.getItem(id).ArtistMainGenre,
+          "ArtistLocation": this.getItem(id).ArtistLocation,
+          "ArtistGenres":this.getItem(id).ArtistGenres,
+          "ArtistPopularity":this.getItem(id).ArtistPopularity,
+          "start": this.getItem(id).ArtistActiveYears[0].Start,
+          "end": this.getItem(id).ArtistActiveYears[0].End,
+          "user":user
+        });
+
+
+        shared_pool_data.push({
+          "Name":this.getItem(id).ArtistName,
+          "imageLink":this.getItem(id).ArtistImageLink,
+          "user":user
+        });
+      }
+
+     fG.updateUserArtists(shared_timeline_data);
+     sM.Layer2Reset();
+     sM.Layer2Data(shared_timeline_data);
+     d3.select('.chart').remove();
+     sT.init();
+
+          $$('shared_pool').clearAll();
+  $.each(shared_pool_data, function(i) {
+      $$('shared_pool').add({
+          Name: shared_pool_data[i].Name,
+          imageLink: shared_pool_data[i].imageLink,
+          user:shared_pool_data[i].user
+    })
+
+    });
+
+
+      $$('user2_my_artist_list').add({
+        ArtistId: this.getItem(id).ArtistId,
+        ArtistName: this.getItem(id).ArtistName
+      })
+    }
+  })
+
+  $$("user2_top_ten_genres").attachEvent("onItemClick", function(id) {
+    $$('user2_top_ten_artists').unselect();
+    $$('user2_related_artist').clearAll();
+    $$("user2_related_artist").load(baseURL+'TopArtistsByGenre?genreName=' + this.getItem(id).Name);
+
+  })
+
 
   $$("user2_top_ten_genres").attachEvent("onItemDblClick", function(id) {
 
@@ -833,7 +1009,7 @@ $(document).ready(function() {
   })
 
   $('#user2_my_genre_clear').click(function() {
-    
+
      var isCommon;
   $.each(user2_my_genres_list_data, function(item) {
   	isCommon=false;
@@ -861,13 +1037,7 @@ $(document).ready(function() {
     }
 
 
-           $.each(shared_pool_data, function(i) {
-      if (shared_pool_data[i].Name === user2_my_genres_list_data[item].Name) {
-        shared_pool_data.splice(i, 1);
-        return false;
-      }
-    });
-     
+
 
   });
 
@@ -976,7 +1146,7 @@ $(document).ready(function() {
 
         }
       });
-   
+
 	if(!isCommon){
         $.each(shared_pool_data, function(i) {
       if (shared_pool_data[i].Name === selectedId) {
@@ -997,5 +1167,19 @@ $(document).ready(function() {
   });
 
 
-
 });
+
+function searchQuery(user){
+  if(user.user=="user1")
+  {
+    $$('user1_search_artist').clearAll();
+    $$("user1_search_artist").load('http://mkvalluri-001-site1.atempurl.com/api/SearchArtistsByName?artistName=' + $('#user1_search_query').val());
+
+  }
+
+  else if(user.user=="user2")
+    {
+      $$('user2_search_artist').clearAll();
+      $$("user2_search_artist").load('http://mkvalluri-001-site1.atempurl.com/api/SearchArtistsByName?artistName=' + $('#user2_search_query').val());
+    }
+}

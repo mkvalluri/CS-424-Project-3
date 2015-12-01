@@ -49,7 +49,7 @@ UI.prototype ={
 
 
 	streamGraph: function(data){
-		
+
 			this.s = new StreamGraph(this.stream_graph_holder,data, 1960, 2010,this.user);
        	 	this.s.init();
 
@@ -93,11 +93,11 @@ map.on('dblclick', function(e) {
 },
 
 	sharedGraph: function(data){
-		
+
 		fG = new ForceGraph("#shared_graph", 1950, 2015, "#f03b20", "#2b8cbe", "#feb24c",baseURL,data);
         fG.init();
 
-		
+
 	},
 
 	artistList: function(){
@@ -117,7 +117,7 @@ map.on('dblclick', function(e) {
 				id:this.user+"_my_artist_list",
 				template:"#ArtistName#\
 				 <button id= #ArtistId# class='delete_artist_list_button'></button>",
-				
+
 				select:true
 
 			}
@@ -166,6 +166,7 @@ map.on('dblclick', function(e) {
 	},
 
 	tabbedMenu: function(){
+
 		webix.ui({
 			container:this.tabbed_menu_holder,
 			view:"tabview",
@@ -198,7 +199,7 @@ map.on('dblclick', function(e) {
      						   	 			  	  select:1}
      						   	 	}
      						   	 ]
-     						   }, 
+     						   },
         					   {
         					   	 header:"Related Artist",
         						 body:{view:"dataview",
@@ -222,101 +223,28 @@ map.on('dblclick', function(e) {
 						{
 							cols:[
 								{
-									view:"form",
-									container:this.tabbed_menu_holder,
-									id:this.tabbed_menu_holder,
-									elements:[
-										{
-											view:"text",
-											label:"<div class='webix_strong'>Search Artist</div>",
-										},
-										
-										{
-											view:"button",
-											type:"icon"
+									id:"genre_title",
+									view:"template",
+									template:"\
+									<label for ='search_query'>Search Artist</label>\
+									<input id='"+this.user+"_search_query' type='text' name='search_query'>\
+									<button id='"+this.user+"_search' class='user_tabbed_menu webix_img_btn' onClick='searchQuery("+this.user+")'></button>"
 										}
 
 									]
+
+
+
 								},
-
-									{
-									view:"form",
-									container:this.tabbed_menu_holder,
-									id:"search_genre",
-									elements:[
-										{
-											view:"text",
-											label:"<div class='webix_strong'>Search Genre</div>",
-										},
-										
-										{
-											view:"button",
-											type:"icon"
-										}
-
-									]
-								},
-
-								{
-									view:"form",
-									container:this.tabbed_menu_holder,
-									id:"search_decade",
-									elements:[
-										{
-											view:"text",
-											label:"<div class='webix_strong'>Search Artist by Decade</div>",
-										},
-										
-										{
-											view:"button",
-											type:"icon"
-										}
-
-									]
-								},
-
-								
-
-
-							]
-						},
 						{
+
 							view:"dataview",
-							container:this.tabbed_menu_holder,
-							columns:[
-							{
-								id:"artist",
-								header:["Artist",{content:"textFilter"}],
-								width:400,
-								sort:"string"
-								
-							},
-							{
-								id:"genre",
-								header:["Genre",{content:"textFilter"}],
-								width:400,
-								sort:"string"
-							},
-							{
-								id:"year",
-								header:["Year",{content:"textFilter"}],
-								width:400,
-								sort:"int"
-							},
-							{
-								id:"country",
-								header:["Country",{content:"textFilter"}],
-								width:400,
-								sort:"string"
-							},
-							{
-								id:"popularity",
-								header:["Popularity"],
-								width:200,
-								sort:"int"
-							}
-							],
-							data:data
+							id:this.user+"_search_artist",
+									container:this.tabbed_menu_holder,
+											template:"<img src=#ArtistImageLink#><div class='webix_strong'>#ArtistName# </div> <p>Primary Genre: #ArtistMainGenre#</p> <p>Location: #ArtistLocation#</p>",
+											 url:baseURL+'TopArtists?startYear=1950&endYear=2015',
+												select:1
+
 
 						}
 
@@ -325,8 +253,8 @@ map.on('dblclick', function(e) {
 					}
 
 					}
-				
-			]	
+
+			]
 		});
 	}
 
@@ -334,5 +262,3 @@ map.on('dblclick', function(e) {
 
 
 }
-
-
