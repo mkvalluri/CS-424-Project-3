@@ -180,7 +180,7 @@ sharedMap.prototype = {
                     layer.setRadius(layer.getRadius()+10);
                 }
             });
-            mColor = '#fff'; 
+            mColor = getUserColor(artist.user); 
         }
 
         // Plot latlng marker on map
