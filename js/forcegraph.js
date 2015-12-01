@@ -1,5 +1,6 @@
 /**
  * Created by juan on 11/16/15.
+ * Creates an undirected graph that shows nodes of artists and related genres.
  */
 
 function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoincidence, URI, data){
@@ -7,8 +8,8 @@ function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoinciden
 
     self.URI = URI;
 
-    self.worldArtists = data;
-    self.usersArtists = [];
+    self.worldArtists = data;               // data loaded for top ten artists per decade
+    self.usersArtists = [];                 // data loaded by user when selecting artists
 
     self.startYear = startYear;
     self.endYear = endYear;
@@ -48,13 +49,12 @@ function ForceGraph(target, startYear, endYear, colorU1, colorU2, colorCoinciden
 
     self.links = [];
     self.nodes = [];
-
-    //self.getTopArtistsperDecade();
 }
 
 ForceGraph.prototype = {
     constructor: ForceGraph,
 
+    /* Controls to switch between global view and user view */
     addNodeControls: function(){
         var self = this;
 
@@ -91,6 +91,7 @@ ForceGraph.prototype = {
 
     },
 
+    /* zoom controls to allow a touchable interaction. Zoom will center the graph */
     addZoomControls: function(){
         var self = this;
 
@@ -152,6 +153,7 @@ ForceGraph.prototype = {
 
     },
 
+    /* deprecated function. User for testing */
     getTopArtistsperDecade: function(){
         var self = this;
 
@@ -189,6 +191,7 @@ ForceGraph.prototype = {
         }
     },
 
+    /* update nodes and links based on the user mode and data available */
     fetchNodesLinks: function(){
         var self = this,
             artists = null;
@@ -253,6 +256,7 @@ ForceGraph.prototype = {
         }
     },
 
+    /* prevent nodes from collading with each other*/
     collide: function(alpha){
         var self = this;
 
@@ -327,6 +331,7 @@ ForceGraph.prototype = {
         return c;
     },
 
+    /* show only selected nodes and connected nodes. The rest will be affected by opacity */
     connectNodes: function(d){
         var self = this;
 
@@ -432,6 +437,7 @@ ForceGraph.prototype = {
             self.zoom.translate() + ")scale(" + self.zoom.scale() + ")");
     },
 
+    /* main function to show the data */
     update: function(){
         var self = this;
 
@@ -488,6 +494,7 @@ ForceGraph.prototype = {
         var node = self.svg.selectAll(".node")
             .data(self.nodes);
 
+        /* each node is a G element */
         var nodeEnter =  node
             .enter().append("g")
             .attr("class", "node")
@@ -499,17 +506,12 @@ ForceGraph.prototype = {
             })
             .call(self.nodeDrag);
 
+        /* add the artist or genre name */
         nodeEnter.append("text")
             .attr("dx", function(d){
-                /*
-                if (d.type == "artist") return "17";
-                else return "10";*/
                 return textDx;
             })
             .attr("dy", function(d){
-                /*
-                if (d.type == "artist") return ".45em";
-                else return ".35em";*/
                 return textDy;
             })
             .text(function(d){
@@ -521,6 +523,7 @@ ForceGraph.prototype = {
             .style("stroke", "black")
             .style("opacity", 0);
 
+        /* append the definition that will allow to use SVG clipPaths and show the image inside a circle */
         var defs = nodeEnter.append("defs")
             .append("clipPath")
              .attr("id", function(d){
@@ -537,6 +540,7 @@ ForceGraph.prototype = {
                  return "#" + self.mode + "_circle" + "_" + clip_id;
              });
 
+        /* append circles for clippath */
         nodeEnter
             .append("circle")
              .attr("id", function(d){
@@ -564,6 +568,7 @@ ForceGraph.prototype = {
 
         d3.selectAll(".clippath-genre").remove();
 
+        /* append circle for genres */
         nodeEnter.append("circle")
             .attr("r", function(d){
                 if (d.type == "genre"){
@@ -577,15 +582,6 @@ ForceGraph.prototype = {
             .attr("class", function(d){ return "circle" +  d.type; })
             .classed("node", true)
             .style("fill", function (d) {
-                /*
-                if (d.type == 'artist'){
-                    if (d.ArtistSelected == 1)
-                        return self.colorUser1;
-                    else if (d.ArtistSelected == 2)
-                        return self.colorUser2;
-                    else if (d.ArtistSelected == 3)
-                        return self.colorCoincidente;
-                } else return self.color(d.group);*/
                 var color = "#1F77B4";
                 if (d.type == "genre"){
                     if (d.priority == 1){
@@ -606,6 +602,7 @@ ForceGraph.prototype = {
         self.svg.selectAll(".circleartist").remove();
         self.svg.selectAll(".rectgenre").remove();
 
+        /* append images */
         nodeEnter.append("image")
             .attr("xlink:href",  function(d) {
                 if (d.type == 'artist')
@@ -628,6 +625,7 @@ ForceGraph.prototype = {
 
         node.exit().remove();
 
+        /* reallocate elements position on tick */
         self.force.on("tick", function(){
             d3.selectAll(".circlegenre")
                 .attr("cx", function (d) { return Math.max(30, Math.min(self.width - 30, d.x)); })

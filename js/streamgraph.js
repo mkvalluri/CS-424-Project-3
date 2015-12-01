@@ -1,18 +1,19 @@
 /**
  * Created by juan on 11/23/15.
+ * Streamgraph: Creates a stremgraph of the top ten genres per year. The graph
+ * is displayed on the user interaction section and allows to filter the results for
+ * top ten artists and genres in a range.
  */
 
 function StreamGraph(target, stream_data, startYear, endYear,user){
     var self = this;
 
-    self.data = stream_data;
+    self.data = stream_data;                                    /* Array of genres and importance per year */
+    self.user=user;                                             /* User1: Rigth, User2: Left*/
+    self.stack = d3.layout.stack()                              /* Allows to stack the genres per year and get */
+        .offset("silhouette");                                  // the y0 value
 
-    self.user=user;
-
-    self.stack = d3.layout.stack()
-        .offset("silhouette");
-
-    self.data = self.formatData();
+    self.data = self.formatData();                              // format the data to match D3 stack format
     self.stack(self.data);
     self.max = d3.max(self.data, function(d){
         return d3.max(d, function(d){
@@ -20,7 +21,7 @@ function StreamGraph(target, stream_data, startYear, endYear,user){
         });
     });
 
-    self.tooltip = null;
+    self.tooltip = null;                                        // tooltip showing the name of genre on hovering
 
     /* container attributes */
     self.target = target;
@@ -38,6 +39,7 @@ function StreamGraph(target, stream_data, startYear, endYear,user){
     self.yearsSelected = [self.startYear, self.endYear];
     self.extentTracker = [self.startYear, self.endYear];
 
+    /* divs that show the an opaque section when moving the handlers */
     self.leftOpaqueSection = null;
     self.rightOpaqueSection = null;
 }
@@ -45,6 +47,7 @@ function StreamGraph(target, stream_data, startYear, endYear,user){
 StreamGraph.prototype = {
     constructor: StreamGraph,
 
+    /* converts data into a stacked structure */
     formatData: function(){
         var self = this;
         /* get all unique genres */
@@ -91,28 +94,6 @@ StreamGraph.prototype = {
                 results[i].genres[index].y = self.data[i].Genres[j].Relevance;
             }
         }
-
-        /* if element not in top 10, set relevance == 0 */
-        /*
-        var top = 0;
-        var sortF = function(a, b) {
-            return parseInt(b.y) - parseInt(a.y);
-        }
-
-        for (var i = 0; i < results.length; i++){
-            var copy = results[i].genres.sort(sortF).slice(0, 11);
-            for (var j = 0; j < results[i].genres.length; j++){
-                var exist = false;
-                for (var k = 0; k < copy.length; k++){
-                    if (results[i].genres[j].name == copy[k].name){
-                        exist = true;
-                    }
-                }
-                if (exist == false)
-                    results[i].genres[j].y = 0;
-            }
-        }*/
-
 
         /* convert into a stacked way */
         var results2 = [];
@@ -202,6 +183,7 @@ StreamGraph.prototype = {
         d3.select(".brush").call(self.brush.extent(extent1));
     },
 
+    /* start streamgraph */
     init: function(){
         var self = this;
 
@@ -322,6 +304,7 @@ StreamGraph.prototype = {
                 self.tooltip.style("display", "none");
             });
 
+        /* add the opaque sections to the container */
         self.leftOpaqueSelection = d3.select(self.target)
             .append("div")
             .attr("class", "left-opaque slider-barrier")
@@ -336,13 +319,16 @@ StreamGraph.prototype = {
             .style("left", self.width + self.margin.left + "px")
             .attr("transform", "translate(" + 0 + "," + self.margin.top + ")");
 
+        /* remove all elements from d3 brush as they are not necessary */
         gBrush.selectAll(".extent,.resize,.background")
             .remove();
 
+        /* attach tooltip */
         self.tooltip = d3.select(self.target)
             .append("div")
             .attr("class", "streamgraph-tooltip");
 
+        /* functions for handlers dragging events */
         function dragmove() {
             mousex = d3.mouse(this);
 
@@ -365,17 +351,6 @@ StreamGraph.prototype = {
             if (year%10 < 5) year = year - (year%10);
             else year = year - (year%10) + 10;
 
-            /*
-            if (side == 'left') {
-                self.brushed('manual', [year, self.yearsSelected[1]]);
-                d3.select(this).attr("cx", self.x(self.year));
-                //d3.select(".handle." + side).attr("cx", self.x(year));
-            } else {
-                d3.select(this).attr("cx", self.x(year) - self.width);
-                //d3.select(".handle." + side).attr("cx", self.x(year) - self.width);
-                self.brushed('manual', [self.yearsSelected[0], year]);
-            }*/
-
             if ($(this).attr("class") == 'handle left'){
                 self.brushed('manual', [year, self.yearsSelected[1]]);
                 d3.select(this).attr("cx", self.x(year));
@@ -384,6 +359,7 @@ StreamGraph.prototype = {
                 d3.select(this).attr("cx", self.x(year) - self.width);
             }
 
+            /* update user containers */
             if(self.user =="user1")
             {
                     $.getJSON(
@@ -430,6 +406,7 @@ StreamGraph.prototype = {
         if (windowWidth > 7000) handleRadius = 30;
         else handleRadius = 12;
 
+        /* append circles as handlers and bind them to the events */
         var handleLeft = self.svg.append("circle")
             .attr("class", "handle left")
             .attr("transform", "translate(0," + self.height + ")")
