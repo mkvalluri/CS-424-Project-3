@@ -19,7 +19,7 @@ Our alpha design choices is outlined on the [Design page](http://mvallu.github.i
 
 ![Alpha Design](http://mvallu.github.io/CS-424-Project-3/design/areas-detailed.png)
 
-![Final Design SS]()
+![Final Design SS](full.png)
 
 ###Initial content on load
 
@@ -37,6 +37,8 @@ In short, Gray is ON and White is OFF.
 
 ###User 1 and 2
 
+![User view](userviews.png)
+
 The app has the possibility to handle two separate users, user1 (red) on left side and user2 (blue) on right side. Each user can use the app independantly of the other. Both user selections will be color coded and added to the Shared Timeline, the User Selections layers of Shared Map and Shared Force Graph, and the Shared User Artists and Genres row. These four shared panels of the app will be collectively referred to as 'shared views' for the remainder of the tutorial.
 
 ###User Timeline
@@ -51,11 +53,17 @@ On the User Timeline, the initial range of data will be 1960 to 2010. This range
 
 ###User Selection Lists (Explore)
 
+![Explore view](explore.png)
+
 Any duplicate artists that show as Top 10 for more than one year will not be duplicated in the user list panels. This range selection is independant of the other user and does not affect the shared views.
 
 When a user selects by double clicking a specific artist or genre from their personal Top 10 Lists, then the artist or genre will be added to their respective User1/2 selections panels as well as the shared views.
 
+Note: Search tab is currently not working.
+
 ###My Artists and My Genres
+
+![My artists and genres](myartistsgenres.png)
 
 After a user has chosen a specific artist or genre from the list, it will be added to My Artist/Genre lists. These panels will allow the user to clearly see what is added to their shared views and easily allow them to remove any artists or genres from their list by clicking the trash can next to their name. The trash can at the top of the list containers removes all items in their respective lists.
 
@@ -78,7 +86,7 @@ The force graph contains two types of circles. The first is the artist circle, w
 
 Finally, the black lines are the connections between the artists and the genres. Every artist is connected to at least one genre circle, however almost all artist have several connections since their music often has multiple genre classifications.
 
-Selecting a particular artist circle will highlight the artist and all their genres. Selecting a particular genre circle will highlight that genre and all the artists that are connected to it. Any selection will display the artist and genres names.
+Selecting a particular artist circle will highlight the artist and all their genres. Selecting a particular genre circle will highlight that genre and all the artists that are connected to it. Any selection will display the artist and genres names. To unselect, just click on the originally selected circle again.
 
 #####Single Artist Selection:
 
@@ -95,7 +103,7 @@ User 1 (left user) is Red, User 1 (right user) is Blue, and Common (both users) 
 
 ###Shared Selected Artists and Genres
 
-
+![Force Graph Shared Selections](Sharedusertimeline.png)
 
 This section is the middle horizontal row. This contains all the user 1 and 2 selections chronologically added to the stream. 
 
@@ -104,4 +112,8 @@ When either user selects an artist to add to the shared views, the square will c
 When either user selects a genre, the square simply contains the name of the genre with the border color corresponding again to the user selection. The name of the genre is shown below the square.
 
 ###Shared Timeline
+
+![](sharedtimeline.png)
+
+Shared timeline shows the years in which a particular artist was popular. The most popular genres of rock, pop, jazz, and hip-hop are shown on the left column and the x axis is the time.
 
