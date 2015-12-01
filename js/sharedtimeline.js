@@ -104,7 +104,7 @@ sharedTimeline.prototype = {
 				.attr("width",function(d){
 					return x((getEndYear(d.end) - d.start)+1930);
 				})
-				.attr("height",30);
+				.attr("height",20);
 
 			mini.append("g").selectAll(".minilabels")
 				.data(shared_timeline_data)
