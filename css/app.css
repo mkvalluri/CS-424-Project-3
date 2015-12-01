@@ -358,6 +358,7 @@
 #shared_timeline .common{
 	fill:yellow;
 	stroke-width: 6;	
+	opacity: 0.3;
 }
 
 #shared_timeline .axis line,#shared_timeline .axis path{
