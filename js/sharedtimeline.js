@@ -4,8 +4,8 @@
 var lanes;
 var laneLength;
 var margin = {"top":20,"right":15,"bottom":15,"left":120};
-var width = 8000-margin.right - margin.left;
-var height = 430 - margin.top - margin.bottom;
+var width = 6500-margin.right - margin.left;
+var height = 425 - margin.top - margin.bottom;
 var miniHeight,mainHeight;
 var x,x1,y1,y2;
 var chart;

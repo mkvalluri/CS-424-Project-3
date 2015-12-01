@@ -192,16 +192,24 @@ sharedMap.prototype = {
 
 
 function getGenreColor(x){
+
+    for (var i = 0; i < shared_color.length; i++){
+        if (shared_color[i].genre == x)
+         return shared_color[i].color;
+    }
+
+    return "#FFF";
+    /*
          return x == 'rock'    ? '#55E000': // bright green
            x == 'pop'     ? '#CCFF00': // yellow-green
            x == 'dubstep' ? '#FFFF00': // 
-                            '#FF0FD7'; // pink
-    }
+                            '#FF0FD7'; // pink*/
+}
 
     function getUserColor(x) {
-        return x == 'user1'    ? '#55E000': // bright green
-           x == 'user2'    ? '#CCFF00': // yellow-green
-                             '#FF0FD7';
+        return x == 'user1'    ? '#FF5144': // bright green
+           x == 'user2'    ? '#3AC0FF': // yellow-green
+                             '#FFCA00';
     }
 
 
