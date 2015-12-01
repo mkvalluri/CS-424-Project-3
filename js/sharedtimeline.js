@@ -52,7 +52,7 @@ sharedTimeline.prototype = {
 		
 
 		var mini = chart.append("g")
-			.attr("transform","translate("+margin.bottom+","+(margin.top)+")")
+			.attr("transform","translate("+margin.bottom+",0)")
 			.attr("width",width)
 			.attr("height",miniHeight)
 			.attr("class","mini");
@@ -124,7 +124,7 @@ sharedTimeline.prototype = {
 
 			mini.append("g")
 				.attr("class","x axis")
-				.attr("transform","translate(5,450)")
+				.attr("transform","translate(5,400)")
 				.call(xAxis);
 
 
