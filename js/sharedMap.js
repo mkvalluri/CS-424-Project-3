@@ -121,7 +121,7 @@ sharedMap.prototype = {
  geocodeToLayer:function(query_url, artist, layer, num) {
 
     // Construct Google Maps Geocoding API request url
-    var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyDMc9VGuxnKUV_MTVBenP73RMmEs3LYUgY'
+    var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query_url + '&key=AIzaSyCo_5NcD0Lh1FgqUV4cFbqwTKjH0ZD50IA'
 
     // Perform request to get latlng for artist location
     $.get(url, function(data) {
