@@ -193,7 +193,7 @@ map.on('dblclick', function(e) {
      						   	 		body:{view:"dataview",
      						   	 		id:this.user+"_top_ten_genres",
      						   	 			  container:this.tabbed_menu_holder,
-     						   	 			      template:"<div class='webix_strong'>#Name# </div>",
+     						   	 			      template:"<img src=#imageLink#><div class='webix_strong'>#Name# </div>",
      						   	 			      url:baseURL+'TopGenresByDecade?startYear=1950&endYear=2015',
      						   	 			  	  select:1}
      						   	 	}
