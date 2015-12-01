@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/24/2015 19:19:26
+-- Date Created: 11/29/2015 21:41:53
 -- Generated from EDMX file: D:\Projects\CS-424-Project-3\data_processor\DataProject\DataProject\Models\DataModel.edmx
 -- --------------------------------------------------
 
@@ -29,6 +29,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ArtistGenreArtist]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ArtistGenres] DROP CONSTRAINT [FK_ArtistGenreArtist];
 GO
+IF OBJECT_ID(N'[dbo].[FK_ArtistPopularityArtist]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ArtistPopularities] DROP CONSTRAINT [FK_ArtistPopularityArtist];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -48,6 +51,9 @@ IF OBJECT_ID(N'[dbo].[Artists]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[ArtistGenres]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ArtistGenres];
+GO
+IF OBJECT_ID(N'[dbo].[ArtistPopularities]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ArtistPopularities];
 GO
 
 -- --------------------------------------------------
@@ -88,7 +94,8 @@ CREATE TABLE [dbo].[Artists] (
     [SpotifyID] nvarchar(max)  NULL,
     [ArtistName] nvarchar(max)  NULL,
     [ArtistImageURL] nvarchar(max)  NULL,
-    [ArtistLocation] nvarchar(max)  NULL
+    [ArtistLocation] nvarchar(max)  NULL,
+    [ArtistCurrentPopularity] decimal(18,0)  NULL
 );
 GO
 

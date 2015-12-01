@@ -32,24 +32,352 @@
                 <h1>Application Data</h1>
                 <p class="lead"></p>
                 <h2>References</h2>
-                <p> Data is collected from <a href="http://developer.echonest.com/docs/v4">Echonest API</a> </p>
+                <p> Data is collected from <a href="http://developer.echonest.com/docs/v4">Echonest API</a> and <a href="#">Spotify API</a> </p>
                     
-                <h2>Structure</h2>
-                <p>Whenever we request any data, response is of the form 
+                              
+                
+				<h2>How the Data is collected?</h2>
+                <p>Initially only Echonest API was used to collect data, but later we found out that it doesn't have complete data required to calculate top artists/genres. Below are some of the API calls 
+                    used and which didn't fetch the complete results
                     
-                <div class="highlight">
-                	<pre>
-<code>{
-  "response": {
-    "status": {
-      "code": "0",
-      "message": "Success",
-      "version": "4.2"
+                    <table class="table">
+                        <tr>
+                            <th>Method Used</th>
+                            <th>Descripiton</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Use echonest get artists method
+                            </td>
+                            <td>
+                                Got 27 valid results out of 1000. This was a failure since at max I could get 1000 results and in that 1000, location and years active were missing.
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                Use echonest filter description to get artists for each decade.
+                            </td>
+                            <td>
+                                Got around 1400 valid results. This was also failure since it didn't fetch artists started in 2000s.
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                Use echonest max-hotness, max-popularity filters
+                            </td>
+                            <td>
+                                Got around 1800 valid results. This was also failure since we didn't get all the data necessary to calculate top 10.
+                            </td>
+                        </tr>
+                        
+                        
+                        <tr>
+                            <td>
+                                Use echonest max-hotness, max-popularity filters by limiting hotness, popularity
+                            </td>
+                            <td>
+                                Got around 13000 valid results. Finally settled with this as we got more dataset ccompared to all others. This along with Spotify API helped us in getting the required information.
+                            </td>
+                        </tr>
+                    </table>
+                           
+                    Then we used Spotify API to collect the information. To do these tasks, utility written in C# was created.<br><br>
+                    <b>Steps involved</b>
+                    <ul>
+                        <li>Start collecting artist info from echonest by using various filters. Once this is done there were around 11,000 artists data</li>
+                        <li>Now for each artist, used Spotify API to get albums list, artistIcon and currentPopularity</li>
+                        <li>Now for each album, collect information like release data, popularity from Spotify API</li>
+                        <li>Now collect list of genres available and also the genres which are related to artist</li>
+                        <li>Once all the data is collected, they are stored in database and now for popularity for each artist for each year is calculated</li>    
+                    </ul>                        
+                    
+                    <br><br>
+                    <b>Algorithm used to calculate Top Artists in a given year range</b>
+                       <pre>
+<code>
+Get list of artists in the given year range.
+For each artist
+    Get list of albums released in before the end_year.
+    Fill the missing years list by taking out the percentage increase or decrease of popularity of albums.
+    Calculate artist popularity by taking the percentage increase/decrease of album popularity between each year. 
+End For              
+Now sort the artist list based on popularity,
+Return Top 10 from the artist list.</code>
+                       </pre>
+                           
+                     <b>Algorithm used to calculate Top Genres in a given year range</b>
+                       <pre>
+<code>
+Get list of artists in the given year range.
+For each artist
+    Get list of albums released in before the end_year.
+    Fill the missing years list by taking out the percentage increase or decrease of popularity of albums.
+    Calculate artist popularity by taking the percentage increase/decrease of album popularity between each year. 
+End For              
+Sort the artist list based on popularity,
+
+Create a dictionary with all the genres and set the count value to 0.
+For each artist
+    Get the main genre of the artist and increment the count in the dictionary of that genre.
+End For
+Sort the dictionary based on count and return top 10 from that list.
+</code>
+                       </pre>
+                 </p>
+                 
+                 <h2>API</h2>
+                <p>We have created custom API to be used by the charts. Below is the description for each of these 
+                    
+                  <h6><b>To get top 10 artists within the given year range</b></h6>
+<h6><b>Request</b></h6>
+                    <div class="panel panel-default">
+  <div class="panel-body">
+    
+http://cs424api.azurewebsites.net/api/TopArtists?startYear=2000&endYear=2014
+  </div>
+</div>
+<h6><b>Response</b></h6>
+<div class="highlight">
+    <pre>
+<code>[{
+    ArtistId: 731,
+    ArtistName: "Red Hot Chili Peppers",
+    ArtistLocation: "Los Angeles, CA",
+    ArtistImageLink: "https://i.scdn.co/image/63815f898b95f2b24b3fcb9b6af4d2ed1b92270c",
+    ArtistMainGenre: "rock",
+    ArtistGenres: [
+        {
+            Id: 1105,
+            Name: "rock",
+            imageLink: "http://dummyimage.com/300x300&text=rock",
+            Relevance: 1
+        },
+        {
+            Id: 583,
+            Name: "funk",
+            imageLink: "http://dummyimage.com/300x300&text=funk",
+            Relevance: 0.27
+        },
+        {
+            Id: 586,
+            Name: "funk rock",
+            imageLink: "http://dummyimage.com/300x300&text=funk rock",
+            Relevance: 0.14
+        },..
+        ],
+        ArtistSelected: 0,
+        ArtistPopularity: 78
+        }, ..
+]</code></pre></div>
+
+<h6><b>To get top 10 genres within given year range</b></h6>
+<h6><b>Request</b></h6>
+                    <div class="panel panel-default">
+  <div class="panel-body">
+http://cs424api.azurewebsites.net/api/TopGenres?startYear=2000&endYear=2014
+  </div>
+</div>
+<h6><b>Response</b></h6>
+<div class="highlight">
+    <pre>
+<code>[
+    {
+        Id: 1105,
+        Name: "rock",
+        imageLink: "http://dummyimage.com/300x300&text=rock",
+        Relevance: 1266
     },
-    .. {Actual Data Itself}
-  }
-}
+    {
+        Id: 1023,
+        Name: "pop",
+        imageLink: "http://dummyimage.com/300x300&text=pop",
+        Relevance: 864
+    },
+    {
+        Id: 677,
+        Name: "hip hop",
+        imageLink: "http://dummyimage.com/300x300&text=hip hop",
+        Relevance: 305
+    },
+    {
+        Id: 511,
+        Name: "electronic",
+        imageLink: "http://dummyimage.com/300x300&text=electronic",
+        Relevance: 211
+    },
+    {
+        Id: 1083,
+        Name: "rap",
+        imageLink: "http://dummyimage.com/300x300&text=rap",
+        Relevance: 123
+    },..
+]
 </code></pre></div>
+
+
+<h6><b>To get similar artists</b></h6>
+<h6><b>Request</b></h6>
+                    <div class="panel panel-default">
+  <div class="panel-body">
+http://cs424api.azurewebsites.net/api/SimilarArtistsByName?artistName="Linkin park"
+  </div>
+</div>
+<h6><b>Response</b></h6>
+<div class="highlight">
+    <pre>
+<code>[
+{
+    ArtistId: 5814,
+    ArtistName: "Papa Roach",
+    ArtistLocation: "Vacaville, CA",
+    ArtistImageLink: "https://i.scdn.co/image/4d90fcee3e0cb6fb2e6ad3a99759af0ec85c199f",
+    ArtistMainGenre: "rock",
+    ArtistGenres: [
+    {
+        Id: 1105,
+        Name: "rock",
+        imageLink: "http://dummyimage.com/300x300&text=rock",
+        Relevance: 1
+    },
+    {
+        Id: 656,
+        Name: "hard rock",
+        imageLink: "http://dummyimage.com/300x300&text=hard rock",
+        Relevance: 0.12
+    },
+    {
+        Id: 974,
+        Name: "nu metal",
+        imageLink: "http://dummyimage.com/300x300&text=nu metal",
+        Relevance: 0.05
+    },
+    {
+        Id: 867,
+        Name: "metal",
+        imageLink: "http://dummyimage.com/300x300&text=metal",
+        Relevance: 0.04
+    },..
+    ],
+    ArtistActiveYears: [
+        {
+            Start: 1993,
+            End: 0
+        }
+    ],
+    ArtistSelected: 0,
+    ArtistPopularity: 41.8
+},
+{
+    ArtistId: 670,
+    ArtistName: "Limp Bizkit",
+    ArtistLocation: "Jacksonville, FL, US",
+    ArtistImageLink: "https://i.scdn.co/image/2a9bb0049966c34416aef55a702b59c4b3951ffc",
+    ArtistMainGenre: "rock",
+    ArtistGenres: [
+        {
+            Id: 1105,
+            Name: "rock",
+            imageLink: "http://dummyimage.com/300x300&text=rock",
+            Relevance: 1
+        },
+        {
+            Id: 867,
+            Name: "metal",
+            imageLink: "http://dummyimage.com/300x300&text=metal",
+            Relevance: 0.18
+        },
+        {
+            Id: 974,
+            Name: "nu metal",
+            imageLink: "http://dummyimage.com/300x300&text=nu metal",
+            Relevance: 0.09
+        },..
+    ],
+    ArtistActiveYears: [
+    {
+        Start: 1994,
+        End: 2006
+    },
+    {
+        Start: 2009,
+        End: 0
+    }
+    ],
+    ArtistSelected: 0,
+    ArtistPopularity: 43.2
+},..
+]
+</code></pre></div>
+
+<h6><b>To get top artists by genre</b></h6>
+<h6><b>Request</b></h6>
+                    <div class="panel panel-default">
+  <div class="panel-body">
+http://cs424api.azurewebsites.net/api/TopArtistsByGenre?genreName=rock
+  </div>
+</div>
+<h6><b>Response</b></h6>
+<div class="highlight">
+    <pre>
+<code>[
+{
+    ArtistId: 135,
+    ArtistName: "Led Zeppelin",
+    ArtistLocation: "London, UK",
+    ArtistImageLink: "https://i.scdn.co/image/bc9b5c84f5806bdf34879f5c9a0628eaadb348c8",
+    ArtistMainGenre: "rock",
+    ArtistGenres: [
+    {
+        Id: 1105,
+        Name: "rock",
+        imageLink: "http://dummyimage.com/300x300&text=rock",
+        Relevance: 1
+    },
+    {
+        Id: 656,
+        Name: "hard rock",
+        imageLink: "http://dummyimage.com/300x300&text=hard rock",
+        Relevance: 0.06
+    },..
+    ],
+    ArtistActiveYears: [
+    {
+        Start: 1968,
+        End: 1980
+    }
+    ],
+    ArtistSelected: 0,
+    ArtistPopularity: 57
+},
+{
+    ArtistId: 935,
+    ArtistName: "Aerosmith",
+    ArtistLocation: "Boston, MA, US",
+    ArtistImageLink: "https://i.scdn.co/image/e0ea6225a3f89374d53ba1344c73ae2819cd2020",
+    ArtistMainGenre: "rock",
+    ArtistGenres: [
+    {
+        Id: 1105,
+        Name: "rock",
+        imageLink: "http://dummyimage.com/300x300&text=rock",
+        Relevance: 1
+    },
+    {
+        Id: 656,
+        Name: "hard rock",
+        imageLink: "http://dummyimage.com/300x300&text=hard rock",
+        Relevance: 0.17
+    },..    
+    ],
+    ArtistSelected: 0,
+    ArtistPopularity: 67
+},
+</code></pre></div>
+
+
+
                 </p>
                 
 				<h2>Overall Application Structure</h2>
@@ -66,7 +394,7 @@
 </ul>
                 </p>
 				<img src="../resources/arch.jpg">
-                <h2>Example Queries</h2>
+                <h2>Example Queries To External API</h2>
                 <h6><b>To request artist information along with genres, hottness and years active</b></h6>
 <h6><b>Request</b></h6>
                     <div class="panel panel-default">
@@ -190,11 +518,6 @@ http://developer.echonest.com/api/v4/artist/search?api_key=API_KEY&format=json&g
    }
 }</code>
     </pre></div>
-<h6><b>Get List of Genres</b></h6>
-                    <div class="panel panel-default">
-  <div class="panel-body">
-Getting Top Genres?
-  </div>
 </div>
 
             </div>

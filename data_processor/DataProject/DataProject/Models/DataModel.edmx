@@ -70,6 +70,7 @@
     <Property Name="ArtistName" Type="nvarchar(max)" Nullable="true" />
     <Property Name="ArtistImageURL" Type="nvarchar(max)" Nullable="true" />
     <Property Name="ArtistLocation" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ArtistCurrentPopularity" Type="decimal" Nullable="true" />
   </EntityType>
   <EntityType Name="ArtistGenres">
     <Key>
@@ -226,6 +227,7 @@
           <Property Name="ArtistLocation" Type="String" Nullable="true" />
           <NavigationProperty Name="Genres" Relationship="DataModel.ArtistGenreArtist" FromRole="Artist" ToRole="ArtistGenre" />
           <NavigationProperty Name="ArtistPopularities" Relationship="DataModel.ArtistPopularityArtist" FromRole="Artist" ToRole="ArtistPopularity" />
+          <Property Name="ArtistCurrentPopularity" Type="Decimal" Nullable="true" />
         </EntityType>
         <Association Name="ArtistActiveYear">
           <End Type="DataModel.Artist" Role="Artist" Multiplicity="1" />
@@ -327,6 +329,7 @@
           <ScalarProperty Name="ArtistName" ColumnName="ArtistName" />
           <ScalarProperty Name="ArtistImageURL" ColumnName="ArtistImageURL" />
           <ScalarProperty Name="ArtistLocation" ColumnName="ArtistLocation" />
+          <ScalarProperty Name="ArtistCurrentPopularity" ColumnName="ArtistCurrentPopularity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

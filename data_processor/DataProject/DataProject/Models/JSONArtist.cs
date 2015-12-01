@@ -96,5 +96,15 @@ namespace DataProject.Models
         public Response response { get; set; }
     }
 
+    public class SResponse
+    {
+        public Status status { get; set; }
+        public JSONArtist artist { get; set; }
+    }
+
+    public class SEchonestArtistJSON
+    {
+        public SResponse response { get; set; }
+    }
 
 }
