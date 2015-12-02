@@ -1,3 +1,4 @@
+//Creating User Objects
 var user1 = new UI("user1",
   "red",
   "#user1_streamgraph",
@@ -6,7 +7,7 @@ var user1 = new UI("user1",
   "user1_tabbed_menu"
 );
 
-
+//Calling UI Components for user1
 user1.artistList();
 user1.genreList();
 user1.tabbedMenu();
@@ -19,14 +20,14 @@ var user2 = new UI("user2",
   "user2_tabbed_menu"
 );
 
-
+//Calling UI Componenets for user2
 user2.artistList();
 user2.genreList();
 user2.tabbedMenu();
 
 var sharedUI = new UI("sharedUI", "yellow");
 
-
+//Calling Componenets for shared UI elements
 sharedUI.sharedTimeline();
 sharedUI.sharedPool();
 
@@ -47,6 +48,7 @@ d3.json("../data/top10ArtistsPerDecade1960-2014.json",function(error,data){
 
 
 $(document).ready(function() {
+//Events Handling functions
 
   $$('user1_my_artist_list').clearAll();
   user1_artist_list_data = [];
@@ -58,6 +60,7 @@ $(document).ready(function() {
   $$('user2_my_genre_list').clearAll();
   user2_genre_list_data = [];
 
+//Event Handling for user1
   $$("user1_top_ten_artists").attachEvent("onItemClick", function(id) {
 
     //alert(this.getItem(id).ArtistName);
@@ -806,7 +809,7 @@ $(document).ready(function() {
 
   })
 
-
+//Event Handling for user2
   $$("user2_top_ten_genres").attachEvent("onItemDblClick", function(id) {
 
     var item = this.getItem(id).Name;
